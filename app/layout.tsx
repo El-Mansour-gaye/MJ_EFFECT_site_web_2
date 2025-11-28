@@ -47,7 +47,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <Header />
-          <main className="pt-16 lg:pt-20">{children}</main>
+          <main>{children}</main>
           <Footer />
           <SonnerToaster />
           <Analytics />
