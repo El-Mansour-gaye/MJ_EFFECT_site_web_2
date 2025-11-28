@@ -26,6 +26,7 @@ export default function AboutPage() {
           Nous nous engageons à utiliser des ingrédients durables et éthiques, en respectant à la fois la planète et les artisans qui les cultivent. Rejoignez-nous dans ce voyage olfactif et découvrez votre signature personnelle.
         </p>
       </div>
+      </div>
     </div>
   );
 }
