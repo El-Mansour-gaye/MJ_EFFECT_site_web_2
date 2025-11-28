@@ -8,7 +8,7 @@ export interface SessionData extends IronSessionData {
 
 export const sessionOptions = {
   cookieName: 'mjeffect_admin_session',
-  password: process.env.SECRET_COOKIE_PASSWORD as string,
+  password: process.env.ADMIN_PASSWORD as string,
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
