@@ -21,7 +21,7 @@ export default function AboutPage() {
             alt="Notre Histoire"
             width={800}
             height={400}
-            className="rounded-lg shadow-2xl mx-auto"
+            className="shadow-2xl mx-auto"
           />
         </div>
         <h1 className="text-5xl font-serif font-bold text-center mb-12">Notre Histoire</h1>
