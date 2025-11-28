@@ -58,7 +58,7 @@ function HeaderContent() {
   };
 
   return (
-    <header ref={headerRef} className={`fixed top-0 left-0 right-0 z-50 bg-black border-b border-white/10 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <header ref={headerRef} className={`fixed top-8 left-0 right-0 z-50 bg-black border-b border-white/10 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <button className="lg:hidden p-2 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
