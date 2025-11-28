@@ -43,22 +43,22 @@ export function Footer() {
             <h3 className="font-serif text-xl mb-6">Liens Utiles</h3>
             <ul className="space-y-3 text-sm text-white/70">
               <li>
-                <Link href="/a-propos" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-luxury-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
+                <Link href="/a-propos" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
                   À propos
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-luxury-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
+                <Link href="/contact" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/mentions-legales" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-luxury-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
+                <Link href="/mentions-legales" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
                   Mentions Légales
                 </Link>
               </li>
               <li>
-                <Link href="/politique-de-confidentialite" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-luxury-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
+                <Link href="/politique-de-confidentialite" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
                   Politique de Confidentialité
                 </Link>
               </li>
