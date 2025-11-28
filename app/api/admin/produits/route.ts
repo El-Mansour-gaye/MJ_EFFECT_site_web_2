@@ -1,15 +1,8 @@
 // /app/api/admin/produits/route.ts
 import { NextResponse } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import { getSession } from "@/lib/session"; // Assuming you have a session management utility
 
 export async function GET() {
-  const session = await getSession();
-
-  if (!session?.isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const supabase = createSupabaseAdmin();
   const { data: products, error } = await supabase
     .from("produits")

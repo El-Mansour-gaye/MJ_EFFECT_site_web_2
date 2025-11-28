@@ -1,6 +1,5 @@
 // /app/api/admin/stats/route.ts
 import { NextResponse } from 'next/server';
-import { getSession } from '../../../../lib/session';
 import {
   mockStatisticCards,
   mockSalesByMonth,
@@ -10,12 +9,6 @@ import {
 // TODO: Import Supabase admin client once ready to fetch real data
 
 export async function GET() {
-  const session = await getSession();
-
-  if (!session.isLoggedIn) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   try {
     // This is where you would fetch data from Supabase
     // For now, we are returning mock data as requested.

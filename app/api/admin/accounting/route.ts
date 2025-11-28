@@ -1,6 +1,5 @@
 // /app/api/admin/accounting/route.ts
 import { NextResponse } from 'next/server';
-import { getSession } from '../../../../lib/session';
 import {
   mockFinancialCards,
   mockRevenueVsExpenses,
@@ -10,12 +9,6 @@ import {
 // TODO: Import Supabase admin client once ready to fetch real data
 
 export async function GET(request: Request) {
-  const session = await getSession();
-
-  if (!session.isLoggedIn) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
   // The date range will be passed as query parameters
   const { searchParams } = new URL(request.url);
   const startDate = searchParams.get('startDate');
