@@ -50,7 +50,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
           <button
             onClick={handleAddToCart}
-            className="w-full bg-black text-white py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
+            className="add-to-cart-button w-full bg-black text-white py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             <ShoppingBag size={16} />
             Ajouter au panier
