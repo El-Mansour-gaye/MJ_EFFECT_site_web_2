@@ -27,8 +27,19 @@ export default function CatalogueTable() {
 
   useEffect(() => {
     async function fetchProducts() {
+      const token = sessionStorage.getItem("admin-auth-token");
+      if (!token) {
+        setError("Unauthorized");
+        setLoading(false);
+        return;
+      }
+
       try {
-        const response = await fetch("/api/admin/produits");
+        const response = await fetch("/api/admin/produits", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
@@ -48,11 +59,19 @@ export default function CatalogueTable() {
     field: "is_best_seller" | "is_new_arrival" | "is_set_or_pack",
     value: boolean
   ) => {
+    const token = sessionStorage.getItem("admin-auth-token");
+    if (!token) {
+      console.error("Authentication token not found.");
+      // Optionally, show an error to the user
+      return;
+    }
+
     try {
       const response = await fetch("/api/admin/produits/update", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           product_id: productId,

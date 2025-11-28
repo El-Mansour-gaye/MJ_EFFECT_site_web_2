@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { LayoutDashboard, ShoppingCart, Users, BarChart, Mail, Tag } from 'lucide-react';
 
 // Client-side auth check
-const checkAuth = () => sessionStorage.getItem('isAdminLoggedIn') === 'true';
+const checkAuth = () => !!sessionStorage.getItem('admin-auth-token');
 
 const AdminSidebar = () => (
   <aside className="w-64 bg-gray-800 text-white p-4">
