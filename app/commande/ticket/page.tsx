@@ -14,43 +14,44 @@ const TicketContent = () => {
   const commandeId = searchParams.get('id');
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
-      <div className="mb-8 md:mb-12">
-        <CheckoutProgress />
-      </div>
+    <div className="min-h-screen bg-gray-50/50 flex flex-col justify-center py-16 md:py-24">
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-12">
+            <CheckoutProgress currentStep="confirmation" />
+          </div>
 
-      <div className="flex justify-center">
-        <Card className="w-full max-w-2xl text-center">
-          <CardHeader className="items-center">
-            <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
-            <CardTitle className="text-3xl">Merci, votre commande a été reçue !</CardTitle>
-            <CardDescription className="text-lg">
-              Votre numéro de commande est :
-            </CardDescription>
-            <p className="text-2xl font-bold font-mono bg-secondary p-2 rounded-md">
-              #{commandeId || 'N/A'}
-            </p>
-          </CardHeader>
-          <CardContent>
-            <div className="text-left bg-muted p-6 rounded-lg">
-              <h3 className="font-semibold text-lg mb-3">Prochaines Étapes</h3>
-              <ul className="list-disc list-inside space-y-2 text-muted-foreground">
+          <div className="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center">
+            <CheckCircle2 className="h-20 w-20 text-green-500 mx-auto mb-6" />
+            <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Merci !</h1>
+            <p className="text-xl text-gray-600 mb-6">Votre commande a été reçue avec succès.</p>
+
+            <div className="bg-gray-100 rounded-lg p-6 inline-block mb-8">
+              <p className="text-lg text-gray-700 mb-1">Votre numéro de commande est :</p>
+              <p className="text-3xl font-bold font-mono text-primary">
+                #{commandeId || 'N/A'}
+              </p>
+            </div>
+
+            <div className="text-left bg-gray-50 p-8 rounded-lg max-w-2xl mx-auto">
+              <h2 className="font-semibold text-2xl mb-4">Prochaines Étapes</h2>
+              <ul className="list-disc list-inside space-y-3 text-gray-700 text-lg">
                 <li>
-                  Un de nos agents vous contactera par téléphone dans les plus brefs délais pour confirmer les détails de la livraison.
+                  Un de nos agents vous contactera sous peu pour confirmer la livraison.
                 </li>
                 <li>
-                  Si vous avez choisi le paiement en personne, veuillez préparer le montant exact pour le livreur.
+                  Si vous avez choisi le paiement en personne, préparez le montant exact.
                 </li>
                 <li>
-                  Conservez votre numéro de commande pour toute question.
+                  Gardez votre numéro de commande pour toute question.
                 </li>
               </ul>
             </div>
-            <Button asChild className="w-full sm:w-auto mt-8" size="lg">
+            <Button asChild className="w-full sm:w-auto mt-12 py-7 text-lg">
               <Link href="/">Retour à l'Accueil</Link>
             </Button>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

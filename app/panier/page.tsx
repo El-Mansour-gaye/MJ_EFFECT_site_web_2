@@ -18,78 +18,80 @@ const PanierPage = () => {
   const total = subtotal + deliveryFee;
 
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
-      <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center">Votre Panier</h1>
+    <div className="min-h-screen bg-gray-50/50">
+      <div className="container mx-auto px-4 py-16 md:py-24">
+        <h1 className="text-4xl md:text-5xl font-serif font-bold mb-12 text-center">Votre Panier</h1>
 
-      {cart_content.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-lg mb-4">Votre panier est actuellement vide.</p>
-          <Button asChild>
-            <Link href="/collection">Découvrir nos Produits</Link>
-          </Button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-12">
-          {/* Cart Items */}
-          <div className="lg:col-span-2 space-y-4">
-            {cart_content.map(item => (
-              <div key={item.produit_id} className="flex items-center border rounded-lg p-4 shadow-sm">
-                <Image
-                  src={item.image_url || '/placeholder.svg'}
-                  alt={item.nom}
-                  width={80}
-                  height={80}
-                  className="rounded-md object-cover mr-4"
-                />
-                <div className="flex-grow">
-                  <h2 className="font-semibold text-lg">{item.nom}</h2>
-                  <p className="text-muted-foreground">{item.prix_fcfa.toLocaleString()} FCFA</p>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center border rounded-md">
-                    <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite - 1)} disabled={item.quantite <= 1}>-</Button>
-                    <Input
-                        type="number"
-                        value={item.quantite}
-                        onChange={(e) => updateQuantity(item.produit_id, parseInt(e.target.value, 10))}
-                        className="w-16 h-9 text-center border-l border-r rounded-none"
-                    />
-                    <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite + 1)}>+</Button>
-                  </div>
-                  <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-600" onClick={() => removeFromCart(item.produit_id)}>
-                    <Trash2 size={20} />
-                  </Button>
-                </div>
-              </div>
-            ))}
+        {cart_content.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-xl mb-6 text-gray-600">Votre panier est actuellement vide.</p>
+            <Button asChild size="lg">
+              <Link href="/collection">Découvrir nos Produits</Link>
+            </Button>
           </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16">
+            {/* Cart Items */}
+            <div className="lg:col-span-2 space-y-6">
+              {cart_content.map(item => (
+                <div key={item.produit_id} className="flex items-center bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-md">
+                  <Image
+                    src={item.image_url || '/placeholder.svg'}
+                    alt={item.nom}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover mr-6"
+                  />
+                  <div className="flex-grow">
+                    <h2 className="font-semibold text-xl">{item.nom}</h2>
+                    <p className="text-gray-600 text-md">{item.prix_fcfa.toLocaleString()} FCFA</p>
+                  </div>
+                  <div className="flex items-center gap-5">
+                    <div className="flex items-center border rounded-lg">
+                      <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite - 1)} disabled={item.quantite <= 1}>-</Button>
+                      <Input
+                          type="number"
+                          value={item.quantite}
+                          onChange={(e) => updateQuantity(item.produit_id, parseInt(e.target.value, 10))}
+                          className="w-16 h-10 text-center border-l border-r rounded-none focus:ring-0"
+                      />
+                      <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite + 1)}>+</Button>
+                    </div>
+                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-700 transition-colors" onClick={() => removeFromCart(item.produit_id)}>
+                      <Trash2 size={22} />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-24 border rounded-lg p-6 shadow-lg">
-              <h2 className="text-2xl font-semibold mb-4">Résumé de la Commande</h2>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span>Sous-total</span>
-                  <span>{subtotal.toLocaleString()} FCFA</span>
+            {/* Order Summary */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-28 bg-white border border-gray-200 rounded-xl p-8 shadow-lg">
+                <h2 className="text-3xl font-semibold mb-6">Résumé</h2>
+                <div className="space-y-4 text-lg">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Sous-total</span>
+                    <span>{subtotal.toLocaleString()} FCFA</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Livraison</span>
+                    <span>{deliveryFee.toLocaleString()} FCFA</span>
+                  </div>
+                  <div className="border-t my-4"></div>
+                  <div className="flex justify-between font-bold text-xl">
+                    <span>Total</span>
+                    <span>{total.toLocaleString()} FCFA</span>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span>Frais de livraison</span>
-                  <span>{deliveryFee.toLocaleString()} FCFA</span>
-                </div>
-                <div className="border-t my-2"></div>
-                <div className="flex justify-between font-bold text-lg">
-                  <span>Total</span>
-                  <span>{total.toLocaleString()} FCFA</span>
-                </div>
+                <Button asChild className="w-full mt-8 text-lg py-7">
+                  <Link href="/commande/informations">Passer la Commande</Link>
+                </Button>
               </div>
-              <Button asChild className="w-full mt-6 text-lg py-6">
-                <Link href="/commande/informations">Valider et Poursuivre</Link>
-              </Button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
