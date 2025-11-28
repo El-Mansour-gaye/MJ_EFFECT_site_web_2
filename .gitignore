@@ -1,0 +1,16 @@
+# Dependencies
+node_modules
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev_server.log
+
+# Local env files
+.env.local
+.next
+
+# Verification files
+/verification
+*.log

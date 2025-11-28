@@ -1,0 +1,25 @@
+Analyse de la structure du site :
+
+L'application est une application d'une seule page (SPA) construite avec Next.js et React. Elle utilise un mécanisme de routage côté client géré par l'état dans le composant `App` (`app/page.tsx`).
+
+Structure des fichiers :
+
+*   `app/page.tsx` : C'est le point d'entrée principal de l'application. Il contient :
+    *   La logique de routage principale, qui affiche différentes « vues » (pages) en fonction d'une variable d'état `currentView`.
+    *   Les données statiques pour les produits et les articles de blog.
+*   `app/layout.tsx` : Définit la structure HTML de base, les métadonnées et les polices pour l'ensemble de l'application.
+*   `components/` : Contient les composants React réutilisables.
+    *   `components/header.tsx` : L'en-tête de navigation, présent sur toutes les vues. Les boutons de navigation dans l'en-tête sont chargés de changer la vue actuelle en appelant `setView`.
+    *   `components/footer.tsx` : Le pied de page, présent sur toutes les vues.
+    *   `components/views/` : Contient les composants qui agissent comme des pages complètes (par exemple, `home-page.tsx`, `collection-page.tsx`).
+
+Organisation des pages :
+
+Il n'y a pas de routage traditionnel basé sur les URL. Au lieu de cela, l'application est organisée autour du concept de « vues », qui sont des composants React échangés en fonction de l'état `currentView`.
+
+*   La vue par défaut est `HOME`, qui affiche le composant `HomePage`.
+*   Les pages (vues) sont bien connectées via les boutons de navigation dans le composant `Header`. Cliquer sur ces boutons met à jour l'état `currentView` dans le composant `App`, ce qui entraîne l'affichage de la vue correspondante.
+
+Conclusion :
+
+La structure du site est simple et cohérente. Les pages sont organisées de manière logique en tant que vues distinctes, et leur interconnexion est entièrement gérée par l'état de l'application via l'en-tête. La navigation est fluide et efficace pour une application de cette taille.
