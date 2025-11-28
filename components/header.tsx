@@ -16,7 +16,7 @@ function HeaderContent() {
   const searchParams = useSearchParams()
 
   const navLinkClasses = (path: string, hasMegaMenu?: boolean) => {
-    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors relative pt-1 after:absolute after:block after:w-full after:h-[1px] after:bg-luxury-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left";
+    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors relative pt-1 after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left";
 
     if (hasMegaMenu) {
       const category = searchParams.get("category");
