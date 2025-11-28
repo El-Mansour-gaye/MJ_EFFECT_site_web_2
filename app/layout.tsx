@@ -44,10 +44,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased pt-16 lg:pt-20`}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <Header />
-          <main className="pt-16 lg:pt-20">{children}</main>
+          <main>{children}</main>
           <Footer />
           <SonnerToaster />
           <Analytics />
