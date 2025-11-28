@@ -45,12 +45,12 @@ export function ParallaxCategories() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {categories.map((category) => (
             <Link href={category.href} key={category.name} className="group">
-              <div className="w-32 h-32 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 mx-auto transition-transform group-hover:scale-105">
+              <div className="w-48 h-48 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 mx-auto transition-transform group-hover:scale-105">
                 <Image
                   src={category.imageUrl}
                   alt={category.name}
-                  width={128}
-                  height={128}
+                  width={192}
+                  height={192}
                   className="object-cover w-full h-full"
                 />
               </div>
