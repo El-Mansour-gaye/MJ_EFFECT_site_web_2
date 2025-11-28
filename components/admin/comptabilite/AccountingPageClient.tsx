@@ -26,8 +26,19 @@ const AccountingPageClient = () => {
         const startDate = range.from.toISOString();
         const endDate = range.to.toISOString();
 
+        const token = sessionStorage.getItem("admin-auth-token");
+        if (!token) {
+            setError("Unauthorized");
+            setLoading(false);
+            return;
+        }
+
         try {
-            const response = await fetch(`/api/admin/accounting?startDate=${startDate}&endDate=${endDate}`);
+            const response = await fetch(`/api/admin/accounting?startDate=${startDate}&endDate=${endDate}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch accounting data');
             }

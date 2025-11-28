@@ -1,12 +1,10 @@
 // /app/api/admin/produits/route.ts
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { createSupabaseAdmin } from "@/lib/supabase/admin";
-import { getSession } from "@/lib/session";
+import { verifyAuth } from "@/lib/admin-auth";
 
-export async function GET() {
-  const session = await getSession();
-
-  if (!session.isLoggedIn) {
+export async function GET(request: NextRequest) {
+  if (!verifyAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

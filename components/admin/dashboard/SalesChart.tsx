@@ -16,8 +16,18 @@ const SalesChart = () => {
 
   useEffect(() => {
     const fetchSalesData = async () => {
+      const token = sessionStorage.getItem("admin-auth-token");
+      if (!token) {
+        setError("Unauthorized");
+        return;
+      }
+
       try {
-        const response = await fetch('/api/admin/stats');
+        const response = await fetch('/api/admin/stats', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch sales data');
         }

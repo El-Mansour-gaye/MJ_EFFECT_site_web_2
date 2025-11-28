@@ -8,9 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 
 // This is a simple client-side "session" state.
-// In a real app, this would be managed more securely (e.g., with cookies, tokens).
 // We use sessionStorage to persist the login state across page reloads.
-const checkAuth = () => sessionStorage.getItem('isAdminLoggedIn') === 'true';
+const checkAuth = () => !!sessionStorage.getItem('admin-auth-token');
 
 const AdminLoginPage = () => {
   const [password, setPassword] = useState('');
@@ -37,8 +36,8 @@ const AdminLoginPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.success) {
-          sessionStorage.setItem('isAdminLoggedIn', 'true');
+        if (data.success && data.token) {
+          sessionStorage.setItem('admin-auth-token', data.token);
           router.push('/admin/dashboard');
         } else {
           setError('Mot de passe incorrect.');
