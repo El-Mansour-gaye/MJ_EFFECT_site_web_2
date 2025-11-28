@@ -1,9 +1,7 @@
 // /app/api/admin-login/route.ts
 import { NextResponse } from 'next/server';
-import { getSession } from '../../../lib/session';
 
 export async function POST(request: Request) {
-  const session = await getSession();
   try {
     const { password } = await request.json();
 
@@ -11,14 +9,14 @@ export async function POST(request: Request) {
     const isAdmin = password === process.env.ADMIN_PASSWORD;
 
     if (isAdmin) {
-      // Create a secure session
-      session.isLoggedIn = true;
-      await session.save();
+      // Password is correct, send success response
       return NextResponse.json({ success: true });
     } else {
+      // Password is incorrect
       return NextResponse.json({ success: false }, { status: 401 });
     }
   } catch (error) {
+    // Handle potential errors, like malformed JSON
     return NextResponse.json({ success: false, error: 'An error occurred' }, { status: 500 });
   }
 }
