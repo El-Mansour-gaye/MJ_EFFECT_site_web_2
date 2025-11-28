@@ -1,6 +1,6 @@
 // /app/api/admin/stats/route.ts
 import { NextResponse, NextRequest } from 'next/server';
-import { verifyAuth } from '@/lib/admin-auth';
+import { isAdmin } from '@/lib/admin-auth';
 import {
   mockStatisticCards,
   mockSalesByMonth,
