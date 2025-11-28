@@ -5,8 +5,11 @@ import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react"
 import { NAVIGATION_LINKS } from "@/lib/navigation"
+import { useCartStore } from "@/lib/store/cart"
 
 function HeaderContent() {
+  const cart = useCartStore((state) => state.cart_content);
+  const cartItemCount = cart.reduce((total, item) => total + item.quantite, 0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<number | null>(null)
   const pathname = usePathname()
@@ -33,8 +36,8 @@ function HeaderContent() {
           </button>
 
           <Link href="/" className="block">
-            <div className="bg-black rounded-full p-1">
-              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-12 lg:h-14 w-auto" />
+            <div className="bg-black rounded-full p-1 flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20">
+              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-14 lg:h-16 w-auto" />
             </div>
           </Link>
 
@@ -91,9 +94,11 @@ function HeaderContent() {
             </button>
             <Link href="/panier" className="p-2 hover:text-accent transition-colors relative">
               <ShoppingBag size={20} />
-              <span className="absolute -top-1 -right-1 bg-accent text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
-                0
-              </span>
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
           </div>
         </div>
