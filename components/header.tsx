@@ -21,23 +21,23 @@ function HeaderContent() {
     if (hasMegaMenu) {
       const category = searchParams.get("category");
       const linkCategory = new URLSearchParams(path.split("?")[1]).get("category");
-      return `${baseClasses} ${category === linkCategory ? "text-black" : "hover:text-accent"}`;
+      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70 hover:text-white"}`;
     }
 
-    return `${baseClasses} ${pathname === path ? "text-black" : "hover:text-accent"}`;
+    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70 hover:text-white"}`;
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-black/10">
+    <header className="sticky top-0 z-50 bg-black border-b border-white/10">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <button className="lg:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="lg:hidden p-2 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
           <Link href="/" className="block">
-            <div className="bg-black rounded-full p-1 flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20">
-              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-14 lg:h-[72px] w-auto" />
+            <div className="flex items-center justify-center">
+              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-24 lg:h-32 w-auto" />
             </div>
           </Link>
 
@@ -88,11 +88,11 @@ function HeaderContent() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
-            <button className="p-2 hover:text-accent transition-colors">
+          <div className="flex items-center gap-4 text-white">
+            <button className="p-2 hover:text-white/70 transition-colors">
               <Search size={24} />
             </button>
-            <Link href="/panier" className="p-2 hover:text-accent transition-colors relative">
+            <Link href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
