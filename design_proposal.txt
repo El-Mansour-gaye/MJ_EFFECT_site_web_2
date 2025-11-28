@@ -1,0 +1,82 @@
+### **Philosophie Générale du Design**
+
+*   **Mobile-First :** Les maquettes sont conçues pour être parfaitement fonctionnelles et lisibles sur mobile.
+*   **Cohérence :** Un en-tête, un pied de page et un indicateur de progression sont maintenus tout au long du processus pour ne pas perdre l'utilisateur.
+*   **Résumé de la Commande Toujours Visible :** Pour rassurer l'utilisateur, un résumé de sa commande reste visible (surtout sur grand écran).
+*   **Boutons d'Action Clairs :** Les boutons principaux sont larges, bien visibles et avec des intitulés explicites.
+
+---
+
+### **1. Page Panier (Cart)**
+
+**Objectif :** Permettre à l'utilisateur de vérifier et de modifier sa commande facilement.
+
+*   **Mise en Page :**
+    *   **Sur ordinateur :** Deux colonnes. À gauche, la liste des articles ; à droite, le résumé de la commande.
+    *   **Sur mobile :** Une seule colonne. Le résumé de la commande est placé après la liste des articles.
+*   **Liste des Articles :**
+    *   Chaque article affiche : Image, Nom, Prix.
+    *   **Sélecteur de Quantité :** Des boutons `+` et `-` pour ajuster la quantité, avec une icône de corbeille pour supprimer l'article.
+*   **Résumé de la Commande :**
+    *   Affiche clairement : Sous-total, Frais de livraison (si applicable), et le **Total**.
+    *   **Bouton d'Action Principal :** Un bouton large et bien visible : **"Valider et Poursuivre"**.
+*   **Cas du Panier Vide :**
+    *   Un message clair s'affiche : "Votre panier est actuellement vide." avec un bouton **"Découvrir nos Produits"** qui renvoie vers la page de la collection.
+
+---
+
+### **2. Page Informations Client**
+
+**Objectif :** Collecter les informations nécessaires de manière rapide et sans friction.
+
+*   **Indicateur de Progression :**
+    *   Une barre en haut de la page montre les étapes : `Panier >` **`Informations`** `> Paiement > Confirmation`.
+*   **Formulaire Simplifié :**
+    *   Une seule colonne, centrée.
+    *   Champs requis :
+        *   Nom Complet
+        *   Numéro de Téléphone
+    *   Champ optionnel :
+        *   Adresse E-mail
+*   **Résumé de la Commande :**
+    *   Le résumé reste visible sur le côté (ordinateur) ou est accessible via un bouton "Voir le résumé" (mobile) pour ne pas surcharger l'écran.
+*   **Navigation :**
+    *   **Bouton Principal :** **"Continuer vers le Paiement"**.
+    *   **Lien Secondaire :** "Retour au Panier".
+
+---
+
+### **3. Page Choix du Mode de Paiement**
+
+**Objectif :** Présenter les options de paiement de manière claire et sécurisante.
+
+*   **Indicateur de Progression :**
+    *   L'étape **`Paiement`** est maintenant en surbrillance.
+*   **Options de Paiement :**
+    *   Présentées sous forme de **grandes cartes cliquables**, bien plus intuitives que de simples boutons radio.
+    *   Chaque carte contient :
+        *   Une icône (logo de PayTech, icône d'argent liquide).
+        *   Un titre clair : "Payer en Ligne (PayTech)" ou "Payer en Personne".
+*   **Vérification Finale :**
+    *   Le résumé de la commande est affiché en entier, incluant les informations du client, pour une dernière vérification avant de finaliser.
+*   **Navigation :**
+    *   **Bouton Principal :** **"Finaliser la Commande"**. Le texte peut inclure le montant total pour plus de clarté (ex: "Payer 15,000 FCFA").
+    *   **Lien Secondaire :** "Modifier les Informations".
+
+---
+
+### **4. Page Ticket de Confirmation**
+
+**Objectif :** Rassurer le client que sa commande est bien passée et lui indiquer les prochaines étapes.
+
+*   **Message de Succès :**
+    *   Un message grand et visible : **"Merci, votre commande a été reçue avec succès !"**.
+*   **Informations Clés :**
+    *   **Numéro de Commande :** Affiché en grand pour référence future (ex: "Votre numéro de commande : #12345").
+    *   **Résumé Complet :** Un récapitulatif détaillé de la commande (articles, prix, total, mode de paiement, informations client).
+*   **Section "Prochaines Étapes" :**
+    *   Une section cruciale pour gérer les attentes du client :
+        *   "Un de nos agents vous contactera par téléphone dans les plus brefs délais pour confirmer les détails de la livraison."
+        *   "Si vous avez choisi le paiement en personne, veuillez préparer le montant exact."
+*   **Bouton d'Action :**
+    *   Un bouton **"Retour à l'Accueil"** ou **"Continuer mes Achats"**.
