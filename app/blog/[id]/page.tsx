@@ -5,8 +5,9 @@ import Link from "next/link"
 import { PRODUCTS, BlogArticle } from "@/lib/data"
 import { ProductCard } from "@/components/product-card"
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const article = BLOG_ARTICLES.find((a) => a.id === parseInt(params.id));
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const article = BLOG_ARTICLES.find((a) => a.id === parseInt(id));
   if (!article) {
     return {
       title: "Article non trouvé",
@@ -52,8 +53,9 @@ const RECENT_ARTICLES = [
   { id: 4, title: "Parfums homme: comment choisir", date: "15 Nov 2025" },
 ]
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
-  const articleId = params.id;
+export default async function BlogPostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const articleId = id;
   const article = BLOG_ARTICLES.find((a) => a.id === parseInt(articleId!))
 
   if (!article) {
