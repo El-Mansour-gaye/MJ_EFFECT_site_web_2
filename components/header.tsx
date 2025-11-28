@@ -21,10 +21,10 @@ function HeaderContent() {
     if (hasMegaMenu) {
       const category = searchParams.get("category");
       const linkCategory = new URLSearchParams(path.split("?")[1]).get("category");
-      return `${baseClasses} ${category === linkCategory ? "text-accent" : "hover:text-accent"}`;
+      return `${baseClasses} ${category === linkCategory ? "text-black" : "hover:text-accent"}`;
     }
 
-    return `${baseClasses} ${pathname === path ? "text-accent" : "hover:text-accent"}`;
+    return `${baseClasses} ${pathname === path ? "text-black" : "hover:text-accent"}`;
   };
 
   return (
@@ -50,7 +50,7 @@ function HeaderContent() {
                 onMouseEnter={() => link.megaMenu && setOpenMegaMenu(index)}
                 onMouseLeave={() => link.megaMenu && setOpenMegaMenu(null)}
               >
-                <Link href={link.href} className={`flex items-center gap-1 ${navLinkClasses(link.href, !!link.megaMenu)}`}>
+                <Link href={link.href} className={`flex items-center gap-1 whitespace-nowrap ${navLinkClasses(link.href, !!link.megaMenu)}`}>
                   {link.label} {link.megaMenu && <ChevronDown size={14} />}
                 </Link>
 
@@ -90,10 +90,10 @@ function HeaderContent() {
 
           <div className="flex items-center gap-4">
             <button className="p-2 hover:text-accent transition-colors">
-              <Search size={20} />
+              <Search size={24} />
             </button>
             <Link href="/panier" className="p-2 hover:text-accent transition-colors relative">
-              <ShoppingBag size={20} />
+              <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
                   {cartItemCount}
