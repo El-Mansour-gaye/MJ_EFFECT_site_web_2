@@ -1,6 +1,6 @@
 // /app/api/admin/accounting/route.ts
 import { NextResponse, NextRequest } from 'next/server';
-import { verifyAuth } from '@/lib/admin-auth';
+import { isAdmin } from '@/lib/admin-auth';
 import {
   mockFinancialCards,
   mockRevenueVsExpenses,
@@ -10,7 +10,7 @@ import {
 // TODO: Import Supabase admin client once ready to fetch real data
 
 export async function GET(request: NextRequest) {
-  if (!verifyAuth(request)) {
+  if (!isAdmin(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
