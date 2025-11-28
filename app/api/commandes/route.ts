@@ -59,12 +59,19 @@ export async function POST(request: Request) {
     // Optional: Create or update client in 'clients' table
     if(client_info.telephone){
         console.log("Upserting client...");
+        const clientData: { nom: string; telephone: string; email?: string } = {
+            nom: client_info.nom,
+            telephone: client_info.telephone,
+        };
+
+        if (client_info.email) {
+            clientData.email = client_info.email;
+        }
+
         const { error: clientError } = await supabaseAdmin
         .from('clients')
-        .upsert(
-            { nom: client_info.nom, telephone: client_info.telephone, email: client_info.email },
-            { onConflict: 'telephone' }
-        );
+        .upsert(clientData, { onConflict: 'telephone' });
+
         if (clientError) console.warn('Error upserting client:', clientError);
     }
 
