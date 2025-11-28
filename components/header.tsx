@@ -37,7 +37,7 @@ function HeaderContent() {
 
           <Link href="/" className="block">
             <div className="bg-black rounded-full p-1 flex items-center justify-center w-16 h-16 lg:w-20 lg:h-20">
-              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-14 lg:h-16 w-auto" />
+              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-14 lg:h-[72px] w-auto" />
             </div>
           </Link>
 
