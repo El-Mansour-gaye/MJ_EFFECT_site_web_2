@@ -12,8 +12,9 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-serif font-bold text-center mb-8">Notre Histoire</h1>
+    <div className="pt-16 lg:pt-20">
+      <div className="container mx-auto px-4 py-12">
+        <h1 className="text-4xl font-serif font-bold text-center mb-8">Notre Histoire</h1>
       <div className="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed">
         <p className="mb-6">
           Bienvenue chez nous. Notre marque est née d'une passion pour les fragrances exquises et l'art de la parfumerie. Nous croyons que le parfum est plus qu'une simple odeur ; c'est une expression de soi, un souvenir, une œuvre d'art invisible.
