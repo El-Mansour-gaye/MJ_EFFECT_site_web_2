@@ -7,6 +7,7 @@ import { PRODUCTS, BLOG_ARTICLES } from "@/lib/data"
 import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
+import { OlfactiveCollections } from "@/components/olfactive-collections"
 import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver"
 import { cn } from "@/lib/utils"
 
@@ -104,66 +105,8 @@ export function HomePage() {
         </div>
       </section>
 
-      {/* Packery Grid - Categories */}
-      <section ref={collectionsRef} className={cn("py-16 lg:py-24 transition-opacity duration-500", collectionsVisible ? "opacity-100" : "opacity-0")}>
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
-            <span className="font-normal">Nos</span> <span className="font-bold">Collections</span>
-          </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <Link
-              href="/collection"
-              className="relative aspect-[3/4] overflow-hidden group col-span-2 row-span-2"
-            >
-              <img
-                src="/elegant-woman-perfume-floral-luxury.jpg"
-                alt="Pour Elle"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-serif text-white text-2xl md:text-3xl">Pour Elle</span>
-              </div>
-            </Link>
-            <Link href="/collection" className="relative aspect-square overflow-hidden group">
-              <img
-                src="/masculine-perfume-bottle-leather-wood.jpg"
-                alt="Pour Lui"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-serif text-white text-xl md:text-2xl">Pour Lui</span>
-              </div>
-            </Link>
-            <Link href="/collection" className="relative aspect-square overflow-hidden group">
-              <img
-                src="/luxury-gift-box-perfume-set-gold-ribbon.jpg"
-                alt="Coffrets"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-serif text-white text-xl md:text-2xl">Coffrets</span>
-              </div>
-            </Link>
-            <Link
-              href="/collection"
-              className="relative aspect-square overflow-hidden group col-span-2"
-            >
-              <img
-                src="/luxury-body-care-products-cream-lotion-gold.jpg"
-                alt="Soins Corps"
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-serif text-white text-xl md:text-2xl">Soins Corps</span>
-              </div>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* Olfactive Collections Section */}
+      <OlfactiveCollections />
 
       <section ref={featuredRef} className={cn("py-16 lg:py-24 bg-black/5 transition-all duration-500", featuredVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
         <div className="container mx-auto px-4">
