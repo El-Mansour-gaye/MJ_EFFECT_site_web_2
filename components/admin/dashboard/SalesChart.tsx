@@ -2,20 +2,38 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 interface SalesData {
   month: string;
-  sales: number;
+  total_sales: number;
 }
 
 const SalesChart = () => {
-  const [salesData, setSalesData] = useState<SalesData[] | null>(null);
+  const [chartData, setChartData] = useState<SalesData[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchSalesData = async () => {
+    const fetchChartData = async () => {
       const token = sessionStorage.getItem("admin-auth-token");
       if (!token) {
         setError("Unauthorized");
@@ -23,7 +41,7 @@ const SalesChart = () => {
       }
 
       try {
-        const response = await fetch('/api/admin/stats', {
+        const response = await fetch('/api/admin/dashboard', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -32,65 +50,68 @@ const SalesChart = () => {
           throw new Error('Failed to fetch sales data');
         }
         const data = await response.json();
-        setSalesData(data.salesByMonth);
+        setChartData(data.salesByMonth);
       } catch (err) {
         setError((err as Error).message);
       }
     };
 
-    fetchSalesData();
+    fetchChartData();
   }, []);
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;
   }
 
-  const formatCurrency = (value: number) => {
-    if (value >= 1000000) {
-      return `${(value / 1000000).toFixed(1)}M`;
-    }
-    return `${(value / 1000).toFixed(0)}K`;
+  if (!chartData) {
+    return <CardSkeleton />;
+  }
+
+  const data = {
+    labels: chartData.map(d => d.month),
+    datasets: [
+      {
+        label: 'Ventes Mensuelles (FCFA)',
+        data: chartData.map(d => d.total_sales),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
   };
 
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Performance des Ventes Mensuelles',
+      },
+    },
+  };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-playfair">Ventes par mois</CardTitle>
+        <CardTitle>Ventes Mensuelles</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-80 w-full">
-            { !salesData ? <ChartSkeleton /> : (
-                <ResponsiveContainer width="100%" height="100%">
-                    <LineChart
-                    data={salesData}
-                    margin={{
-                        top: 5, right: 30, left: 20, bottom: 5,
-                    }}
-                    >
-                    <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} />
-                    <XAxis dataKey="month" style={{ fontFamily: 'Inter', fontSize: '12px' }} />
-                    <YAxis tickFormatter={formatCurrency} style={{ fontFamily: 'Inter', fontSize: '12px' }} />
-                    <Tooltip
-                        contentStyle={{ fontFamily: 'Inter', fontSize: '14px' }}
-                        formatter={(value: number) => [new Intl.NumberFormat('fr-FR').format(value) + ' FCFA', 'Ventes']}
-                    />
-                    <Legend wrapperStyle={{ fontFamily: 'Inter', fontSize: '14px' }} />
-                    <Line type="monotone" dataKey="sales" name="Ventes" stroke="#FF5733" strokeWidth={2} activeDot={{ r: 8 }} />
-                    </LineChart>
-                </ResponsiveContainer>
-             )}
-        </div>
+        <Bar data={data} options={options} />
       </CardContent>
     </Card>
   );
 };
 
-const ChartSkeleton = () => (
-    <div className="w-full h-80 bg-gray-200 rounded-lg animate-pulse flex items-center justify-center">
-        <p className="text-gray-500">Loading Chart...</p>
-    </div>
+const CardSkeleton = () => (
+    <Card>
+        <CardHeader>
+            <div className="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
+        </CardHeader>
+        <CardContent>
+            <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
+        </CardContent>
+    </Card>
 );
-
 
 export default SalesChart;
