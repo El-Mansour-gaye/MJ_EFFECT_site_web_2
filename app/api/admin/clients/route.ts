@@ -1,23 +1,44 @@
 
-import { createClient } from '@supabase/supabase-js';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdmin } from '@/lib/admin-auth';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function GET(req: NextRequest) {
   if (!isAdmin(req)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { data, error } = await supabase.from('clients').select('*');
+  const supabase = createSupabaseAdmin();
+  const { searchParams } = new URL(req.url);
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const limit = parseInt(searchParams.get('limit') || '10', 10);
+  const search = searchParams.get('search') || '';
+  const sortBy = searchParams.get('sortBy') || 'date_inscription';
+  const order = searchParams.get('order') || 'desc';
+
+  const offset = (page - 1) * limit;
+
+  let query = supabase
+    .from('clients')
+    .select(`
+      *,
+      commandes(count)
+    `, { count: 'exact' })
+    .order(sortBy, { ascending: order === 'asc' })
+    .range(offset, offset + limit - 1);
+
+  if (search) {
+    query = query.or(`nom.ilike.%${search}%,email.ilike.%${search}%,telephone.ilike.%${search}%`);
+  }
+
+  const { data, error, count } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json(data);
+  return NextResponse.json({
+    data,
+    totalPages: Math.ceil((count || 0) / limit),
+  });
 }

@@ -16,6 +16,7 @@ import { OrderSummary } from '@/components/order-summary';
 interface ClientInfo {
   nom: string;
   telephone: string;
+  adresse: string; // Ajout du champ adresse
   email?: string;
 }
 
@@ -51,6 +52,12 @@ const InformationsPage = () => {
                                 <Label htmlFor="nom" className="text-lg">Nom Complet</Label>
                                 <Input id="nom" {...register('nom', { required: 'Le nom est requis' })} className="mt-2 py-6" />
                                 {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom.message}</p>}
+                            </div>
+
+                            <div>
+                                <Label htmlFor="adresse" className="text-lg">Adresse de livraison</Label>
+                                <Input id="adresse" {...register('adresse', { required: 'L\'adresse est requise' })} className="mt-2 py-6" />
+                                {errors.adresse && <p className="text-red-500 text-sm mt-1">{errors.adresse.message}</p>}
                             </div>
 
                             <div>

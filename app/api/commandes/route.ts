@@ -28,8 +28,10 @@ export async function POST(request: Request) {
       .insert({
         client_nom: client_info.nom,
         client_telephone: client_info.telephone,
+        client_adresse: client_info.adresse, // Ajout de l'adresse
+        client_email: client_info.email,     // Ajout de l'email
         montant_total,
-        statut_paiement: 'en_attente', // Default status
+        statut_paiement: 'EN_ATTENTE', // Statut standardisé
         methode_paiement: payment_method,
       })
       .select('id')
