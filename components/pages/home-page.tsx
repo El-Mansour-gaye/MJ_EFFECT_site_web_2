@@ -10,6 +10,7 @@ import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
 import { OlfactiveCollections } from "@/components/olfactive-collections"
 import { AnimatedSection } from "@/components/animated-section"
+import { HomeBlogSection } from "@/components/pages/home-blog-section"
 import { cn } from "@/lib/utils"
 
 function ProductCarousel({
@@ -25,7 +26,7 @@ function ProductCarousel({
 
   const scrollCarousel = (direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = 320
+      const scrollAmount = 280
       carouselRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -60,7 +61,7 @@ function ProductCarousel({
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {products.map((product) => (
-          <div key={product.id} className="flex-shrink-0 w-72">
+          <div key={product.id} className="flex-shrink-0 w-64">
             <ProductCard product={product} />
           </div>
         ))}
@@ -132,7 +133,7 @@ export function HomePage() {
 
       <AnimatedSection>
         <section className="py-16 lg:py-24 bg-black/5">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto px-4 max-w-6xl">
             <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
               <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
             </h2>
