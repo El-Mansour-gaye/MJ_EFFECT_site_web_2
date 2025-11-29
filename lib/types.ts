@@ -6,6 +6,16 @@ export interface Client {
   email: string;
   adresse: string;
   date_inscription: string;
+  commandes?: Commande[];
+}
+
+export interface Article {
+  id: string;
+  quantite: number;
+  prix_unitaire_cmd: number;
+  produits: {
+    nom: string;
+  };
 }
 
 export interface Commande {
@@ -16,9 +26,11 @@ export interface Commande {
   client_adresse: string;
   montant_total: number;
   statut_paiement: string;
+  statut: string;
   methode_paiement: string;
   date_creation: string;
   reference_paytech: string;
+  articles?: Article[];
 }
 
 export interface Product {

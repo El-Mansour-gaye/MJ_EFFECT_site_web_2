@@ -11,6 +11,7 @@ interface CartItem {
 interface ClientInfo {
   nom: string;
   telephone: string;
+  adresse: string; // Ajout du champ adresse
   email?: string; // Email is optional
 }
 
@@ -39,6 +40,7 @@ const initialState: CartState = {
   client_info: {
     nom: '',
     telephone: '',
+    adresse: '',
     email: '',
   },
   payment_method: null,
