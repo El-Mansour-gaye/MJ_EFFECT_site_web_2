@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster as SonnerToaster } from "sonner"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { TopContactBar } from "@/components/top-contact-bar"
 import "./globals.css"
 
 const inter = Inter({
@@ -44,8 +45,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased pt-16 lg:pt-20`}>
+      <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased pt-24 lg:pt-28`}>
         <ThemeProvider attribute="class" defaultTheme="light">
+          <TopContactBar />
           <Header />
           <main>{children}</main>
           <Footer />

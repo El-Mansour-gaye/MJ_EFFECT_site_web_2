@@ -486,8 +486,8 @@ export const PRODUCTS: Product[] = [
     price: 10000,
     category: "Gommages et Gels Douche",
     subCategory: "Gommage",
-    image: "/placeholder.svg",
-    images: ["/placeholder.svg"],
+    image: "/luxury-body-scrub-general.jpg",
+    images: ["/luxury-body-scrub-general.jpg"],
   },
   {
     id: 18,
