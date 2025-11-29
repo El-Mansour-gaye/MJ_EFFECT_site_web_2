@@ -8,7 +8,7 @@ import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
 import { OlfactiveCollections } from "@/components/olfactive-collections"
-import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver"
+import { AnimatedSection } from "@/components/animated-section"
 import { cn } from "@/lib/utils"
 
 function ProductCarousel({
@@ -73,10 +73,6 @@ export function HomePage() {
   const newArrivals = PRODUCTS.filter((p) => p.tag === "New")
   const coffrets = PRODUCTS.filter((p) => p.tag === "Coffret")
 
-  const [collectionsRef, collectionsVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
-  const [featuredRef, featuredVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
-  const [blogRef, blogVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
-
   return (
     <div>
       {/* Hero Section */}
@@ -106,37 +102,46 @@ export function HomePage() {
       </section>
 
       {/* Olfactive Collections Section */}
-      <OlfactiveCollections />
+      <AnimatedSection>
+        <OlfactiveCollections />
+      </AnimatedSection>
 
-      <section ref={featuredRef} className={cn("py-16 lg:py-24 bg-black/5 transition-all duration-500", featuredVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
-            <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
-          </h2>
+      <AnimatedSection>
+        <section className="py-16 lg:py-24 bg-black/5">
+          <div className="container mx-auto px-4">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
+              <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
+            </h2>
 
-          {/* Carousel 1: Best Sellers */}
-          <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+            {/* Carousel 1: Best Sellers */}
+            <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
 
-          {/* Carousel 2: New Arrivals */}
-          <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+            {/* Carousel 2: New Arrivals */}
+            <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
 
-          {/* Carousel 3: Gift Sets */}
-          <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
-        </div>
-      </section>
+            {/* Carousel 3: Gift Sets */}
+            <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+          </div>
+        </section>
+      </AnimatedSection>
 
       {/* Parallax Categories Section */}
-      <ParallaxCategories />
+      <AnimatedSection>
+        <ParallaxCategories />
+      </AnimatedSection>
 
       {/* Product Demos Section */}
-      <ProductDemoCarousel />
+      <AnimatedSection>
+        <ProductDemoCarousel />
+      </AnimatedSection>
 
 
       {/* Actualités du Blog Section */}
-      <section ref={blogRef} className={cn("py-16 lg:py-24 transition-all duration-500", blogVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
-            <span className="font-normal">Actualités</span> <span className="font-bold">du Blog</span>
+      <AnimatedSection>
+        <section className="py-16 lg:py-24">
+          <div className="container mx-auto px-4">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
+              <span className="font-normal">Actualités</span> <span className="font-bold">du Blog</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {BLOG_ARTICLES.slice(0, 3).map((article) => {
@@ -172,8 +177,8 @@ export function HomePage() {
             </Link>
           </div>
         </div>
-      </section>
-
+        </section>
+      </AnimatedSection>
     </div>
   )
 }
