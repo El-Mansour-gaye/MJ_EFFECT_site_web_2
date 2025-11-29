@@ -2,8 +2,7 @@ import { Metadata } from "next";
 import { BLOG_ARTICLES } from "@/lib/data";
 import { ChevronRight } from "lucide-react"
 import Link from "next/link"
-import { PRODUCTS, BlogArticle } from "@/lib/data"
-import { ProductCard } from "@/components/product-card"
+import { BlogArticle } from "@/lib/data"
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -61,8 +60,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
   if (!article) {
     return <div>Article not found</div>
   }
-
-  const mentionedProducts = PRODUCTS.slice(0, 3)
 
   return (
     <article className="py-8 lg:py-12">
@@ -155,17 +152,6 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
           </aside>
         </div>
 
-        {/* Cross-sell Carousel */}
-        <section className="mt-16 pt-12 border-t border-black/10">
-          <h2 className="font-serif text-2xl md:text-3xl mb-8">
-            <span className="font-normal">Produits</span> <span className="font-bold">Mentionnés</span>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mentionedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
       </div>
     </article>
   )
