@@ -11,34 +11,34 @@ import { Card, CardContent } from "@/components/ui/card"
 // 5th item -> Bottom-right card
 const collections = [
   {
-    title: "Sensuel & Nuit",
+    title: "Into The Night",
     description: "Pour une élégance sombre et mystérieuse.",
     route: "/collection/sensuel",
-    imageUrl: "/sensuel-nuit.jpg",
+    imageUrl: "/into the night.PNG",
   },
   {
-    title: "Gourmand & Sucré",
+    title: "Warm Vanilla Sugar",
     description: "Douceur réconfortante et notes délicieuses.",
     route: "/collection/gourmand",
-    imageUrl: "/gourmand-sucre.jpg",
+    imageUrl: "/Set #6 Warm Vanilla Sugar_1.PNG",
   },
   {
-    title: "Chic & Sophistiqué",
+    title: "Champagne Toast",
     description: "L'éclat d'un parfum signature.",
     route: "/collection/chic",
-    imageUrl: "/chic-sophistique.jpg",
+    imageUrl: "/1-champagne toast.PNG",
   },
   {
-    title: "Frais & Floral",
+    title: "Cactus Blossom",
     description: "Légèreté et pureté, idéal pour le jour.",
     route: "/collection/frais",
-    imageUrl: "/frais-floral.jpg",
+    imageUrl: "/cactus blossom.PNG",
   },
   {
-    title: "Soins Essentiels",
-    description: "Crèmes, Gommages et Textures Fondantes.",
+    title: "Mahogany Teakwood",
+    description: "Bois de cèdre, masculin, luxe.",
     route: "/collection/soins",
-    imageUrl: "/soins-essentiels.jpg",
+    imageUrl: "/mohogany taekwood intense.PNG",
   },
 ]
 

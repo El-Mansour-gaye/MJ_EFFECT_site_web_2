@@ -14,3 +14,4 @@ dev_server.log
 # Verification files
 /verification
 *.log
+test-results/
