@@ -1,7 +1,7 @@
 "use client"
 
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
-import { Product } from "@/lib/data"
+import { Product } from "@/lib/types"
 import useEmblaCarousel from "embla-carousel-react"
 import { useState, useCallback, useEffect } from "react"
 import { encodeImagePath } from "@/lib/utils"
@@ -15,6 +15,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [emblaRef, emblaApi] = useEmblaCarousel()
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
+
+  const images = product.images?.length ? product.images : (product.image ? [product.image] : ['/placeholder.svg']);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
@@ -48,18 +50,18 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
         <div className="w-full md:w-1/2 relative">
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex">
-              {product.images.map((imgSrc, index) => (
+              {images.map((imgSrc, index) => (
                 <div className="flex-grow-0 flex-shrink-0 w-full" key={index}>
                   <img
                     src={encodeImagePath(imgSrc)}
-                    alt={`${product.name} image ${index + 1}`}
+                    alt={`${product.nom} image ${index + 1}`}
                     className="w-full h-64 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"
                   />
                 </div>
               ))}
             </div>
           </div>
-          {product.images.length > 1 && (
+          {images.length > 1 && (
             <>
               <button
                 onClick={scrollPrev}
@@ -89,12 +91,12 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           </button>
 
           <p className="text-sm uppercase tracking-widest text-gray-500">{product.category}</p>
-          <h2 id="product-modal-title" className="text-3xl lg:text-4xl font-serif font-bold my-4">{product.name}</h2>
-          <p className="text-2xl text-[#C9A050] mb-6">{product.price.toLocaleString()} FCFA</p>
+          <h2 id="product-modal-title" className="text-3xl lg:text-4xl font-serif font-bold my-4">{product.nom}</h2>
+          <p className="text-2xl text-[#C9A050] mb-6">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
 
           <div className="text-gray-700 space-y-4">
             <p>
-              {product.details || `Ceci est une description détaillée du produit. Elle met en avant les qualités uniques de ${product.name}, ses notes olfactives, et les émotions qu'il évoque. Une fragrance conçue pour laisser une impression mémorable.`}
+              {product.details || `Ceci est une description détaillée du produit. Elle met en avant les qualités uniques de ${product.nom}, ses notes olfactives, et les émotions qu'il évoque. Une fragrance conçue pour laisser une impression mémorable.`}
             </p>
           </div>
 

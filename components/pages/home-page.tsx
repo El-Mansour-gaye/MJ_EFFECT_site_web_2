@@ -1,9 +1,10 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { PRODUCTS, BLOG_ARTICLES } from "@/lib/data"
+import { BLOG_ARTICLES } from "@/lib/data"
+import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
@@ -18,7 +19,7 @@ function ProductCarousel({
 }: {
   title: string
   titleBold: string
-  products: typeof PRODUCTS
+  products: Product[]
 }) {
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -69,9 +70,32 @@ function ProductCarousel({
 }
 
 export function HomePage() {
-  const bestSellers = PRODUCTS.filter((p) => p.tag === "Best Seller")
-  const newArrivals = PRODUCTS.filter((p) => p.tag === "New")
-  const coffrets = PRODUCTS.filter((p) => p.tag === "Coffret")
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await fetch('/api/home-collections')
+        if (!response.ok) throw new Error('Impossible de charger les collections.')
+        const data: Product[] = await response.json()
+        setProducts(data)
+      } catch (err) {
+        setError((err as Error).message)
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchCollections()
+  }, [])
+
+  const bestSellers = products.filter((p) => p.is_best_seller)
+  const newArrivals = products.filter((p) => p.is_new_arrival)
+  const coffrets = products.filter((p) => p.is_set_or_pack)
 
   return (
     <div>
@@ -113,14 +137,21 @@ export function HomePage() {
               <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
             </h2>
 
-            {/* Carousel 1: Best Sellers */}
-            <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
-
-            {/* Carousel 2: New Arrivals */}
-            <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
-
-            {/* Carousel 3: Gift Sets */}
-            <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+            {isLoading && <p className="text-center">Chargement des collections...</p>}
+            {error && <p className="text-center text-red-500">Erreur: {error}</p>}
+            {!isLoading && !error && (
+              <>
+                {bestSellers.length > 0 && (
+                  <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+                )}
+                {newArrivals.length > 0 && (
+                  <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+                )}
+                {coffrets.length > 0 && (
+                  <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+                )}
+              </>
+            )}
           </div>
         </section>
       </AnimatedSection>
@@ -129,12 +160,6 @@ export function HomePage() {
       <AnimatedSection>
         <ParallaxCategories />
       </AnimatedSection>
-
-      {/* Product Demos Section */}
-      <AnimatedSection>
-        <ProductDemoCarousel />
-      </AnimatedSection>
-
 
       {/* Actualités du Blog Section */}
       <AnimatedSection>

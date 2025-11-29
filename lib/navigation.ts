@@ -1,11 +1,11 @@
-import { Product, PRODUCTS } from "./data"
+import { Product } from "./types"
 
 export interface MegaMenu {
   subCategories: {
     title: string
     items: { name: string; href: string }[]
   }[]
-  featuredProduct: Product
+  featuredProduct?: Product // Make featuredProduct optional
 }
 
 export interface NavLink {
@@ -43,8 +43,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Lumineux", href: "/collection?category=Parfums&subCategory=Lumineux" },
           ],
         },
-      ],
-      featuredProduct: PRODUCTS.find((p) => p.id === 2) || PRODUCTS[0],
+      ]
     },
   },
   {
@@ -61,8 +60,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Soins du Visage", href: "/collection?category=Soins%20Corporels&subCategory=Visage" },
           ],
         },
-      ],
-      featuredProduct: PRODUCTS.find((p) => p.id === 10) || PRODUCTS[0],
+      ]
     },
   },
   {
@@ -77,8 +75,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Ensembles", href: "/collection?category=Gommages%20et%20Gels%20Douche&subCategory=Ensemble" },
           ],
         },
-      ],
-      featuredProduct: PRODUCTS.find((p) => p.id === 18) || PRODUCTS[0],
+      ]
     },
   },
   {
@@ -90,8 +87,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
           title: "Nos Ensembles",
           items: [{ name: "Tous les coffrets", href: "/collection?category=Coffrets" }],
         },
-      ],
-      featuredProduct: PRODUCTS.find((p) => p.id === 24) || PRODUCTS[0],
+      ]
     },
   },
   {
