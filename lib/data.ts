@@ -515,8 +515,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/tree hut Tropic Glow_1.PNG", // Assumed path for completion
-    images: ["/tree hut Tropic Glow_1.PNG", "/tree hut Tropic Glow_2.PNG"], // Assumed path for completion
+    image: "/tree hut tropic glow_1.PNG",
+    images: ["/tree hut tropic glow_1.PNG", "/tree hut tropic glow_2.PNG"],
   },
 
   // COFFRETS / ENSEMBLES (Mis à jour avec les chemins d'images corrects)
