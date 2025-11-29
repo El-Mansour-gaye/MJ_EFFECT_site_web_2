@@ -5,6 +5,7 @@ export interface Product {
   category: string
   subCategory: string
   image: string
+  images: string[]
   tag?: string
   details?: string
 }
@@ -306,11 +307,22 @@ export const PRODUCTS: Product[] = [
   // Parfums
   {
     id: 1,
-    name: "Champagne Toast (Numéro 1 & 2)",
+    name: "Champagne Toast (Numéro 1)",
     price: 15000,
     category: "Parfums",
     subCategory: "Pétillant",
-    image: "/luxury-champagne-perfume-bottle-gold.jpg",
+    image: "/1-champagne toast.PNG",
+    images: ["/1-champagne toast.PNG"],
+    details: "Parfum pétillant, sucré et ultra girly.",
+  },
+  {
+    id: 29,
+    name: "Champagne Toast (Numéro 2)",
+    price: 15000,
+    category: "Parfums",
+    subCategory: "Pétillant",
+    image: "/champagne toast.PNG",
+    images: ["/champagne toast.PNG"],
     details: "Parfum pétillant, sucré et ultra girly.",
   },
   {
@@ -319,7 +331,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Sensuel",
-    image: "/luxury-dark-night-perfume-bottle.jpg",
+    image: "/into the night.PNG",
+    images: ["/into the night.PNG"],
     details: "Senteur sombre, sensuelle et élégante.",
     tag: "Best Seller",
   },
@@ -329,7 +342,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Floral",
-    image: "/luxury-cherry-blossom-perfume-pink.jpg",
+    image: "/cactus blossom.PNG",
+    images: ["/cactus blossom.PNG"],
     details: "Frais, floral et légèrement fruité.",
   },
   {
@@ -338,7 +352,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Mystérieux",
-    image: "/luxury-dark-kiss-perfume-bottle.jpg",
+    image: "/dark kiss.PNG",
+    images: ["/dark kiss.PNG"],
     details: "Mystérieux, sucré, sexy. Mûres, vanille noire...",
   },
   {
@@ -347,7 +362,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Frais",
-    image: "/luxury-bergamot-musk-perfume-bottle.jpg",
+    image: "/berganot et musk.PNG",
+    images: ["/berganot et musk.PNG"],
     details: "Odeur propre, douce et classy.",
   },
   {
@@ -356,7 +372,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Chic",
-    image: "/luxury-touch-of-gold-perfume-bottle.jpg",
+    image: "/touch of gold.PNG",
+    images: ["/touch of gold.PNG"],
     details: "Parfum chic, élégant, sophistiqué.",
   },
   {
@@ -365,7 +382,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Lumineux",
-    image: "/luxury-in-the-stars-perfume-bottle.jpg",
+    image: "/in the stars.PNG",
+    images: ["/in the stars.PNG"],
     details: "Lumineux, chaleureux, légèrement sucré.",
   },
   {
@@ -374,7 +392,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Boisé",
-    image: "/luxury-masculine-wood-perfume-bottle.jpg",
+    image: "/mohogany taekwood intense.PNG",
+    images: ["/mohogany taekwood intense.PNG"],
     details: 'Style parfum "homme luxe". Bois de cèdre...',
   },
   {
@@ -383,7 +402,8 @@ export const PRODUCTS: Product[] = [
     price: 15000,
     category: "Parfums",
     subCategory: "Doux",
-    image: "/luxury-pink-sparkling-perfume-bottle.jpg",
+    image: "/a thousand wishes.PNG",
+    images: ["/a thousand wishes.PNG"],
     details: "Parfum doux, sucré, très féminin.",
     tag: "Best Seller",
   },
@@ -395,7 +415,8 @@ export const PRODUCTS: Product[] = [
     price: 12000,
     category: "Soins Corporels",
     subCategory: "Crème",
-    image: "/luxury-body-butter-cream-jar-gold.jpg",
+    image: "/into the night - glowtion Body Butter.PNG",
+    images: ["/into the night - glowtion Body Butter.PNG"],
     details: "Hydratation intense + effet glow élégant.",
     tag: "New",
   },
@@ -405,7 +426,8 @@ export const PRODUCTS: Product[] = [
     price: 12000,
     category: "Soins Corporels",
     subCategory: "Crème",
-    image: "/luxury-platinum-body-butter-jar.jpg",
+    image: "/platinum - glowtion Body Butter.PNG",
+    images: ["/platinum - glowtion Body Butter.PNG"],
     details: "Texture riche et fondante qui laisse la peau...",
   },
   {
@@ -414,7 +436,8 @@ export const PRODUCTS: Product[] = [
     price: 12000,
     category: "Soins Corporels",
     subCategory: "Crème",
-    image: "/luxury-champagne-body-butter-jar.jpg",
+    image: "/champagne toast body butter.PNG",
+    images: ["/champagne toast body butter.PNG"],
     details: "Ultra crémeux, fond sur la peau et donne...",
   },
   {
@@ -423,7 +446,8 @@ export const PRODUCTS: Product[] = [
     price: 11000,
     category: "Soins Corporels",
     subCategory: "Lait",
-    image: "/luxury-dr-teals-body-lotion.jpg",
+    image: "/Laite de Corps Dr Teals -12000.PNG",
+    images: ["/Laite de Corps Dr Teals -12000.PNG"],
   },
   {
     id: 14,
@@ -431,7 +455,8 @@ export const PRODUCTS: Product[] = [
     price: 9000,
     category: "Soins Corporels",
     subCategory: "Gel Douche",
-    image: "/luxury-dr-teals-body-wash.jpg",
+    image: "/Body wash Dr teals - 11000.PNG",
+    images: ["/Body wash Dr teals - 11000.PNG"],
   },
   {
     id: 15,
@@ -439,7 +464,8 @@ export const PRODUCTS: Product[] = [
     price: 13000,
     category: "Soins Corporels",
     subCategory: "Visage",
-    image: "/luxury-advanced-colonels-face-cream.jpg",
+    image: "/advanced clinicals - 13000 - creme de visage a lavitamine c.PNG",
+    images: ["/advanced clinicals - 13000 - creme de visage a lavitamine c.PNG"],
     details: "Crème de visage à la vitamine C",
   },
   {
@@ -448,7 +474,8 @@ export const PRODUCTS: Product[] = [
     price: 14000,
     category: "Soins Corporels",
     subCategory: "Lait",
-    image: "/luxury-advanced-colonels-body-lotion.jpg",
+    image: "/advanced clinical - 14000 - Lait de corps à la vitamine C.PNG",
+    images: ["/advanced clinical - 14000 - Lait de corps à la vitamine C.PNG"],
     details: "Lait de corps à la vitamine C",
   },
 
@@ -460,6 +487,7 @@ export const PRODUCTS: Product[] = [
     category: "Gommages et Gels Douche",
     subCategory: "Gommage",
     image: "/luxury-body-scrub-general.jpg",
+    images: ["/luxury-body-scrub-general.jpg"],
   },
   {
     id: 18,
@@ -467,7 +495,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/luxury-moroccan-rose-scrub-wash.jpg",
+    image: "/tree hut maroccan rose.PNG",
+    images: ["/tree hut maroccan rose.PNG", "/tree hut - maroccan rose_2.PNG"],
     tag: "New",
   },
   {
@@ -476,7 +505,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/luxury-vanilla-scrub-wash.jpg",
+    image: "/tree hut Vanilla_1.PNG",
+    images: ["/tree hut Vanilla_1.PNG", "/tree hut Vanilla_2.PNG"],
   },
   {
     id: 20,
@@ -484,7 +514,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/luxury-tropic-glow-scrub-wash.jpg",
+    image: "/tree hut tropic glow_1.PNG",
+    images: ["/tree hut tropic glow_1.PNG", "/tree hut tropic glow_2.PNG"],
   },
   {
     id: 21,
@@ -492,7 +523,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/luxury-sweet-punkin-scrub-wash.jpg",
+    image: "/tree hut sweet punkin_1.PNG",
+    images: ["/tree hut sweet punkin_1.PNG", "/tree hut sweet punkin_2.PNG"],
   },
   {
     id: 22,
@@ -500,7 +532,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/luxury-vitamin-c-scrub-wash.jpg",
+    image: "/tree hut vitamin c_1.PNG",
+    images: ["/tree hut vitamin c_1.PNG", "/tree hut vitamin c_2.PNG"],
   },
 
   // Coffrets / Ensembles
@@ -510,7 +543,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-champagne-gift-set-box.jpg",
+    image: "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
+    images: ["/Set #1 Champagne Toast (gel + brume + creme)_1.PNG", "/Set #1 Champagne Toast (gel + brume + creme)_2.PNG", "/Set #1 Champagne Toast (gel + brume + creme)_3.PNG"],
     details: "(gel + brume...)",
     tag: "Coffret",
   },
@@ -520,7 +554,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-gift-set-perfume-box.jpg",
+    image: "/SET #2 – Into The Night_1.PNG",
+    images: ["/SET #2 – Into The Night_1.PNG", "/SET #2 – Into The Night_2.PNG", "/SET #2 – Into The Night_3.PNG"],
     details: "Ambiance : chic, sensuel, soirée, longue tenue.",
   },
   {
@@ -529,7 +564,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-a-thousand-wishes-gift-set.jpg",
+    image: "/SET #3 A Thousand Wishes_1.PNG",
+    images: ["/SET #3 A Thousand Wishes_1.PNG", "/SET #3 A Thousand Wishes_2.PNG", "/SET #3 A Thousand Wishes_3.PNG"],
   },
   {
     id: 26,
@@ -537,7 +573,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-youre-the-one-gift-set.jpg",
+    image: "/SET #4 – You’re The One_1.PNG",
+    images: ["/SET #4 – You’re The One_1.PNG", "/SET #4 – You’re The One_2.PNG", "/SET #4 – You’re The One_3.PNG"],
     details: "Ambiance : romantique, classe, puissance.",
   },
   {
@@ -546,7 +583,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-touch-of-gold-gift-set.jpg",
+    image: "/Set #5 Touch of Gold_1.PNG",
+    images: ["/Set #5 Touch of Gold_1.PNG", "/Set #5 Touch of Gold_2.PNG", "/Set #5 Touch of Gold_3.PNG"],
     details: "Notes olfactives : musc chaud, vanille lumineuse...",
   },
   {
@@ -555,7 +593,8 @@ export const PRODUCTS: Product[] = [
     price: 32000,
     category: "Coffrets",
     subCategory: "Parfum",
-    image: "/luxury-warm-vanilla-sugar-gift-set.jpg",
+    image: "/Set #6 Warm Vanilla Sugar_1.PNG",
+    images: ["/Set #6 Warm Vanilla Sugar_1.PNG", "/Set #6 Warm Vanilla Sugar_2.PNG", "/set #6 Warm Vanilla Sugar_3.PNG"],
     details: "Vanille chaude • Caramel blond • Sucre doux...",
   },
 ]
