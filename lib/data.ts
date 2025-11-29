@@ -303,6 +303,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     `,
   },
 ]
+
 export const PRODUCTS: Product[] = [
   // Parfums
   {
@@ -514,87 +515,99 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/tree hut tropic glow_1.PNG",
-    images: ["/tree hut tropic glow_1.PNG", "/tree hut tropic glow_2.PNG"],
+    image: "/tree hut Tropic Glow_1.PNG", // Assumed path for completion
+    images: ["/tree hut Tropic Glow_1.PNG", "/tree hut Tropic Glow_2.PNG"], // Assumed path for completion
   },
+
+  // COFFRETS / ENSEMBLES (Mis à jour avec les chemins d'images corrects)
   {
     id: 21,
-    name: "Sweet Punkin Gommage et gel de douche",
-    price: 18000,
-    category: "Gommages et Gels Douche",
-    subCategory: "Ensemble",
-    image: "/tree hut sweet punkin_1.PNG",
-    images: ["/tree hut sweet punkin_1.PNG", "/tree hut sweet punkin_2.PNG"],
+    name: "SET #1 Champagne Toast",
+    price: 32000,
+    category: "Coffrets / Ensembles",
+    subCategory: "Gourmand & Sucré",
+    tag: "Coffret Cadeau",
+    image: "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
+    images: [
+        "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
+        "/Set #1 Champagne Toast (gel + brume + creme)_2.PNG",
+        "/Set #1 Champagne Toast (gel + brume + creme)_3.PNG"
+    ],
+    details: "Ensemble de layering complet : gel, brume et crème.",
   },
   {
     id: 22,
-    name: "Vitamin C Gommage et gel de douche",
-    price: 18000,
-    category: "Gommages et Gels Douche",
-    subCategory: "Ensemble",
-    image: "/tree hut vitamin c_1.PNG",
-    images: ["/tree hut vitamin c_1.PNG", "/tree hut vitamin c_2.PNG"],
+    name: "SET #2 Into The Night",
+    price: 32000,
+    category: "Coffrets / Ensembles",
+    subCategory: "Sensuel & Nuit",
+    tag: "Best Seller",
+    image: "/SET #2 – Into The Night_1.PNG",
+    images: [
+        "/SET #2 – Into The Night_1.PNG",
+        "/SET #2 – Into The Night_2.PNG",
+        "/SET #2 – Into The Night_3.PNG"
+    ],
+    details: "Le set sensuel Best-Seller. Parfait pour le layering.",
   },
-
-  // Coffrets / Ensembles
   {
     id: 23,
-    name: "SET #1 Champagne Toast",
+    name: "SET #3 A Thousand Wishes",
     price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
-    image: "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
-    images: ["/Set #1 Champagne Toast (gel + brume + creme)_1.PNG", "/Set #1 Champagne Toast (gel + brume + creme)_2.PNG", "/Set #1 Champagne Toast (gel + brume + creme)_3.PNG"],
-    details: "(gel + brume...)",
-    tag: "Coffret",
+    category: "Coffrets / Ensembles",
+    subCategory: "Doux & Pétillant",
+    tag: "Coffret Cadeau",
+    image: "/SET #3 A Thousand Wishes_1.PNG",
+    images: [
+        "/SET #3 A Thousand Wishes_1.PNG",
+        "/SET #3 A Thousand Wishes_2.PNG",
+        "/SET #3 A Thousand Wishes_3.PNG"
+    ],
+    details: "Un coffret autour de la fragrance douce et sucrée.",
   },
   {
     id: 24,
-    name: "SET #2 Into The Night",
+    name: "SET #4 You're The One",
     price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
-    image: "/SET #2 – Into The Night_1.PNG",
-    images: ["/SET #2 – Into The Night_1.PNG", "/SET #2 – Into The Night_2.PNG", "/SET #2 – Into The Night_3.PNG"],
-    details: "Ambiance : chic, sensuel, soirée, longue tenue.",
+    category: "Coffrets / Ensembles",
+    subCategory: "Romantique & Floral",
+    tag: "New",
+    image: "/SET #4 – You're The One_1.PNG",
+    images: [
+        "/SET #4 – You're The One_1.PNG",
+        "/SET #4 – You're The One_2.PNG",
+        "/SET #4 – You're The One_3.PNG"
+    ],
+    details: "Set floral et romantique, idéal pour les cadeaux.",
   },
   {
     id: 25,
-    name: "SET #3 A Thousand Wishes",
+    name: "SET #5 Touch of Gold",
     price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
-    image: "/SET #3 A Thousand Wishes_1.PNG",
-    images: ["/SET #3 A Thousand Wishes_1.PNG", "/SET #3 A Thousand Wishes_2.PNG", "/SET #3 A Thousand Wishes_3.PNG"],
+    category: "Coffrets / Ensembles",
+    subCategory: "Chic & Sophistiqué",
+    tag: "Coffret Cadeau",
+    image: "/Set #5 Touch of Gold_1.PNG",
+    images: [
+        "/Set #5 Touch of Gold_1.PNG",
+        "/Set #5 Touch of Gold_2.PNG",
+        "/Set #5 Touch of Gold_3.PNG"
+    ],
+    details: "Un set autour de la senteur chic et sophistiquée.",
   },
   {
     id: 26,
-    name: "SET #4 You're The One",
-    price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
-    image: "/SET #4 – You’re The One_1.PNG",
-    images: ["/SET #4 – You’re The One_1.PNG", "/SET #4 – You’re The One_2.PNG", "/SET #4 – You’re The One_3.PNG"],
-    details: "Ambiance : romantique, classe, puissance.",
-  },
-  {
-    id: 27,
-    name: "SET #5 Touch of Gold",
-    price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
-    image: "/Set #5 Touch of Gold_1.PNG",
-    images: ["/Set #5 Touch of Gold_1.PNG", "/Set #5 Touch of Gold_2.PNG", "/Set #5 Touch of Gold_3.PNG"],
-    details: "Notes olfactives : musc chaud, vanille lumineuse...",
-  },
-  {
-    id: 28,
     name: "SET #6 Warm Vanilla Sugar",
     price: 32000,
-    category: "Coffrets",
-    subCategory: "Parfum",
+    category: "Coffrets / Ensembles",
+    subCategory: "Gourmand & Doux",
+    tag: "Coffret Cadeau",
     image: "/Set #6 Warm Vanilla Sugar_1.PNG",
-    images: ["/Set #6 Warm Vanilla Sugar_1.PNG", "/Set #6 Warm Vanilla Sugar_2.PNG", "/set #6 Warm Vanilla Sugar_3.PNG"],
-    details: "Vanille chaude • Caramel blond • Sucre doux...",
+    images: [
+        "/Set #6 Warm Vanilla Sugar_1.PNG",
+        "/Set #6 Warm Vanilla Sugar_2.PNG",
+        "/set #6 Warm Vanilla Sugar_3.PNG"
+    ],
+    details: "Le coffret réconfortant à la vanille chaude.",
   },
 ]
