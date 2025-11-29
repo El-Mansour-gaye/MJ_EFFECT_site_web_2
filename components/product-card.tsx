@@ -4,6 +4,7 @@ import { ShoppingBag, Heart } from "lucide-react"
 import { toast } from "sonner"
 import { useCartStore } from "@/lib/store/cart"
 import type { Product } from "@/lib/data"
+import { encodeImagePath } from "@/lib/utils"
 
 interface ProductCardProps {
   product: Product
@@ -27,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
     <div className="group transition-all duration-300 hover:scale-105 hover:shadow-lg">
       <div className="relative aspect-[3/4] overflow-hidden bg-black/5 mb-4">
         <img
-          src={product.image || "/placeholder.svg"}
+          src={encodeImagePath(product.image || "/placeholder.svg")}
           alt={product.name}
           className="w-full h-full object-cover"
         />

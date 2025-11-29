@@ -4,6 +4,7 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Product } from "@/lib/data"
 import useEmblaCarousel from "embla-carousel-react"
 import { useState, useCallback, useEffect } from "react"
+import { encodeImagePath } from "@/lib/utils"
 
 interface ProductModalProps {
   product: Product
@@ -50,7 +51,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               {product.images.map((imgSrc, index) => (
                 <div className="flex-grow-0 flex-shrink-0 w-full" key={index}>
                   <img
-                    src={imgSrc}
+                    src={encodeImagePath(imgSrc)}
                     alt={`${product.name} image ${index + 1}`}
                     className="w-full h-64 md:h-full object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none"
                   />
