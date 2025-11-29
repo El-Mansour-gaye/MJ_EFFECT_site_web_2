@@ -25,7 +25,7 @@ const StatCards = () => {
       }
 
       try {
-        const response = await fetch('/api/admin/stats', {
+        const response = await fetch('/api/admin/dashboard', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
