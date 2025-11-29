@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function LegalNoticePage() {
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12 max-w-6xl">
       <h1 className="text-4xl font-serif font-bold text-center mb-8">Mentions Légales</h1>
       <div className="max-w-3xl mx-auto text-gray-700 leading-relaxed">
         <h2 className="text-2xl font-semibold mb-4">Éditeur du site</h2>
