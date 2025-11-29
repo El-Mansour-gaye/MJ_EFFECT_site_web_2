@@ -487,8 +487,8 @@ export const PRODUCTS: Product[] = [
     price: 10000,
     category: "Gommages et Gels Douche",
     subCategory: "Gommage",
-    image: "/luxury-body-scrub-general.jpg",
-    images: ["/luxury-body-scrub-general.jpg"],
+    image: "/glowing-skin-scrub-senegal.jfif",
+    images: ["/glowing-skin-scrub-senegal.jfif"],
   },
   {
     id: 18,
@@ -515,8 +515,8 @@ export const PRODUCTS: Product[] = [
     price: 18000,
     category: "Gommages et Gels Douche",
     subCategory: "Ensemble",
-    image: "/tree hut Tropic Glow_1.PNG", // Assumed path for completion
-    images: ["/tree hut Tropic Glow_1.PNG", "/tree hut Tropic Glow_2.PNG"], // Assumed path for completion
+    image: "/tree hut tropic glow_1.PNG",
+    images: ["/tree hut tropic glow_1.PNG", "/tree hut tropic glow_2.PNG"],
   },
 
   // COFFRETS / ENSEMBLES (Mis à jour avec les chemins d'images corrects)
@@ -527,11 +527,11 @@ export const PRODUCTS: Product[] = [
     category: "Coffrets / Ensembles",
     subCategory: "Gourmand & Sucré",
     tag: "Coffret Cadeau",
-    image: "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
+    image: "/set-1-champagne-toast-1.PNG",
     images: [
-        "/Set #1 Champagne Toast (gel + brume + creme)_1.PNG",
-        "/Set #1 Champagne Toast (gel + brume + creme)_2.PNG",
-        "/Set #1 Champagne Toast (gel + brume + creme)_3.PNG"
+        "/set-1-champagne-toast-1.PNG",
+        "/set-1-champagne-toast-2.PNG",
+        "/set-1-champagne-toast-3.PNG"
     ],
     details: "Ensemble de layering complet : gel, brume et crème.",
   },
@@ -557,11 +557,11 @@ export const PRODUCTS: Product[] = [
     category: "Coffrets / Ensembles",
     subCategory: "Doux & Pétillant",
     tag: "Coffret Cadeau",
-    image: "/SET #3 A Thousand Wishes_1.PNG",
+    image: "/set-3-a-thousand-wishes-1.PNG",
     images: [
-        "/SET #3 A Thousand Wishes_1.PNG",
-        "/SET #3 A Thousand Wishes_2.PNG",
-        "/SET #3 A Thousand Wishes_3.PNG"
+        "/set-3-a-thousand-wishes-1.PNG",
+        "/set-3-a-thousand-wishes-2.PNG",
+        "/set-3-a-thousand-wishes-3.PNG"
     ],
     details: "Un coffret autour de la fragrance douce et sucrée.",
   },
@@ -572,11 +572,11 @@ export const PRODUCTS: Product[] = [
     category: "Coffrets / Ensembles",
     subCategory: "Romantique & Floral",
     tag: "New",
-    image: "/SET #4 – You're The One_1.PNG",
+    image: "/SET #4 – You’re The One_1.PNG",
     images: [
-        "/SET #4 – You're The One_1.PNG",
-        "/SET #4 – You're The One_2.PNG",
-        "/SET #4 – You're The One_3.PNG"
+        "/SET #4 – You’re The One_1.PNG",
+        "/SET #4 – You’re The One_2.PNG",
+        "/SET #4 – You’re The One_3.PNG"
     ],
     details: "Set floral et romantique, idéal pour les cadeaux.",
   },
@@ -587,11 +587,11 @@ export const PRODUCTS: Product[] = [
     category: "Coffrets / Ensembles",
     subCategory: "Chic & Sophistiqué",
     tag: "Coffret Cadeau",
-    image: "/Set #5 Touch of Gold_1.PNG",
+    image: "/set-5-touch-of-gold-1.PNG",
     images: [
-        "/Set #5 Touch of Gold_1.PNG",
-        "/Set #5 Touch of Gold_2.PNG",
-        "/Set #5 Touch of Gold_3.PNG"
+        "/set-5-touch-of-gold-1.PNG",
+        "/set-5-touch-of-gold-2.PNG",
+        "/set-5-touch-of-gold-3.PNG"
     ],
     details: "Un set autour de la senteur chic et sophistiquée.",
   },
@@ -602,11 +602,11 @@ export const PRODUCTS: Product[] = [
     category: "Coffrets / Ensembles",
     subCategory: "Gourmand & Doux",
     tag: "Coffret Cadeau",
-    image: "/Set #6 Warm Vanilla Sugar_1.PNG",
+    image: "/set-6-warm-vanilla-sugar-1.PNG",
     images: [
-        "/Set #6 Warm Vanilla Sugar_1.PNG",
-        "/Set #6 Warm Vanilla Sugar_2.PNG",
-        "/set #6 Warm Vanilla Sugar_3.PNG"
+        "/set-6-warm-vanilla-sugar-1.PNG",
+        "/set-6-warm-vanilla-sugar-2.PNG",
+        "/set-6-warm-vanilla-sugar-3.PNG"
     ],
     details: "Le coffret réconfortant à la vanille chaude.",
   },
