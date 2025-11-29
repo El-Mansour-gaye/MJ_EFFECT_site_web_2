@@ -84,7 +84,7 @@ export function HomePage() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('/elegant-woman-luxury-perfume-gold-atmosphere.jpg')",
+            backgroundImage: "url('/image-banniere.png')",
           }}
         >
           <div className="absolute inset-0 bg-black/40" />

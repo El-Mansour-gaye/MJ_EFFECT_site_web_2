@@ -6,23 +6,23 @@ import Link from "next/link"
 const categories = [
   {
     name: "Parfums & Brumes",
-    href: "/collection",
-    imageUrl: "/circular-perfumes-brumes-category.jpg",
+    href: "/collection?category=Parfums",
+    imageUrl: "/into the night.PNG",
   },
   {
     name: "Soins Corporels",
-    href: "/collection",
-    imageUrl: "/circular-soins-corporels-category.jpg",
+    href: "/collection?category=Soins Corporels",
+    imageUrl: "/Laite de Corps Dr Teals -12000.PNG",
   },
   {
     name: "Gommages & Gels Douche",
-    href: "/collection",
-    imageUrl: "/circular-gommages-gels-category.jpg",
+    href: "/collection?category=Gommages et Gels Douche",
+    imageUrl: "/tree hut maroccan rose.PNG",
   },
   {
     name: "Coffrets & Ensembles",
-    href: "/collection",
-    imageUrl: "/circular-coffrets-ensembles-category.jpg",
+    href: "/collection?category=Coffrets",
+    imageUrl: "/image-illustrative-coffret-ou-set.png",
   },
 ]
 
@@ -34,7 +34,7 @@ export function ParallaxCategories() {
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: "url('/evening-beauty-ritual-candles-luxury.jpg')",
+          backgroundImage: "url('/image-section-parallaxe.png')",
         }}
       />
       <div className="absolute inset-0 z-1 bg-black/50" />

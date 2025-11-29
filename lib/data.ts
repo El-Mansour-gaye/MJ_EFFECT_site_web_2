@@ -29,7 +29,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "27 Novembre 2025",
     readTime: "5 min",
     category: "Conseils Beauté",
-    image: "/blog/perfume-long-lasting-dakar.jpg",
+    image: "/perfume-long-lasting-dakar.png",
     content: `
       <p><strong>(Mots-clés SEO : parfum longue tenue Dakar, brume corporelle chaleur, fixateur parfum Sénégal)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -71,7 +71,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "26 Novembre 2025",
     readTime: "4 min",
     category: "Soins Corporels",
-    image: "/blog/body-butter-vs-lotion-senegal.jpg",
+    image: "/body-butter-vs-lotion-senegal.png",
     content: `
       <p><strong>(Mots-clés SEO : Body Butter Dakar, meilleur lait corps peau sèche Sénégal, hydratation intense Afrique)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -135,7 +135,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "25 Novembre 2025",
     readTime: "4 min",
     category: "Soins",
-    image: "/blog/glowing-skin-scrub-senegal.jpg",
+    image: "/glowing-skin-scrub-senegal.jfif",
     content: `
       <p><strong>(Mots-clés SEO : gommage corps Sénégal, peau éclatante Dakar, gommage Moroccan Rose prix, routine soin avant hydratation)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -178,7 +178,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "24 Novembre 2025",
     readTime: "4 min",
     category: "Produits",
-    image: "/blog/into-the-night-perfume-review-dakar.jpg",
+    image: "/into-the-night-perfume-review-dakar.png",
     content: `
       <p><strong>(Mots-clés SEO : Into The Night prix FCFA, parfum sensuel femme Dakar, avis Into The Night, brume Bath and Body Works Sénégal)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -218,7 +218,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "23 Novembre 2025",
     readTime: "4 min",
     category: "Guide d'Achat",
-    image: "/blog/buy-authentic-perfume-dakar.jpg",
+    image: "/buy-authentic-perfume-dakar.png",
     content: `
       <p><strong>(Mots-clés SEO : parfum pas cher Dakar, boutique parfum fiable Sénégal, prix brumes FCFA, meilleur magasin parfum Dakar)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -258,7 +258,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "22 Novembre 2025",
     readTime: "5 min",
     category: "Cadeaux",
-    image: "/blog/gift-sets-korite-tabaski-dakar.jpg",
+    image: "/gift-sets-korite-tabaski-dakar.png",
     content: `
       <p><strong>(Mots-clés SEO : idée cadeau femme Tabaski, coffret parfum Korité, cadeau luxe prix abordable Dakar, set parfum 32000 FCFA)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
