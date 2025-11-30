@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import Link from "next/link"
+import { encodeImagePath } from "@/lib/utils"
 
 const categories = [
   {
@@ -52,7 +53,7 @@ export function ParallaxCategories() {
             <Link href={category.href} key={category.name} className="group text-center">
               <div className="relative w-48 h-48 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 mx-auto">
                 <Image
-                  src={category.imageUrl}
+                  src={encodeImagePath(category.imageUrl)}
                   alt={category.name}
                   width={192}
                   height={192}
