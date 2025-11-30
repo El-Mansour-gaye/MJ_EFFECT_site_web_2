@@ -3,12 +3,13 @@
 import { useRef } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { PRODUCTS, BLOG_ARTICLES } from "@/lib/data"
+import { PRODUCTS } from "@/lib/data"
 import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
 import { OlfactiveCollections } from "@/components/olfactive-collections"
-import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver"
+import { AnimatedSection } from "@/components/animated-section"
+import { HomeBlogSection } from "@/components/pages/home-blog-section"
 import { cn } from "@/lib/utils"
 
 function ProductCarousel({
@@ -24,7 +25,7 @@ function ProductCarousel({
 
   const scrollCarousel = (direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = 320
+      const scrollAmount = 280
       carouselRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -59,7 +60,7 @@ function ProductCarousel({
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {products.map((product) => (
-          <div key={product.id} className="flex-shrink-0 w-72">
+          <div key={product.id} className="flex-shrink-0 w-64">
             <ProductCard product={product} />
           </div>
         ))}
@@ -72,10 +73,6 @@ export function HomePage() {
   const bestSellers = PRODUCTS.filter((p) => p.tag === "Best Seller")
   const newArrivals = PRODUCTS.filter((p) => p.tag === "New")
   const coffrets = PRODUCTS.filter((p) => p.tag === "Coffret")
-
-  const [collectionsRef, collectionsVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
-  const [featuredRef, featuredVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
-  const [blogRef, blogVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
 
   return (
     <div>
@@ -106,74 +103,40 @@ export function HomePage() {
       </section>
 
       {/* Olfactive Collections Section */}
-      <OlfactiveCollections />
+      <AnimatedSection>
+        <OlfactiveCollections />
+      </AnimatedSection>
 
-      <section ref={featuredRef} className={cn("py-16 lg:py-24 bg-black/5 transition-all duration-500", featuredVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
-            <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
-          </h2>
+      <AnimatedSection>
+        <section className="py-16 lg:py-24 bg-black/5">
+          <div className="container mx-auto px-4 max-w-6xl">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
+              <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
+            </h2>
 
-          {/* Carousel 1: Best Sellers */}
-          <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+            {/* Carousel 1: Best Sellers */}
+            <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
 
-          {/* Carousel 2: New Arrivals */}
-          <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+            {/* Carousel 2: New Arrivals */}
+            <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
 
-          {/* Carousel 3: Gift Sets */}
-          <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
-        </div>
-      </section>
+            {/* Carousel 3: Gift Sets */}
+            <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+          </div>
+        </section>
+      </AnimatedSection>
 
       {/* Parallax Categories Section */}
-      <ParallaxCategories />
+      <AnimatedSection>
+        <ParallaxCategories />
+      </AnimatedSection>
 
       {/* Product Demos Section */}
-      <ProductDemoCarousel />
+      <AnimatedSection>
+        <ProductDemoCarousel />
+      </AnimatedSection>
 
-
-      {/* Actualités du Blog Section */}
-      <section ref={blogRef} className={cn("py-16 lg:py-24 transition-all duration-500", blogVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10")}>
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
-            <span className="font-normal">Actualités</span> <span className="font-bold">du Blog</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {BLOG_ARTICLES.slice(0, 3).map((article) => {
-              const titleWords = article.title.split(" ")
-              const lastWord = titleWords.pop()
-              const restOfTitle = titleWords.join(" ")
-              return (
-                <Link key={article.id} href={`/blog/${article.id}`} className="group text-left">
-                  <div className="relative aspect-[4/3] overflow-hidden mb-4">
-                    <img
-                      src={article.image || "/placeholder.svg"}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <p className="text-sm text-foreground/60 mb-2">
-                    {article.date} • {article.readTime}
-                  </p>
-                  <h3 className="font-serif text-xl mb-2 group-hover:text-accent transition-colors">
-                    <span className="font-normal">{restOfTitle}</span> <span className="font-bold">{lastWord}</span>
-                  </h3>
-                  <p className="text-sm text-foreground/70 line-clamp-2">{article.excerpt}</p>
-                </Link>
-              )
-            })}
-          </div>
-          <div className="text-center mt-10">
-            <Link
-              href="/blog"
-              className="border border-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              Voir tous les articles
-            </Link>
-          </div>
-        </div>
-      </section>
-
+      <HomeBlogSection />
     </div>
   )
 }

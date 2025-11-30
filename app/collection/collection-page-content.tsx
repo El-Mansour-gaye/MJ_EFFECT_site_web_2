@@ -149,7 +149,7 @@ export default function CollectionPageContent() {
 
   return (
     <div className="py-8 lg:py-12">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-6xl">
         <div className="text-center mb-12">
           <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
             <span className="font-normal">Notre</span> <span className="font-bold">Collection</span>
