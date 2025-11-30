@@ -1,9 +1,11 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { PRODUCTS } from "@/lib/data"
+import { BLOG_ARTICLES } from "@/lib/data"
+import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
@@ -19,7 +21,7 @@ function ProductCarousel({
 }: {
   title: string
   titleBold: string
-  products: typeof PRODUCTS
+  products: Product[]
 }) {
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -70,29 +72,44 @@ function ProductCarousel({
 }
 
 export function HomePage() {
-  const bestSellers = PRODUCTS.filter((p) => p.tag === "Best Seller")
-  const newArrivals = PRODUCTS.filter((p) => p.tag === "New")
-  const coffrets = PRODUCTS.filter((p) => p.tag === "Coffret")
+  const [products, setProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchCollections = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await fetch('/api/home-collections')
+        if (!response.ok) throw new Error('Impossible de charger les collections.')
+        const data: Product[] = await response.json()
+        setProducts(data)
+      } catch (err) {
+        setError((err as Error).message)
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchCollections()
+  }, [])
+
+  const bestSellers = products.filter((p) => p.is_best_seller)
+  const newArrivals = products.filter((p) => p.is_new_arrival)
+  const coffrets = products.filter((p) => p.is_set_or_pack)
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] flex items-end justify-center overflow-hidden pb-8">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: "url('/image-banniere.png')",
           }}
-        >
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-6 text-balance">
-            <span className="font-normal">Révélez</span> <span className="font-bold">votre Éclat</span>
-          </h1>
-          <p className="text-md md:text-lg text-white/80 mb-8 max-w-xl mx-auto">
-            Découvrez notre collection exclusive de parfums et soins de luxe
-          </p>
+        />
+        <div className="relative z-10">
           <Link
             href="/collection"
             className="bg-accent text-accent-foreground px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
@@ -114,14 +131,21 @@ export function HomePage() {
               <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
             </h2>
 
-            {/* Carousel 1: Best Sellers */}
-            <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
-
-            {/* Carousel 2: New Arrivals */}
-            <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
-
-            {/* Carousel 3: Gift Sets */}
-            <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+            {isLoading && <p className="text-center">Chargement des collections...</p>}
+            {error && <p className="text-center text-red-500">Erreur: {error}</p>}
+            {!isLoading && !error && (
+              <>
+                {bestSellers.length > 0 && (
+                  <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+                )}
+                {newArrivals.length > 0 && (
+                  <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+                )}
+                {coffrets.length > 0 && (
+                  <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+                )}
+              </>
+            )}
           </div>
         </section>
       </AnimatedSection>
@@ -137,6 +161,49 @@ export function HomePage() {
       </AnimatedSection>
 
       <HomeBlogSection />
+      {/* Actualités du Blog Section */}
+      <AnimatedSection>
+        <section className="py-16 lg:py-24">
+          <div className="container mx-auto px-4">
+            <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
+              <span className="font-normal">Actualités</span> <span className="font-bold">du Blog</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {BLOG_ARTICLES.slice(0, 3).map((article) => {
+              const titleWords = article.title.split(" ")
+              const lastWord = titleWords.pop()
+              const restOfTitle = titleWords.join(" ")
+              return (
+                <Link key={article.id} href={`/blog/${article.id}`} className="group text-left">
+                  <div className="relative aspect-[4/3] overflow-hidden mb-4">
+                    <img
+                      src={article.image || "/placeholder.svg"}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <p className="text-sm text-foreground/60 mb-2">
+                    {article.date} • {article.readTime}
+                  </p>
+                  <h3 className="font-serif text-xl mb-2 group-hover:text-accent transition-colors">
+                    <span className="font-normal">{restOfTitle}</span> <span className="font-bold">{lastWord}</span>
+                  </h3>
+                  <p className="text-sm text-foreground/70 line-clamp-2">{article.excerpt}</p>
+                </Link>
+              )
+            })}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              href="/blog"
+              className="border border-black px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              Voir tous les articles
+            </Link>
+          </div>
+        </div>
+        </section>
+      </AnimatedSection>
     </div>
   )
 }

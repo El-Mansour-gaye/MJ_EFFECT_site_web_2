@@ -1,16 +1,13 @@
-// /app/api/home-collections/route.ts
+// /app/api/products/route.ts
 import { NextResponse } from 'next/server';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 
 export async function GET() {
   const supabase = createSupabaseAdmin();
-
   const { data, error } = await supabase
     .from('produits')
     .select('*')
-    .or('is_best_seller.eq.true,is_new_arrival.eq.true,is_set_or_pack.eq.true')
-    .order('nom', { ascending: true })
-    .limit(12);
+    .order('nom', { ascending: true });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

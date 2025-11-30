@@ -3,12 +3,10 @@
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
-import { PRODUCTS, Product } from "@/lib/data"
+import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
 import { ProductModal } from "@/components/product-modal"
 
-const CATEGORIES = [...new Set(PRODUCTS.map((p) => p.category))]
-const OLFACTIVE_FAMILIES = [...new Set(PRODUCTS.map((p) => p.subCategory))]
 const PRICE_RANGES = ["0 - 15,000 FCFA", "15,000 - 25,000 FCFA", "25,000+ FCFA"]
 
 export default function CollectionPageContent() {
@@ -21,15 +19,42 @@ export default function CollectionPageContent() {
   const [selectedPrices, setSelectedPrices] = useState<string[]>([])
   const [openAccordion, setOpenAccordion] = useState<string | null>("category")
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
+  const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<string[]>([])
+  const [olfactiveFamilies, setOlfactiveFamilies] = useState<string[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [sortOrder, setSortOrder] = useState("price-asc")
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsLoading(true)
+      try {
+        const response = await fetch('/api/products')
+        if (!response.ok) throw new Error('Failed to fetch products')
+        const data: Product[] = await response.json()
+        setProducts(data)
+
+        // Dynamically populate filters
+        setCategories([...new Set(data.map((p) => p.category).filter(Boolean))])
+        setOlfactiveFamilies([...new Set(data.map((p) => p.subCategory).filter(Boolean))])
+
+      } catch (err) {
+        setError((err as Error).message)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchProducts()
+  }, [])
 
   useEffect(() => {
     const categories = initialCategory ? [decodeURIComponent(initialCategory)] : []
     const subCategories = initialSubCategory ? [decodeURIComponent(initialSubCategory)] : []
     setSelectedCategories(categories)
     setSelectedSubCategories(subCategories)
-  }, [initialCategory, initialSubCategory])
+  }, [initialCategory, initialSubCategory, products]) // Depend on products to ensure filters are ready
 
   const handleProductClick = (product: Product) => setSelectedProduct(product)
   const handleCloseModal = () => setSelectedProduct(null)
@@ -38,28 +63,29 @@ export default function CollectionPageContent() {
     setter((prev) => (prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]))
   }
 
-  const filteredProducts = PRODUCTS.filter((product) => {
-    const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(product.category)
-    const subCategoryMatch = selectedSubCategories.length === 0 || selectedSubCategories.includes(product.subCategory)
+  const filteredProducts = products.filter((product) => {
+    const categoryMatch = selectedCategories.length === 0 || (product.category && selectedCategories.includes(product.category))
+    const subCategoryMatch = selectedSubCategories.length === 0 || (product.subCategory && selectedSubCategories.includes(product.subCategory))
     const priceMatch =
       selectedPrices.length === 0 ||
       selectedPrices.some((range) => {
-        if (range === "0 - 15,000 FCFA") return product.price <= 15000
-        if (range === "15,000 - 25,000 FCFA") return product.price > 15000 && product.price <= 25000
-        if (range === "25,000+ FCFA") return product.price > 25000
+        const price = Number(product.prix_fcfa);
+        if (range === "0 - 15,000 FCFA") return price <= 15000
+        if (range === "15,000 - 25,000 FCFA") return price > 15000 && price <= 25000
+        if (range === "25,000+ FCFA") return price > 25000
         return false
       })
     return categoryMatch && subCategoryMatch && priceMatch
   })
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
+    const priceA = Number(a.prix_fcfa);
+    const priceB = Number(b.prix_fcfa);
     switch (sortOrder) {
       case "price-asc":
-        return a.price - b.price
+        return priceA - priceB
       case "price-desc":
-        return b.price - a.price
-      // "popular" and "new" can be implemented if there's data for it
-      // For now, "popular" will be the default order
+        return priceB - priceA
       default:
         return 0
     }
@@ -78,7 +104,7 @@ export default function CollectionPageContent() {
         </button>
         {openAccordion === "category" && (
           <div className="mt-4 space-y-3">
-            {CATEGORIES.map((cat) => (
+            {categories.map((cat) => (
               <label key={cat} className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -104,7 +130,7 @@ export default function CollectionPageContent() {
         </button>
         {openAccordion === "olfactive" && (
           <div className="mt-4 space-y-3">
-            {OLFACTIVE_FAMILIES.map((family) => (
+            {olfactiveFamilies.map((family) => (
               <label key={family} className="flex items-center gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -200,13 +226,17 @@ export default function CollectionPageContent() {
                 <option value="price-desc">Prix: Décroissant</option>
               </select>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedProducts.map((product) => (
-                <div key={product.id} onClick={() => handleProductClick(product)} className="cursor-pointer">
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
+            {isLoading && <p>Chargement des produits...</p>}
+            {error && <p className="text-red-500">Erreur: {error}</p>}
+            {!isLoading && !error && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sortedProducts.map((product) => (
+                  <div key={product.id} onClick={() => handleProductClick(product)} className="cursor-pointer">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

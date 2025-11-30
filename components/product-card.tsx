@@ -3,7 +3,7 @@
 import { ShoppingBag, Heart } from "lucide-react"
 import { toast } from "sonner"
 import { useCartStore } from "@/lib/store/cart"
-import type { Product } from "@/lib/data"
+import type { Product } from "@/lib/types"
 import { encodeImagePath } from "@/lib/utils"
 
 interface ProductCardProps {
@@ -16,12 +16,12 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation() // Prevent the modal from opening
     addToCart({
-      produit_id: product.id.toString(),
-      nom: product.name,
-      prix_fcfa: product.price,
+      produit_id: product.id,
+      nom: product.nom,
+      prix_fcfa: product.prix_fcfa,
       quantite: 1,
     })
-    toast.success(`${product.name} a été ajouté au panier!`)
+    toast.success(`${product.nom} a été ajouté au panier!`)
   }
 
   return (
@@ -29,13 +29,13 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-[3/4] overflow-hidden bg-black/5">
         <img
           src={encodeImagePath(product.image || "/placeholder.svg")}
-          alt={product.name}
+          alt={product.nom}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <h3 className="font-serif text-xl mb-2">{product.name}</h3>
-          <p className="font-medium text-lg">{product.price.toLocaleString()} FCFA</p>
+          <h3 className="font-serif text-xl mb-2">{product.nom}</h3>
+          <p className="font-medium text-lg">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
         </div>
         {product.tag && (
           <span
@@ -65,8 +65,8 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
       <div className="pt-4 text-center">
         <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
-        <h3 className="font-serif text-lg mb-2">{product.name}</h3>
-        <p className="font-medium">{product.price.toLocaleString()} FCFA</p>
+        <h3 className="font-serif text-lg mb-2">{product.nom}</h3>
+        <p className="font-medium">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
       </div>
     </div>
   )

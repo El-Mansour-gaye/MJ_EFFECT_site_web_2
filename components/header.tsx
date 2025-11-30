@@ -101,16 +101,6 @@ function HeaderContent() {
                           </ul>
                         </div>
                       ))}
-                      <div className="bg-black/5 p-4">
-                        <p className="text-xs uppercase tracking-widest text-accent mb-2">Produit Vedette</p>
-                        <img
-                          src={link.megaMenu.featuredProduct.image}
-                          alt={link.megaMenu.featuredProduct.name}
-                          className="w-full h-32 object-cover mb-2"
-                        />
-                        <p className="font-serif">{link.megaMenu.featuredProduct.name}</p>
-                        <p className="text-sm text-black/70">{link.megaMenu.featuredProduct.price.toLocaleString()} FCFA</p>
-                      </div>
                     </div>
                   </div>
                 )}
