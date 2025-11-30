@@ -101,22 +101,14 @@ export function HomePage() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[60vh] flex items-end justify-center overflow-hidden pb-8">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage: "url('/image-banniere.png')",
           }}
-        >
-          <div className="absolute inset-0 bg-black/40" />
-        </div>
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl mb-6 text-balance">
-            <span className="font-normal">Révélez</span> <span className="font-bold">votre Éclat</span>
-          </h1>
-          <p className="text-md md:text-lg text-white/80 mb-8 max-w-xl mx-auto">
-            Découvrez notre collection exclusive de parfums et soins de luxe
-          </p>
+        />
+        <div className="relative z-10">
           <Link
             href="/collection"
             className="bg-accent text-accent-foreground px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
