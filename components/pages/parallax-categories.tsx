@@ -35,7 +35,7 @@ const categories = [
 export function ParallaxCategories() {
   return (
     <section
-      className="relative w-full h-[50vh] overflow-hidden grid place-items-center"
+      className="relative w-full h-[50vh] grid place-items-center"
     >
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
