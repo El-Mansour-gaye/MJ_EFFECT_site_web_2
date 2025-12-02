@@ -14,19 +14,19 @@ const collections = [
     title: "Into The Night",
     description: "Pour une élégance sombre et mystérieuse.",
     route: "/collection/sensuel",
-    imageUrl: "/into the night.PNG",
+    imageUrl: "/into the night - glowtion Body Butter.PNG",
   },
   {
     title: "Warm Vanilla Sugar",
     description: "Douceur réconfortante et notes délicieuses.",
     route: "/collection/gourmand",
-    imageUrl: "/Set #6 Warm Vanilla Sugar_1.PNG",
+    imageUrl: "/set-6-warm-vanilla-sugar-3.PNG",
   },
   {
     title: "Champagne Toast",
     description: "L'éclat d'un parfum signature.",
     route: "/collection/chic",
-    imageUrl: "/1-champagne toast.PNG",
+    imageUrl: "/champagne toast body butter.PNG",
   },
   {
     title: "Cactus Blossom",
