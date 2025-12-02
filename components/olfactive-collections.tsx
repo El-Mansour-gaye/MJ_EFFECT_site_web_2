@@ -63,7 +63,7 @@ export function OlfactiveCollections() {
 
   return (
     <section className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-6xl">
         <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
           <span className="font-normal">Découvrez nos</span>{" "}
           <span className="font-bold">Collections de Senteurs MJ Effect</span>
