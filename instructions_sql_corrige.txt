@@ -1,3 +1,22 @@
+Bonjour,
+
+Voici le script SQL corrigé pour votre base de données. Veuillez exécuter ce script dans l'éditeur SQL de Supabase pour résoudre les problèmes du tableau de bord.
+
+Ce script met simplement à jour les fonctions existantes avec une version corrigée qui résout l'erreur de "colonne ambiguë".
+
+---------------------------------------------------------------------
+### Instructions
+---------------------------------------------------------------------
+
+1.  Allez à l'éditeur SQL dans votre projet Supabase.
+2.  Créez une nouvelle requête ("+ New query").
+3.  Copiez TOUT le code ci-dessous et collez-le dans l'éditeur.
+4.  Cliquez sur "RUN".
+
+---------------------------------------------------------------------
+### Code SQL Corrigé à Exécuter
+---------------------------------------------------------------------
+
 -- /sql/db_functions.sql
 -- This file contains the necessary SQL functions for the admin dashboard.
 -- Please apply this file to your Supabase database.

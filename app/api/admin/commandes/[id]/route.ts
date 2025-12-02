@@ -4,13 +4,15 @@ import { isAdmin } from '@/lib/admin-auth';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 
 // PUT (update) an order's status
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params: paramsPromise }: { params: Promise<{ id: string }> }) {
   if (!isAdmin(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const supabase = createSupabaseAdmin();
   const { statut_paiement } = await request.json();
+  const params = await paramsPromise;
+
 
   if (!statut_paiement) {
     return NextResponse.json({ error: 'statut_paiement is required' }, { status: 400 });
