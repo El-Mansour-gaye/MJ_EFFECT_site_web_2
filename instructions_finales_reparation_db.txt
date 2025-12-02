@@ -1,0 +1,69 @@
+Bonjour,
+
+Voici le script SQL **final et unifié** pour réparer votre base de données. Il contient tous les correctifs nécessaires pour le tableau de bord et la gestion des clients.
+
+Veuillez exécuter ce script une seule fois dans l'éditeur SQL de Supabase.
+
+---------------------------------------------------------------------
+### Instructions
+---------------------------------------------------------------------
+
+1.  Allez à l'éditeur SQL dans votre projet Supabase.
+2.  Créez une nouvelle requête ("+ New query").
+3.  Copiez TOUT le code ci-dessous et collez-le dans l'éditeur.
+4.  Cliquez sur "RUN".
+
+Une fois ce script exécuté, tous les problèmes de votre panneau d'administration devraient être résolus.
+
+---------------------------------------------------------------------
+### Code SQL Final à Exécuter
+---------------------------------------------------------------------
+
+-- CORRECTIF 1: Ajoute la contrainte UNIQUE à la table 'clients'
+-- Cela permettra à la création de clients de fonctionner correctement.
+ALTER TABLE clients
+ADD CONSTRAINT clients_telephone_unique UNIQUE (telephone);
+
+-- CORRECTIF 2: Met à jour les fonctions du tableau de bord
+-- Cela résout l'erreur de "colonne ambiguë" et permet aux statistiques de s'afficher.
+
+-- Function to get sales by month
+CREATE OR REPLACE FUNCTION get_sales_by_month()
+RETURNS TABLE(month TEXT, total_sales NUMERIC) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        to_char(date_trunc('month', date_creation), 'YYYY-MM') AS month,
+        SUM(montant_total) AS total_sales
+    FROM commandes
+    WHERE statut_paiement IN ('PAYE_EN_LIGNE', 'PAYE_PRESENTIEL')
+    GROUP BY date_trunc('month', date_creation)
+    ORDER BY date_trunc('month', date_creation);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to get payment method distribution
+CREATE OR REPLACE FUNCTION get_payment_method_distribution()
+RETURNS TABLE(methode_paiement TEXT, count BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        commandes.methode_paiement,
+        COUNT(*) AS count
+    FROM commandes
+    GROUP BY commandes.methode_paiement;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function to get order status distribution
+CREATE OR REPLACE FUNCTION get_order_status_distribution()
+RETURNS TABLE(statut_paiement TEXT, count BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        statut_paiement,
+        COUNT(*) AS count
+    FROM commandes
+    GROUP BY statut_paiement;
+END;
+$$ LANGUAGE plpgsql;
