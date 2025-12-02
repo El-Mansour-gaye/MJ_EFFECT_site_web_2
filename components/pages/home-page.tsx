@@ -3,7 +3,6 @@
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { PRODUCTS } from "@/lib/data"
 import { BLOG_ARTICLES } from "@/lib/data"
 import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"

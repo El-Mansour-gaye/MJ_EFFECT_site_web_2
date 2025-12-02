@@ -1,16 +1,38 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { PRODUCTS } from "@/lib/data"
+import { Product } from "@/lib/types"
 import { ProductDemoCard } from "./product-demo-card"
 import { VideoViewerModal } from "./video-viewer-modal"
 
 export function ProductDemoCarousel() {
-  const demoProducts = PRODUCTS.filter((p) => p.videoUrl)
+  const [demoProducts, setDemoProducts] = useState<Product[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedProductIndex, setSelectedProductIndex] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const fetchDemoProducts = async () => {
+      setIsLoading(true)
+      setError(null)
+      try {
+        const response = await fetch('/api/home-collections')
+        if (!response.ok) throw new Error('Impossible de charger les démos produits.')
+        const data: Product[] = await response.json()
+        const productsWithVideo = data.filter((p) => p.video_url)
+        setDemoProducts(productsWithVideo)
+      } catch (err) {
+        setError((err as Error).message)
+        console.error(err)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchDemoProducts()
+  }, [])
 
   const openModal = (index: number) => {
     setSelectedProductIndex(index)
@@ -29,6 +51,37 @@ export function ProductDemoCarousel() {
         behavior: "smooth",
       })
     }
+  }
+
+  if (isLoading) {
+    return (
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <h2 className="font-serif text-3xl md:text-4xl mb-8">
+            <span className="font-normal">Nos</span> <span className="font-bold">Démos Produits en Action</span>
+          </h2>
+          <p>Chargement des démos...</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (error) {
+    return (
+      <section className="py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <h2 className="font-serif text-3xl md:text-4xl mb-8">
+            <span className="font-normal">Nos</span> <span className="font-bold">Démos Produits en Action</span>
+          </h2>
+          <p className="text-red-500">Erreur: {error}</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (demoProducts.length === 0) {
+    // Don't render the section if there are no demo videos
+    return null
   }
 
   return (
