@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
+import { encodeImagePath } from "@/lib/utils"
 
 // The order of this array directly corresponds to the visual layout:
 // 1st item -> Top-left card
@@ -47,7 +48,7 @@ const CollectionCard = ({ collection, className }: { collection: typeof collecti
     <Card className="h-full w-full border-0 rounded-none overflow-hidden transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:shadow-2xl">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-        style={{ backgroundImage: `url(${collection.imageUrl})` }}
+        style={{ backgroundImage: `url(${encodeImagePath(collection.imageUrl)})` }}
       />
       <div className="absolute inset-0 bg-black/50 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
       <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
