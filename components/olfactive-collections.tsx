@@ -13,31 +13,31 @@ const collections = [
   {
     title: "Into The Night",
     description: "Pour une élégance sombre et mystérieuse.",
-    route: "/collection/sensuel",
-    imageUrl: "/into the night.PNG",
+    route: "/collection",
+    imageUrl: "/into the night - glowtion Body Butter.PNG",
   },
   {
     title: "Warm Vanilla Sugar",
     description: "Douceur réconfortante et notes délicieuses.",
-    route: "/collection/gourmand",
-    imageUrl: "/Set #6 Warm Vanilla Sugar_1.PNG",
+    route: "/collection",
+    imageUrl: "/set-6-warm-vanilla-sugar-3.PNG",
   },
   {
     title: "Champagne Toast",
     description: "L'éclat d'un parfum signature.",
-    route: "/collection/chic",
-    imageUrl: "/1-champagne toast.PNG",
+    route: "/collection",
+    imageUrl: "/champagne toast body butter.PNG",
   },
   {
     title: "Cactus Blossom",
     description: "Légèreté et pureté, idéal pour le jour.",
-    route: "/collection/frais",
+    route: "/collection",
     imageUrl: "/cactus blossom.PNG",
   },
   {
     title: "Mahogany Teakwood",
     description: "Bois de cèdre, masculin, luxe.",
-    route: "/collection/soins",
+    route: "/collection",
     imageUrl: "/mohogany taekwood intense.PNG",
   },
 ]
@@ -68,20 +68,22 @@ export function OlfactiveCollections() {
           <span className="font-normal">Découvrez nos</span>{" "}
           <span className="font-bold">Collections de Senteurs MJ Effect</span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Left Column */}
-          <div className="col-span-1 space-y-8 flex flex-col">
-            <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
-            <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
-          </div>
-          {/* Center Column */}
-          <div className="col-span-2">
-            <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
-          </div>
-          {/* Right Column */}
-          <div className="col-span-1 space-y-8 flex flex-col">
-            <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
-            <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
+        <div className="overflow-x-auto pb-4 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="grid grid-cols-4 gap-8 min-w-[800px]">
+            {/* Left Column */}
+            <div className="col-span-1 space-y-8 flex flex-col">
+              <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
+              <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
+            </div>
+            {/* Center Column */}
+            <div className="col-span-2">
+              <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
+            </div>
+            {/* Right Column */}
+            <div className="col-span-1 space-y-8 flex flex-col">
+              <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
+              <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
+            </div>
           </div>
         </div>
       </div>
