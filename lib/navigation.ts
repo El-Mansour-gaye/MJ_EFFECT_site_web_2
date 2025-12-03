@@ -5,7 +5,7 @@ export interface MegaMenu {
     title: string
     items: { name: string; href: string }[]
   }[]
-  images?: string[]
+  images?: { src: string; alt: string }[]
   featuredProduct?: Product // Make featuredProduct optional
 }
 
@@ -45,7 +45,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
           ],
         },
       ],
-      images: ["/perfume-long-lasting-dakar.png"],
+      images: [{ src: "/perfume-long-lasting-dakar.png", alt: "Parfum longue durée" }],
     },
   },
   {
@@ -63,7 +63,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
           ],
         },
       ],
-      images: ["/glowing-skin-scrub-senegal.jfif"],
+      images: [{ src: "/glowing-skin-scrub-senegal.jfif", alt: "Gommage pour une peau éclatante" }],
     },
   },
   {
@@ -79,7 +79,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
           ],
         },
       ],
-      images: ["/body-butter-vs-lotion-senegal.png"],
+      images: [{ src: "/body-butter-vs-lotion-senegal.png", alt: "Beurre corporel vs lotion" }],
     },
   },
   {
@@ -93,8 +93,8 @@ export const NAVIGATION_LINKS: NavLink[] = [
         },
       ],
       images: [
-        "/gift-sets-korite-tabaski-dakar.png",
-        "/image-illustrative-coffret-ou-set.png",
+        { src: "/gift-sets-korite-tabaski-dakar.png", alt: "Coffrets cadeaux" },
+        { src: "/image-illustrative-coffret-ou-set.png", alt: "Image illustrative d'un coffret" },
       ],
     },
   },
