@@ -2,116 +2,69 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bar } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { formatISO } from 'date-fns';
 
 interface SalesData {
   month: string;
   total_sales: number;
 }
 
-const SalesChart = () => {
-  const [chartData, setChartData] = useState<SalesData[] | null>(null);
+interface SalesChartProps {
+  dateRange: { from: Date; to: Date };
+}
+
+const SalesChart = ({ dateRange }: SalesChartProps) => {
+  const [salesData, setSalesData] = useState<SalesData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchChartData = async () => {
+    if (!dateRange.from || !dateRange.to) return;
+
+    const fetchSalesData = async () => {
       const token = sessionStorage.getItem("admin-auth-token");
-      if (!token) {
-        setError("Unauthorized");
-        return;
-      }
+      if (!token) return;
+
+      const startDate = formatISO(dateRange.from, { representation: 'date' });
+      const endDate = formatISO(dateRange.to, { representation: 'date' });
 
       try {
-        const response = await fetch('/api/admin/dashboard', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await fetch(`/api/admin/dashboard?startDate=${startDate}&endDate=${endDate}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        if (!response.ok) {
-          throw new Error('Failed to fetch sales data');
-        }
+        if (!response.ok) throw new Error('Failed to fetch sales data');
         const data = await response.json();
-        setChartData(data.salesByMonth);
+        setSalesData(data.salesByMonth);
       } catch (err) {
         setError((err as Error).message);
       }
     };
 
-    fetchChartData();
-  }, []);
+    fetchSalesData();
+  }, [dateRange]);
 
-  if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
-  }
-
-  if (!chartData) {
-    return <CardSkeleton />;
-  }
-
-  const data = {
-    labels: chartData.map(d => d.month),
-    datasets: [
-      {
-        label: 'Ventes Mensuelles (FCFA)',
-        data: chartData.map(d => d.total_sales),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Performance des Ventes Mensuelles',
-      },
-    },
-  };
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ventes Mensuelles</CardTitle>
+        <CardTitle>Ventes par Mois</CardTitle>
       </CardHeader>
       <CardContent>
-        <Bar data={data} options={options} />
+        <ResponsiveContainer width="100%" height={300}>
+          <BarChart data={salesData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip formatter={(value: number) => `${value.toLocaleString('fr-FR')} FCFA`} />
+            <Legend />
+            <Bar dataKey="total_sales" fill="#8884d8" name="Ventes Totales" />
+          </BarChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );
 };
-
-const CardSkeleton = () => (
-    <Card>
-        <CardHeader>
-            <div className="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
-        </CardHeader>
-        <CardContent>
-            <div className="h-64 bg-gray-200 rounded animate-pulse"></div>
-        </CardContent>
-    </Card>
-);
 
 export default SalesChart;
