@@ -4,6 +4,7 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign, ShoppingCart, Users, BarChart } from 'lucide-react';
+import { formatISO } from 'date-fns';
 
 interface StatsData {
   totalCommandes: number;
@@ -12,11 +13,17 @@ interface StatsData {
   totalAbonnes: number;
 }
 
-const StatCards = () => {
+interface StatCardsProps {
+  dateRange: { from: Date; to: Date };
+}
+
+const StatCards = ({ dateRange }: StatCardsProps) => {
   const [stats, setStats] = useState<StatsData | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!dateRange.from || !dateRange.to) return;
+
     const fetchStats = async () => {
       const token = sessionStorage.getItem("admin-auth-token");
       if (!token) {
@@ -24,8 +31,11 @@ const StatCards = () => {
         return;
       }
 
+      const startDate = formatISO(dateRange.from, { representation: 'date' });
+      const endDate = formatISO(dateRange.to, { representation: 'date' });
+
       try {
-        const response = await fetch('/api/admin/dashboard', {
+        const response = await fetch(`/api/admin/dashboard?startDate=${startDate}&endDate=${endDate}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +51,7 @@ const StatCards = () => {
     };
 
     fetchStats();
-  }, []);
+  }, [dateRange]);
 
   if (error) {
     return <div className="text-red-500">Error: {error}</div>;

@@ -2,124 +2,98 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { formatISO } from 'date-fns';
 
 interface DistributionData {
-  paymentMethods: { methode_paiement: string; count: number }[];
-  orderStatus: { statut_paiement: string; count: number }[];
+  name: string;
+  value: number;
 }
 
-const DistributionCharts = () => {
-  const [chartData, setChartData] = useState<DistributionData | null>(null);
+interface DistributionChartsProps {
+  dateRange: { from: Date; to: Date };
+}
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+const DistributionCharts = ({ dateRange }: DistributionChartsProps) => {
+  const [paymentMethods, setPaymentMethods] = useState<DistributionData[]>([]);
+  const [orderStatus, setOrderStatus] = useState<DistributionData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchChartData = async () => {
+    if (!dateRange.from || !dateRange.to) return;
+
+    const fetchData = async () => {
       const token = sessionStorage.getItem("admin-auth-token");
-      if (!token) {
-        setError("Unauthorized");
-        return;
-      }
+      if (!token) return;
+
+      const startDate = formatISO(dateRange.from, { representation: 'date' });
+      const endDate = formatISO(dateRange.to, { representation: 'date' });
 
       try {
-        const response = await fetch('/api/admin/dashboard', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const response = await fetch(`/api/admin/dashboard?startDate=${startDate}&endDate=${endDate}`, {
+          headers: { Authorization: `Bearer ${token}` },
         });
-        if (!response.ok) {
-          throw new Error('Failed to fetch distribution data');
-        }
+        if (!response.ok) throw new Error('Failed to fetch distribution data');
         const data = await response.json();
-        setChartData({
-            paymentMethods: data.paymentMethods,
-            orderStatus: data.orderStatus
-        });
+
+        // Adapt data for the chart
+        setPaymentMethods(data.paymentMethods.map((d: any) => ({ name: d.methode_paiement, value: d.count })));
+        setOrderStatus(data.orderStatus.map((d: any) => ({ name: d.statut_paiement, value: d.count })));
+
       } catch (err) {
         setError((err as Error).message);
       }
     };
 
-    fetchChartData();
-  }, []);
+    fetchData();
+  }, [dateRange]);
 
-  if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
-  }
-
-  if (!chartData) {
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-            <CardSkeleton />
-            <CardSkeleton />
-        </div>
-    );
-  }
-
-  const paymentMethodsPieData = {
-    labels: chartData.paymentMethods.map(d => d.methode_paiement),
-    datasets: [
-      {
-        data: chartData.paymentMethods.map(d => d.count),
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-      },
-    ],
-  };
-
-  const orderStatusPieData = {
-    labels: chartData.orderStatus.map(d => d.statut_paiement),
-    datasets: [
-      {
-        data: chartData.orderStatus.map(d => d.count),
-        backgroundColor: ['#4BC0C0', '#FF9F40', '#9966FF'],
-      },
-    ],
-  };
-
-  const pieOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-    },
-  };
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
       <Card>
         <CardHeader>
           <CardTitle>Répartition par Méthode de Paiement</CardTitle>
         </CardHeader>
         <CardContent>
-          <Pie data={paymentMethodsPieData} options={pieOptions} />
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie data={paymentMethods} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#8884d8" label>
+                {paymentMethods.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Répartition par Statut de Commande</CardTitle>
         </CardHeader>
         <CardContent>
-          <Pie data={orderStatusPieData} options={pieOptions} />
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie data={orderStatus} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#82ca9d" label>
+                 {orderStatus.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
     </div>
   );
 };
-
-const CardSkeleton = () => (
-    <Card>
-        <CardHeader>
-            <div className="h-4 bg-gray-200 rounded w-1/2 animate-pulse"></div>
-        </CardHeader>
-        <CardContent>
-            <div className="h-48 bg-gray-200 rounded-full w-48 mx-auto animate-pulse"></div>
-        </CardContent>
-    </Card>
-);
 
 export default DistributionCharts;
