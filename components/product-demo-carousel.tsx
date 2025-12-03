@@ -79,7 +79,7 @@ export function ProductDemoCarousel() {
 
   return (
     <section className="py-16 lg:py-24">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex items-center justify-between mb-8">
           <h2 className="font-serif text-3xl md:text-4xl">
             <span className="font-normal">Découvrez nos produits en</span> <span className="font-bold">action</span>
