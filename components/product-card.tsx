@@ -33,10 +33,6 @@ export function ProductCard({ product }: ProductCardProps) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <h3 className="font-serif text-xl mb-2">{product.nom}</h3>
-          <p className="font-medium text-lg">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
-        </div>
         {product.tag && (
           <span
             className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
