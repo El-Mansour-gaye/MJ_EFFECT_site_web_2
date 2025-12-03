@@ -135,10 +135,9 @@ export function ProductDemoCarousel() {
 
   const scrollCarousel = (direction: "left" | "right") => {
     if (carouselRef.current) {
-      const scrollAmount = 232 // w-52 (208px) + gap-6 (24px)
+      const scrollAmount = 280 // w-64 (256px) + gap-6 (24px)
       carouselRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
       })
     }
   }
@@ -178,6 +177,6 @@ export function ProductDemoCarousel() {
       {isModalOpen && (
         <VideoViewerModal products={staticDemoProducts} startIndex={selectedProductIndex} onClose={closeModal} />
       )}
-    </section>
+    </>
   )
 }
