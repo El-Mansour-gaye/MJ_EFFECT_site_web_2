@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react"
 import { NAVIGATION_LINKS, DynamicMegaMenuItem } from "@/lib/navigation"
 import { useCartStore } from "@/lib/store/cart"
+import { encodeImagePath } from "@/lib/utils"
 
 function HeaderContent() {
   const cart = useCartStore((state) => state.cart_content)
@@ -137,21 +138,35 @@ function HeaderContent() {
                                   </div>
                                 ))}
                               </div>
-                              <div className="col-span-1 space-y-4">
-                                {activeMegaMenuItem.images?.map((image) => (
-                                  <Link href={activeMegaMenuItem.href} key={image.alt} className="group relative block">
-                                    <Image
-                                      src={image.src}
-                                      alt={image.alt}
-                                      width={400}
-                                      height={400}
-                                      className="w-full h-auto object-cover rounded-md"
-                                    />
-                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
-                                      <h4 className="text-white font-serif text-lg text-center p-2">{image.alt}</h4>
-                                    </div>
-                                  </Link>
-                                ))}
+                              <div className="col-span-1">
+                                <div
+                                  className={`grid gap-2 ${
+                                    activeMegaMenuItem.images && activeMegaMenuItem.images.length > 1 ? "grid-cols-2" : "grid-cols-1"
+                                  }`}
+                                >
+                                  {activeMegaMenuItem.images?.map((image, index) => (
+                                    <Link
+                                      href={activeMegaMenuItem.href}
+                                      key={image.src}
+                                      className={`group relative block ${
+                                        activeMegaMenuItem.images && activeMegaMenuItem.images.length === 3 && index === 0
+                                          ? "col-span-2"
+                                          : ""
+                                      }`}
+                                    >
+                                      <Image
+                                        src={encodeImagePath(image.src)}
+                                        alt={image.alt}
+                                        width={200}
+                                        height={200}
+                                        className="w-full h-40 object-cover rounded-md"
+                                      />
+                                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
+                                        <h4 className="text-white font-serif text-lg text-center p-2">{image.alt}</h4>
+                                      </div>
+                                    </Link>
+                                  ))}
+                                </div>
                               </div>
                             </div>
                           )}
