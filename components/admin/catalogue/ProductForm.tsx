@@ -1,8 +1,8 @@
 // components/admin/catalogue/ProductForm.tsx
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,7 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<Product>({
+  const { register, handleSubmit, reset, control, formState: { errors } } = useForm<Product>({
     resolver: zodResolver(formSchema),
     defaultValues: product || {
       nom: '',
@@ -90,18 +90,52 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         <Input id="stock" type="number" {...register('stock')} />
         {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
       </div>
-      <div className="flex items-center space-x-2">
-        <Checkbox id="is_best_seller" {...register('is_best_seller')} />
-        <Label htmlFor="is_best_seller">Best Seller</Label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Checkbox id="is_new_arrival" {...register('is_new_arrival')} />
-        <Label htmlFor="is_new_arrival">Nouvel Arrivage</Label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Checkbox id="is_set_or_pack" {...register('is_set_or_pack')} />
-        <Label htmlFor="is_set_or_pack">Coffret / Pack</Label>
-      </div>
+
+      <Controller
+        name="is_best_seller"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="is_best_seller"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="is_best_seller">Best Seller</Label>
+          </div>
+        )}
+      />
+
+      <Controller
+        name="is_new_arrival"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="is_new_arrival"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="is_new_arrival">Nouvel Arrivage</Label>
+          </div>
+        )}
+      />
+
+      <Controller
+        name="is_set_or_pack"
+        control={control}
+        render={({ field }) => (
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="is_set_or_pack"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <Label htmlFor="is_set_or_pack">Coffret / Pack</Label>
+          </div>
+        )}
+      />
+
       <Button type="submit">{product ? 'Mettre à jour' : 'Créer'}</Button>
     </form>
   );
