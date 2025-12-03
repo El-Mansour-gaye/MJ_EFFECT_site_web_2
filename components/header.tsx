@@ -2,63 +2,77 @@
 
 import { useState, Suspense, useEffect, useRef } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname, useSearchParams } from "next/navigation"
 import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react"
-import { NAVIGATION_LINKS } from "@/lib/navigation"
+import { NAVIGATION_LINKS, DynamicMegaMenuItem } from "@/lib/navigation"
 import { useCartStore } from "@/lib/store/cart"
 
 function HeaderContent() {
-  const cart = useCartStore((state) => state.cart_content);
-  const cartItemCount = cart.reduce((total, item) => total + item.quantite, 0);
+  const cart = useCartStore((state) => state.cart_content)
+  const cartItemCount = cart.reduce((total, item) => total + item.quantite, 0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<number | null>(null)
-  const [isVisible, setIsVisible] = useState(true);
-  const lastScrollY = useRef(0);
-  const headerRef = useRef<HTMLElement>(null);
+  const [activeMegaMenuItem, setActiveMegaMenuItem] = useState<DynamicMegaMenuItem | null>(null)
+  const [isVisible, setIsVisible] = useState(true)
+  const lastScrollY = useRef(0)
+  const headerRef = useRef<HTMLElement>(null)
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
   useEffect(() => {
     const controlNavbar = () => {
-      const currentScrollY = window.scrollY;
-      const headerHeight = headerRef.current ? headerRef.current.clientHeight : 0;
+      const currentScrollY = window.scrollY
+      const headerHeight = headerRef.current ? headerRef.current.clientHeight : 0
 
       if (currentScrollY > headerHeight) {
         if (currentScrollY > lastScrollY.current) {
-          // Scrolling down
-          setIsVisible(false);
+          setIsVisible(false)
         } else {
-          // Scrolling up
-          setIsVisible(true);
+          setIsVisible(true)
         }
       } else {
-        // Near the top of the page, always show header
-        setIsVisible(true);
+        setIsVisible(true)
       }
 
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", controlNavbar);
-    return () => {
-      window.removeEventListener("scroll", controlNavbar);
-    };
-  }, []);
-
-  const navLinkClasses = (path: string, hasMegaMenu?: boolean) => {
-    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors relative pt-1 after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left";
-
-    if (hasMegaMenu) {
-      const category = searchParams.get("category");
-      const linkCategory = new URLSearchParams(path.split("?")[1]).get("category");
-      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70 hover:text-white"}`;
+      lastScrollY.current = currentScrollY
     }
 
-    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70 hover:text-white"}`;
-  };
+    window.addEventListener("scroll", controlNavbar)
+    return () => {
+      window.removeEventListener("scroll", controlNavbar)
+    }
+  }, [])
+
+  const handleMegaMenuOpen = (index: number) => {
+    const link = NAVIGATION_LINKS[index]
+    if (link.megaMenu?.dynamicContent) {
+      setOpenMegaMenu(index)
+      setActiveMegaMenuItem(link.megaMenu.dynamicContent[0])
+    } else if (link.megaMenu) {
+      setOpenMegaMenu(index)
+      setActiveMegaMenuItem(null)
+    }
+  }
+
+  const navLinkClasses = (path: string, hasMegaMenu?: boolean) => {
+    const baseClasses =
+      "font-sans text-sm uppercase tracking-widest transition-colors relative pt-1 after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left"
+
+    if (hasMegaMenu) {
+      const category = searchParams.get("category")
+      const linkCategory = new URLSearchParams(path.split("?")[1]).get("category")
+      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70 hover:text-white"}`
+    }
+
+    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70 hover:text-white"}`
+  }
 
   return (
-    <header ref={headerRef} className={`fixed top-8 left-0 right-0 z-50 bg-black border-b border-white/10 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}>
+    <header
+      ref={headerRef}
+      className={`fixed top-8 left-0 right-0 z-50 bg-black border-b border-white/10 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
           <button className="lg:hidden p-2 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -67,7 +81,7 @@ function HeaderContent() {
 
           <Link href="/" className="block">
             <div className="flex items-center justify-center">
-              <img src="/logo-mj-effect.png" alt="MJ EFFECT Logo" className="h-20 lg:h-28 w-auto" />
+              <Image src="/logo-mj-effect.png" alt="MJ EFFECT Logo" width={112} height={112} className="h-20 lg:h-28 w-auto" />
             </div>
           </Link>
 
@@ -77,41 +91,107 @@ function HeaderContent() {
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => link.megaMenu && setOpenMegaMenu(index)}
-                onMouseLeave={() => link.megaMenu && setOpenMegaMenu(null)}
+                onMouseEnter={() => handleMegaMenuOpen(index)}
+                onMouseLeave={() => setOpenMegaMenu(null)}
               >
-                <Link href={link.href} className={`flex items-center gap-1 whitespace-nowrap ${navLinkClasses(link.href, !!link.megaMenu)}`}>
+                <Link
+                  href={link.href}
+                  className={`flex items-center gap-1 whitespace-nowrap ${navLinkClasses(link.href, !!link.megaMenu)}`}
+                >
                   {link.label} {link.megaMenu && <ChevronDown size={14} />}
                 </Link>
 
                 {link.megaMenu && openMegaMenu === index && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-screen max-w-4xl bg-white border border-black/10 shadow-xl mt-0 p-8 data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-300">
-                    <div className="grid grid-cols-4 gap-8">
-                      {link.megaMenu.subCategories.map((subCategory) => (
-                        <div key={subCategory.title}>
-                          <h3 className="font-serif text-lg mb-4">{subCategory.title}</h3>
-                          <ul className="space-y-2 text-sm text-black/70">
-                            {subCategory.items.map((item) => (
-                              <li key={item.name}>
-                                <Link href={item.href} className="hover:text-accent">
-                                  {item.name}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                      <div className="col-span-1 space-y-4">
-                        {link.megaMenu.images?.map((image) => (
-                          <div key={image.alt} className="group relative">
-                            <img src={image.src} alt={image.alt} className="w-full h-auto object-cover rounded-md" />
-                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                              <h4 className="text-white font-serif text-lg">{image.alt}</h4>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-screen max-w-6xl bg-white text-black border border-black/10 shadow-xl mt-0 p-8 data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-300">
+                    {link.megaMenu.dynamicContent ? (
+                      <div className="grid grid-cols-4 gap-x-8">
+                        <div className="col-span-1 border-r border-gray-200 pr-6 space-y-2">
+                          {link.megaMenu.dynamicContent.map((item) => (
+                            <div
+                              key={item.label}
+                              onMouseEnter={() => setActiveMegaMenuItem(item)}
+                              className={`p-4 rounded-lg cursor-pointer transition-colors ${activeMegaMenuItem?.label === item.label ? "bg-gray-100" : "hover:bg-gray-50"}`}
+                            >
+                              <Link href={item.href} className="font-bold text-md text-black">
+                                {item.label}
+                              </Link>
+                              <p className="text-sm text-gray-600">{item.description}</p>
                             </div>
+                          ))}
+                        </div>
+                        <div className="col-span-3">
+                          {activeMegaMenuItem && (
+                            <div className="grid grid-cols-3 gap-x-8">
+                              <div className="col-span-2 grid grid-cols-2 gap-x-8">
+                                {activeMegaMenuItem.subCategories.map((subCategory) => (
+                                  <div key={subCategory.title}>
+                                    <h3 className="font-serif text-lg mb-4 text-black">{subCategory.title}</h3>
+                                    <ul className="space-y-2 text-sm text-black/70">
+                                      {subCategory.items.map((item) => (
+                                        <li key={item.name}>
+                                          <Link href={item.href} className="hover:text-accent">
+                                            {item.name}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
+                                ))}
+                              </div>
+                              <div className="col-span-1 space-y-4">
+                                {activeMegaMenuItem.images?.map((image) => (
+                                  <Link href={activeMegaMenuItem.href} key={image.alt} className="group relative block">
+                                    <Image
+                                      src={image.src}
+                                      alt={image.alt}
+                                      width={400}
+                                      height={400}
+                                      className="w-full h-auto object-cover rounded-md"
+                                    />
+                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
+                                      <h4 className="text-white font-serif text-lg text-center p-2">{image.alt}</h4>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-4 gap-8">
+                        {link.megaMenu.subCategories?.map((subCategory) => (
+                          <div key={subCategory.title}>
+                            <h3 className="font-serif text-lg mb-4">{subCategory.title}</h3>
+                            <ul className="space-y-2 text-sm text-black/70">
+                              {subCategory.items.map((item) => (
+                                <li key={item.name}>
+                                  <Link href={item.href} className="hover:text-accent">
+                                    {item.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
                         ))}
+                        <div className="col-span-1 space-y-4">
+                          {link.megaMenu.images?.map((image) => (
+                            <div key={image.alt} className="group relative">
+                              <Image
+                                src={image.src}
+                                alt={image.alt}
+                                width={400}
+                                height={400}
+                                className="w-full h-auto object-cover rounded-md"
+                              />
+                              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
+                                <h4 className="text-white font-serif text-lg">{image.alt}</h4>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -143,7 +223,7 @@ function HeaderContent() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-left text-sm uppercase tracking-widest py-2"
+                className="text-left text-sm uppercase tracking-widest py-2 text-black"
               >
                 {link.label}
               </Link>
@@ -154,7 +234,6 @@ function HeaderContent() {
     </header>
   )
 }
-
 
 export function Header() {
   return (
