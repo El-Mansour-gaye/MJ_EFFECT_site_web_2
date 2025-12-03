@@ -1,38 +1,62 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Product } from "@/lib/types"
 import { ProductDemoCard } from "./product-demo-card"
 import { VideoViewerModal } from "./video-viewer-modal"
 
+const staticDemoProducts: Product[] = [
+  {
+    id: "1",
+    name: "Produit Vidéo 1",
+    description: "Description pour la vidéo 1.",
+    price: 99.99,
+    images: ["/images/placeholder.png"],
+    image: "/images/placeholder.png",
+    categorie: "démos",
+    video_url: "/videos/placeholder1.mp4",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "2",
+    name: "Produit Vidéo 2",
+    description: "Description pour la vidéo 2.",
+    price: 129.99,
+    images: ["/images/placeholder.png"],
+    image: "/images/placeholder.png",
+    categorie: "démos",
+    video_url: "/videos/placeholder2.mp4",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "3",
+    name: "Produit Vidéo 3",
+    description: "Description pour la vidéo 3.",
+    price: 79.99,
+    images: ["/images/placeholder.png"],
+    image: "/images/placeholder.png",
+    categorie: "démos",
+    video_url: "/videos/placeholder3.mp4",
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "4",
+    name: "Produit Vidéo 4",
+    description: "Description pour la vidéo 4.",
+    price: 149.99,
+    images: ["/images/placeholder.png"],
+    image: "/images/placeholder.png",
+    categorie: "démos",
+    video_url: "/videos/placeholder4.mp4",
+    created_at: new Date().toISOString(),
+  },
+]
+
 export function ProductDemoCarousel() {
-  const [demoProducts, setDemoProducts] = useState<Product[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedProductIndex, setSelectedProductIndex] = useState(0)
   const carouselRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const fetchDemoProducts = async () => {
-      setIsLoading(true)
-      setError(null)
-      try {
-        const response = await fetch('/api/home-collections')
-        if (!response.ok) throw new Error('Impossible de charger les démos produits.')
-        const data: Product[] = await response.json()
-        const productsWithVideo = data.filter((p) => p.video_url)
-        setDemoProducts(productsWithVideo)
-      } catch (err) {
-        setError((err as Error).message)
-        console.error(err)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchDemoProducts()
-  }, [])
 
   const openModal = (index: number) => {
     setSelectedProductIndex(index)
@@ -53,43 +77,12 @@ export function ProductDemoCarousel() {
     }
   }
 
-  if (isLoading) {
-    return (
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl mb-8">
-            <span className="font-normal">Nos</span> <span className="font-bold">Démos Produits en Action</span>
-          </h2>
-          <p>Chargement des démos...</p>
-        </div>
-      </section>
-    )
-  }
-
-  if (error) {
-    return (
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl md:text-4xl mb-8">
-            <span className="font-normal">Nos</span> <span className="font-bold">Démos Produits en Action</span>
-          </h2>
-          <p className="text-red-500">Erreur: {error}</p>
-        </div>
-      </section>
-    )
-  }
-
-  if (demoProducts.length === 0) {
-    // Don't render the section if there are no demo videos
-    return null
-  }
-
   return (
     <section className="py-16 lg:py-24">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
           <h2 className="font-serif text-3xl md:text-4xl">
-            <span className="font-normal">Nos</span> <span className="font-bold">Démos Produits en Action</span>
+            <span className="font-normal">Découvrez nos produits en</span> <span className="font-bold">action</span>
           </h2>
           <div className="flex gap-2">
             <button
@@ -111,13 +104,13 @@ export function ProductDemoCarousel() {
           className="flex gap-6 overflow-x-auto pb-4"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
-          {demoProducts.map((product, index) => (
+          {staticDemoProducts.map((product, index) => (
             <ProductDemoCard key={product.id} product={product} onClick={() => openModal(index)} />
           ))}
         </div>
       </div>
       {isModalOpen && (
-        <VideoViewerModal products={demoProducts} startIndex={selectedProductIndex} onClose={closeModal} />
+        <VideoViewerModal products={staticDemoProducts} startIndex={selectedProductIndex} onClose={closeModal} />
       )}
     </section>
   )
