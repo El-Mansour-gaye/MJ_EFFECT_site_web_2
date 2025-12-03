@@ -69,22 +69,20 @@ export function OlfactiveCollections() {
           <span className="font-normal">Découvrez nos</span>{" "}
           <span className="font-bold">Collections de Senteurs MJ Effect</span>
         </h2>
-        <div className="overflow-x-auto pb-4 -mx-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          <div className="grid grid-cols-4 gap-8 min-w-[800px]">
-            {/* Left Column */}
-            <div className="col-span-1 space-y-8 flex flex-col">
-              <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
-              <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
-            </div>
-            {/* Center Column */}
-            <div className="col-span-2">
-              <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
-            </div>
-            {/* Right Column */}
-            <div className="col-span-1 space-y-8 flex flex-col">
-              <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
-              <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
-            </div>
+        <div className="flex flex-wrap justify-center gap-8">
+          {/* Left Column */}
+          <div className="w-full sm:w-[45%] lg:w-[23%] space-y-8 flex flex-col">
+            <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
+            <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
+          </div>
+          {/* Center Column */}
+          <div className="w-full lg:w-[48%] order-first lg:order-none">
+            <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
+          </div>
+          {/* Right Column */}
+          <div className="w-full sm:w-[45%] lg:w-[23%] space-y-8 flex flex-col">
+            <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
+            <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
           </div>
         </div>
       </div>
