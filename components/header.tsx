@@ -86,34 +86,31 @@ function HeaderContent() {
 
                 {link.megaMenu && openMegaMenu === index && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 w-screen max-w-4xl bg-white border border-black/10 shadow-xl mt-0 p-8 data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-300">
-                    <div className="flex gap-8">
-                      <div className="flex-[2_2_0%]">
-                        <div className="grid grid-cols-2 gap-8">
-                          {link.megaMenu.subCategories.map((subCategory) => (
-                            <div key={subCategory.title}>
-                              <h3 className="font-serif text-lg mb-4">{subCategory.title}</h3>
-                              <ul className="space-y-2 text-sm text-black/70">
-                                {subCategory.items.map((item) => (
-                                  <li key={item.name}>
-                                    <Link href={item.href} className="hover:text-accent">
-                                      {item.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                      {link.megaMenu.images && (
-                        <div className="flex-1">
-                          <div className="grid grid-cols-1 gap-4">
-                            {link.megaMenu.images.map((image, idx) => (
-                              <img key={idx} src={image} alt={`Mega menu image ${idx + 1}`} className="w-full h-auto object-cover rounded-lg" />
+                    <div className="grid grid-cols-4 gap-8">
+                      {link.megaMenu.subCategories.map((subCategory) => (
+                        <div key={subCategory.title}>
+                          <h3 className="font-serif text-lg mb-4">{subCategory.title}</h3>
+                          <ul className="space-y-2 text-sm text-black/70">
+                            {subCategory.items.map((item) => (
+                              <li key={item.name}>
+                                <Link href={item.href} className="hover:text-accent">
+                                  {item.name}
+                                </Link>
+                              </li>
                             ))}
-                          </div>
+                          </ul>
                         </div>
-                      )}
+                      ))}
+                      <div className="col-span-1 space-y-4">
+                        {link.megaMenu.images?.map((image) => (
+                          <div key={image.alt} className="group relative">
+                            <img src={image.src} alt={image.alt} className="w-full h-auto object-cover rounded-md" />
+                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                              <h4 className="text-white font-serif text-lg">{image.alt}</h4>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}
