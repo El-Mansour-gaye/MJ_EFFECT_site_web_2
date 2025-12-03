@@ -79,7 +79,7 @@ function HeaderContent() {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          <Link href="/" className="block">
+          <Link href="/" className="block flex-shrink-0">
             <div className="flex items-center justify-center">
               <Image src="/logo-mj-effect.png" alt="MJ EFFECT Logo" width={112} height={112} className="h-20 lg:h-28 w-auto" />
             </div>
