@@ -34,14 +34,7 @@ export async function GET(request: NextRequest) {
     if (revenusError) throw revenusError;
     const revenusTotaux = revenusData.reduce((acc, curr) => acc + curr.montant_total, 0);
 
-    // 4. Fetch total abonnés
-    const { count: totalAbonnes, error: abonnesError } = await supabase
-      .from('abonnements')
-      .select('*', { count: 'exact', head: true });
-
-    if (abonnesError) throw abonnesError;
-
-    // 5. Fetch sales by month for the chart
+    // 4. Fetch sales by month for the chart
     const { data: salesByMonthData, error: salesByMonthError } = await supabase
       .rpc('get_sales_by_month');
 
@@ -66,11 +59,10 @@ export async function GET(request: NextRequest) {
         totalCommandes: totalCommandes ?? 0,
         totalClients: totalClients ?? 0,
         revenusTotaux: revenusTotaux ?? 0,
-        totalAbonnes: totalAbonnes ?? 0,
       },
-      salesByMonth: salesByMonthData,
-      paymentMethods: paymentMethodsData,
-      orderStatus: orderStatusData,
+      salesByMonth: salesByMonthData ?? [],
+      paymentMethods: paymentMethodsData ?? [],
+      orderStatus: orderStatusData ?? [],
     };
 
     return NextResponse.json(dashboardData);
