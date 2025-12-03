@@ -15,7 +15,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder1.mp4",
+    video_url: "/videos/placeholder1.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -26,7 +26,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder2.mp4",
+    video_url: "/videos/placeholder2.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -37,7 +37,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder3.mp4",
+    video_url: "/videos/placeholder3.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -48,7 +48,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder4.mp4",
+    video_url: "/videos/placeholder4.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -59,7 +59,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder5.mp4",
+    video_url: "/videos/placeholder5.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -70,7 +70,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder6.mp4",
+    video_url: "/videos/placeholder6.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -81,7 +81,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder7.mp4",
+    video_url: "/videos/placeholder7.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -92,7 +92,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder8.mp4",
+    video_url: "/videos/placeholder8.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -103,7 +103,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder9.mp4",
+    video_url: "/videos/placeholder9.mp4",
     created_at: new Date().toISOString(),
   },
   {
@@ -114,7 +114,7 @@ const staticDemoProducts: Product[] = [
     images: ["/images/placeholder.png"],
     image: "/images/placeholder.png",
     categorie: "démos",
-    videoUrl: "/videos/placeholder10.mp4",
+    video_url: "/videos/placeholder10.mp4",
     created_at: new Date().toISOString(),
   },
 ]
@@ -143,41 +143,37 @@ export function ProductDemoCarousel() {
   }
 
   return (
-    <>
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="font-serif text-3xl md:text-4xl">
-              <span className="font-normal">Découvrez nos produits en</span> <span className="font-bold">action</span>
-            </h2>
-            <div className="flex gap-2">
-              <button
-                onClick={() => scrollCarousel("left")}
-                className="p-3 border border-black hover:bg-black hover:text-white transition-colors"
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={() => scrollCarousel("right")}
-                className="p-3 border border-black hover:bg-black hover:text-white transition-colors"
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-          </div>
-          <div
-            ref={carouselRef}
-            className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {staticDemoProducts.map((product, index) => (
-              <div key={product.id} className="snap-start">
-                <ProductDemoCard product={product} onClick={() => openModal(index)} />
-              </div>
-            ))}
+    <section className="py-16 lg:py-24">
+      <div className="container mx-auto px-4 max-w-6xl">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="font-serif text-3xl md:text-4xl">
+            <span className="font-normal">Découvrez nos produits en</span> <span className="font-bold">action</span>
+          </h2>
+          <div className="flex gap-2">
+            <button
+              onClick={() => scrollCarousel("left")}
+              className="p-3 border border-black hover:bg-black hover:text-white transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => scrollCarousel("right")}
+              className="p-3 border border-black hover:bg-black hover:text-white transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
           </div>
         </div>
-      </section>
+        <div
+          ref={carouselRef}
+          className="flex gap-6 overflow-x-auto pb-4"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {staticDemoProducts.map((product, index) => (
+            <ProductDemoCard key={product.id} product={product} onClick={() => openModal(index)} />
+          ))}
+        </div>
+      </div>
       {isModalOpen && (
         <VideoViewerModal products={staticDemoProducts} startIndex={selectedProductIndex} onClose={closeModal} />
       )}
