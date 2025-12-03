@@ -86,7 +86,7 @@ function HeaderContent() {
 
                 {link.megaMenu && openMegaMenu === index && (
                   <div className="absolute top-full left-1/2 -translate-x-1/2 w-screen max-w-4xl bg-white border border-black/10 shadow-xl mt-0 p-8 data-[state=open]:animate-in data-[state=open]:zoom-in-95 duration-300">
-                    <div className="grid grid-cols-3 gap-8">
+                    <div className="grid grid-cols-4 gap-8">
                       {link.megaMenu.subCategories.map((subCategory) => (
                         <div key={subCategory.title}>
                           <h3 className="font-serif text-lg mb-4">{subCategory.title}</h3>
@@ -101,6 +101,16 @@ function HeaderContent() {
                           </ul>
                         </div>
                       ))}
+                      <div className="col-span-1 space-y-4">
+                        {link.megaMenu.images?.map((image) => (
+                          <div key={image.alt} className="group relative">
+                            <img src={image.src} alt={image.alt} className="w-full h-auto object-cover rounded-md" />
+                            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center">
+                              <h4 className="text-white font-serif text-lg">{image.alt}</h4>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}

@@ -5,6 +5,7 @@ export interface MegaMenu {
     title: string
     items: { name: string; href: string }[]
   }[]
+  images?: { src: string; alt: string }[]
   featuredProduct?: Product // Make featuredProduct optional
 }
 
@@ -43,7 +44,8 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Lumineux", href: "/collection?category=Parfums&subCategory=Lumineux" },
           ],
         },
-      ]
+      ],
+      images: [{ src: "/perfume-long-lasting-dakar.png", alt: "Parfum longue durée" }],
     },
   },
   {
@@ -60,7 +62,8 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Soins du Visage", href: "/collection?category=Soins%20Corporels&subCategory=Visage" },
           ],
         },
-      ]
+      ],
+      images: [{ src: "/glowing-skin-scrub-senegal.jfif", alt: "Gommage pour une peau éclatante" }],
     },
   },
   {
@@ -75,7 +78,8 @@ export const NAVIGATION_LINKS: NavLink[] = [
             { name: "Ensembles", href: "/collection?category=Gommages%20et%20Gels%20Douche&subCategory=Ensemble" },
           ],
         },
-      ]
+      ],
+      images: [{ src: "/body-butter-vs-lotion-senegal.png", alt: "Beurre corporel vs lotion" }],
     },
   },
   {
@@ -87,7 +91,11 @@ export const NAVIGATION_LINKS: NavLink[] = [
           title: "Nos Ensembles",
           items: [{ name: "Tous les coffrets", href: "/collection?category=Coffrets" }],
         },
-      ]
+      ],
+      images: [
+        { src: "/gift-sets-korite-tabaski-dakar.png", alt: "Coffrets cadeaux" },
+        { src: "/image-illustrative-coffret-ou-set.png", alt: "Image illustrative d'un coffret" },
+      ],
     },
   },
   {
