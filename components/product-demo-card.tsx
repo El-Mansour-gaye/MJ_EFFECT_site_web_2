@@ -1,5 +1,5 @@
 import { Play } from "lucide-react"
-import { Product } from "@/lib/data"
+import { Product } from "@/lib/types"
 
 interface ProductDemoCardProps {
   product: Product
@@ -14,7 +14,7 @@ export function ProductDemoCard({ product, onClick }: ProductDemoCardProps) {
     >
       <img
         src={product.image}
-        alt={product.name}
+        alt={product.nom}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -24,8 +24,8 @@ export function ProductDemoCard({ product, onClick }: ProductDemoCardProps) {
             <Play size={32} className="text-white" />
           </div>
         </div>
-        <h3 className="font-serif text-lg font-bold">{product.name}</h3>
-        <p className="text-sm">{product.price.toLocaleString()} FCFA</p>
+        <h3 className="font-serif text-lg font-bold">{product.nom}</h3>
+        {product.prix_fcfa > 0 && <p className="text-sm">{product.prix_fcfa.toLocaleString()} FCFA</p>}
       </div>
     </div>
   )
