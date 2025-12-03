@@ -161,9 +161,6 @@ function HeaderContent() {
                                         height={200}
                                         className="w-full h-40 object-cover rounded-md"
                                       />
-                                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
-                                        <h4 className="text-white font-serif text-lg text-center p-2">{image.alt}</h4>
-                                      </div>
                                     </Link>
                                   ))}
                                 </div>
@@ -198,9 +195,6 @@ function HeaderContent() {
                                 height={400}
                                 className="w-full h-auto object-cover rounded-md"
                               />
-                              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/50 transition-colors flex items-center justify-center rounded-md">
-                                <h4 className="text-white font-serif text-lg">{image.alt}</h4>
-                              </div>
                             </div>
                           ))}
                         </div>
