@@ -177,6 +177,6 @@ export function ProductDemoCarousel() {
       {isModalOpen && (
         <VideoViewerModal products={staticDemoProducts} startIndex={selectedProductIndex} onClose={closeModal} />
       )}
-    </>
+    </section>
   )
 }
