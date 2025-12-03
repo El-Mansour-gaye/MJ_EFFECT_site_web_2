@@ -9,7 +9,7 @@ interface ProductDemoCardProps {
 export function ProductDemoCard({ product, onClick }: ProductDemoCardProps) {
   return (
     <div
-      className="relative aspect-[9/16] w-52 flex-shrink-0 cursor-pointer group overflow-hidden"
+      className="relative aspect-[9/16] w-64 flex-shrink-0 cursor-pointer group overflow-hidden"
       onClick={onClick}
     >
       <img
