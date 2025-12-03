@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import Link from "next/link"
 import { X } from "lucide-react"
-import { Product } from "@/lib/data"
+import { Product } from "@/lib/types"
 
 interface VideoViewerModalProps {
   products: Product[]
@@ -13,8 +14,10 @@ interface VideoViewerModalProps {
 
 export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerModalProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = startIndex * window.innerHeight
     }
@@ -30,7 +33,7 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
     }
   }
 
-  return (
+  const modalContent = (
     <div
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center"
       onClick={handleBackdropClick}
@@ -68,4 +71,10 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
       </div>
     </div>
   )
+
+  if (!isMounted) {
+    return null
+  }
+
+  return createPortal(modalContent, document.body)
 }
