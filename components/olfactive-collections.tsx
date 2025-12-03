@@ -52,8 +52,8 @@ const CollectionCard = ({ collection, className }: { collection: typeof collecti
       />
       <div className="absolute inset-0 bg-black/30 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
       <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-        <h3 className="font-serif text-2xl md:text-3xl font-bold mb-2">{collection.title}</h3>
-        <p className="text-white/80">{collection.description}</p>
+        <h3 className="font-serif text-xl md:text-2xl font-bold mb-2">{collection.title}</h3>
+        <p className="text-sm text-white/80">{collection.description}</p>
       </CardContent>
     </Card>
   </Link>
