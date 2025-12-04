@@ -104,9 +104,19 @@ export function HomePage() {
           }}
         />
         <div className="relative z-10">
-          <Button asChild>
+          {/* NOUVEAU BOUTON AJOUTÉ ICI */}
+          <Link href="/collection">
+            <Button
+              variant="ghost"
+              className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 px-6 py-3 text-lg" // Ajout de border-2, px-6, py-3, text-lg pour le rendre plus visible
+            >
+              Acheter Maintenant
+            </Button>
+          </Link>
+          {/* ANCIEN CODE SUPPRIMÉ/REMPLACÉ */}
+          {/* <Button asChild>
             <Link href="/collection">Acheter Maintenant</Link>
-          </Button>
+          </Button> */}
         </div>
       </section>
 
