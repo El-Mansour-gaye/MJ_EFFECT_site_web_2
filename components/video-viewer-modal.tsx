@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { createPortal } from "react-dom"
 import Link from "next/link"
 import { X } from "lucide-react"
-import { Product } from "@/lib/data"
+import { Product } from "@/lib/types"
 
 interface VideoViewerModalProps {
   products: Product[]
@@ -13,8 +14,10 @@ interface VideoViewerModalProps {
 
 export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerModalProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
+    setIsMounted(true)
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTop = startIndex * window.innerHeight
     }
@@ -30,7 +33,7 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
     }
   }
 
-  return (
+  const modalContent = (
     <div
       className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center"
       onClick={handleBackdropClick}
@@ -46,7 +49,7 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
         {products.map((product) => (
           <div key={product.id} className="w-full h-screen snap-center flex items-center justify-center relative">
             <video
-              src={product.videoUrl}
+              src={product.video_url}
               className="h-full w-auto"
               autoPlay
               loop
@@ -54,18 +57,28 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
               playsInline
             />
             <div className="absolute bottom-16 left-4 text-white p-4">
-              <h3 className="font-serif text-2xl font-bold">{product.name}</h3>
-              <p className="text-lg mb-4">{product.price.toLocaleString()} FCFA</p>
-              <Link
-                href={`/collection/${product.id}`}
-                className="bg-white text-black px-6 py-3 text-sm uppercase tracking-widest hover:bg-gray-200 transition-colors"
-              >
-                Voir le produit
-              </Link>
+              <h3 className="font-serif text-2xl font-bold">{product.nom}</h3>
+              {product.prix_fcfa > 0 && (
+                <>
+                  <p className="text-lg mb-4">{product.prix_fcfa.toLocaleString()} FCFA</p>
+                  <Link
+                    href={`/collection/${product.id}`}
+                    className="bg-white text-black px-6 py-3 text-sm uppercase tracking-widest hover:bg-gray-200 transition-colors"
+                  >
+                    Voir le produit
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         ))}
       </div>
     </div>
   )
+
+  if (!isMounted) {
+    return null
+  }
+
+  return createPortal(modalContent, document.body)
 }
