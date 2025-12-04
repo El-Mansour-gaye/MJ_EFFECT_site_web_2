@@ -150,9 +150,7 @@ export function HomePage() {
       </AnimatedSection>
 
       {/* Parallax Categories Section */}
-      <AnimatedSection>
-        <ParallaxCategories />
-      </AnimatedSection>
+      <ParallaxCategories />
 
       {/* Product Demos Section */}
       <AnimatedSection>
