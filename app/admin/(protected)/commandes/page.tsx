@@ -78,7 +78,7 @@ const CommandesPage = () => {
     <div>
       <h1 className="text-3xl font-bold font-playfair mb-6">Commandes</h1>
       {isLoading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-accent">{error}</p>}
       {!isLoading && !error && (
           <>
             <Table>

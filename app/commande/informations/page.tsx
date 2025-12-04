@@ -47,23 +47,23 @@ const InformationsPage = () => {
                     {/* Client Info Form */}
                     <div className="md:col-span-1">
                         <h1 className="text-3xl font-semibold mb-6">Vos Informations</h1>
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-8 rounded-xl shadow-md">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-8 shadow-md">
                             <div>
                                 <Label htmlFor="nom" className="text-lg">Nom Complet</Label>
                                 <Input id="nom" {...register('nom', { required: 'Le nom est requis' })} className="mt-2 py-6" />
-                                {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom.message}</p>}
+                                {errors.nom && <p className="text-accent text-sm mt-1">{errors.nom.message}</p>}
                             </div>
 
                             <div>
                                 <Label htmlFor="adresse" className="text-lg">Adresse de livraison</Label>
                                 <Input id="adresse" {...register('adresse', { required: 'L\'adresse est requise' })} className="mt-2 py-6" />
-                                {errors.adresse && <p className="text-red-500 text-sm mt-1">{errors.adresse.message}</p>}
+                                {errors.adresse && <p className="text-accent text-sm mt-1">{errors.adresse.message}</p>}
                             </div>
 
                             <div>
                                 <Label htmlFor="telephone" className="text-lg">Téléphone</Label>
                                 <Input id="telephone" {...register('telephone', { required: 'Le téléphone est requis' })} className="mt-2 py-6" />
-                                {errors.telephone && <p className="text-red-500 text-sm mt-1">{errors.telephone.message}</p>}
+                                {errors.telephone && <p className="text-accent text-sm mt-1">{errors.telephone.message}</p>}
                             </div>
 
                             <div>

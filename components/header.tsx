@@ -57,16 +57,15 @@ function HeaderContent() {
   }
 
   const navLinkClasses = (path: string, hasMegaMenu?: boolean) => {
-    const baseClasses =
-      "font-sans text-sm uppercase tracking-widest transition-colors relative pt-1 after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left"
+    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors hover:text-accent"
 
     if (hasMegaMenu) {
       const category = searchParams.get("category")
       const linkCategory = new URLSearchParams(path.split("?")[1]).get("category")
-      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70 hover:text-white"}`
+      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70"}`
     }
 
-    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70 hover:text-white"}`
+    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70"}`
   }
 
   return (
@@ -207,13 +206,13 @@ function HeaderContent() {
           </nav>
 
           <div className="flex items-center gap-4 text-white">
-            <button className="p-2 hover:text-white/70 transition-colors">
+            <button className="p-2 hover:text-accent transition-colors">
               <Search size={24} />
             </button>
-            <Link href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
+            <Link href="/panier" className="p-2 hover:text-accent transition-colors relative">
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-4 h-4 flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}
@@ -231,7 +230,7 @@ function HeaderContent() {
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="text-left text-sm uppercase tracking-widest py-2 text-black"
+                className="text-left text-sm uppercase tracking-widest py-2 text-black transition-colors hover:text-accent"
               >
                 {link.label}
               </Link>

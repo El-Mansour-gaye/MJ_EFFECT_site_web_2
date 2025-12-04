@@ -44,7 +44,7 @@ const SalesChart = ({ dateRange }: SalesChartProps) => {
     fetchSalesData();
   }, [dateRange]);
 
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (error) return <div className="text-accent">{error}</div>;
 
   return (
     <Card>

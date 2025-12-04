@@ -63,7 +63,7 @@ const AccountingPageClient = () => {
             </div>
 
             {loading && <LoadingSkeleton />}
-            {error && <div className="text-red-500">Erreur: {error}</div>}
+            {error && <div className="text-accent">Erreur: {error}</div>}
 
             {data && !loading && (
                 <div className="space-y-8">

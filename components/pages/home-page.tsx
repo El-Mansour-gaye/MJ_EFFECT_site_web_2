@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { BLOG_ARTICLES } from "@/lib/data"
 import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
+import { Button } from "@/components/ui/button"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
 import { OlfactiveCollections } from "@/components/olfactive-collections"
@@ -41,18 +42,12 @@ function ProductCarousel({
           <span className="font-normal">{title}</span> <span className="font-bold">{titleBold}</span>
         </h3>
         <div className="flex gap-2">
-          <button
-            onClick={() => scrollCarousel("left")}
-            className="p-3 border border-black hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
+          <Button variant="outline" size="icon" onClick={() => scrollCarousel("left")}>
             <ChevronLeft size={20} />
-          </button>
-          <button
-            onClick={() => scrollCarousel("right")}
-            className="p-3 border border-black hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
+          </Button>
+          <Button variant="outline" size="icon" onClick={() => scrollCarousel("right")}>
             <ChevronRight size={20} />
-          </button>
+          </Button>
         </div>
       </div>
       <div
@@ -109,12 +104,14 @@ export function HomePage() {
           }}
         />
         <div className="relative z-10">
-          <Link
-            href="/collection"
-            className="bg-accent text-accent-foreground px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
+          <Button
+            variant="default"
+            size="lg"
+            className="border-white text-white bg-transparent hover:bg-white hover:text-black py-3 px-8 text-lg"
+            asChild
           >
-            Acheter Maintenant
-          </Link>
+            <Link href="/collection">Acheter Maintenant</Link>
+          </Button>
         </div>
       </section>
 
@@ -131,7 +128,7 @@ export function HomePage() {
             </h2>
 
             {isLoading && <p className="text-center">Chargement des collections...</p>}
-            {error && <p className="text-center text-red-500">Erreur: {error}</p>}
+            {error && <p className="text-center text-accent">Erreur: {error}</p>}
             {!isLoading && !error && (
               <>
                 {bestSellers.length > 0 && (

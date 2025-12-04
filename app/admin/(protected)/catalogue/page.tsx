@@ -116,7 +116,7 @@ const CataloguePage = () => {
       />
 
       {isLoading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-accent">{error}</p>}
       {!isLoading && !error && (
         <ProductTable products={products} onEdit={handleEdit} onDelete={handleDeleteRequest} />
       )}

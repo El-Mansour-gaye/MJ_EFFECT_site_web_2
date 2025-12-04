@@ -33,7 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {product.tag && (
+        {/* {product.tag && (
           <span
             className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
               product.tag === "Promo"
@@ -45,7 +45,7 @@ export function ProductCard({ product }: ProductCardProps) {
           >
             {product.tag}
           </span>
-        )}
+        )} */}
         <button className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-accent">
           <Heart size={18} />
         </button>

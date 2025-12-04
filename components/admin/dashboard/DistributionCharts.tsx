@@ -51,7 +51,7 @@ const DistributionCharts = ({ dateRange }: DistributionChartsProps) => {
     fetchData();
   }, [dateRange]);
 
-  if (error) return <div className="text-red-500">{error}</div>;
+  if (error) return <div className="text-accent">{error}</div>;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">

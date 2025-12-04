@@ -53,7 +53,7 @@ const StatCards = ({ dateRange }: StatCardsProps) => {
   }, [dateRange]);
 
   if (error) {
-    return <div className="text-red-500">Error: {error}</div>;
+    return <div className="text-accent">Error: {error}</div>;
   }
 
   if (!stats) {
