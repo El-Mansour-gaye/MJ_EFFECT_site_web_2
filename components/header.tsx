@@ -215,7 +215,7 @@ function HeaderContent() {
             <button className="p-2 hover:text-accent transition-colors">
               <Search size={24} />
             </button>
-            <Link href="/panier" className="p-2 hover:text-accent transition-colors relative">
+            <Link ref={cartIconRef} href="/panier" className="p-2 hover:text-white/70 transition-colors relative">    
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
