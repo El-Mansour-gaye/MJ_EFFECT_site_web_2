@@ -63,20 +63,20 @@ function HeaderContent() {
     if (hasMegaMenu) {
       const category = searchParams.get("category")
       const linkCategory = new URLSearchParams(path.split("?")[1]).get("category")
-      return `${baseClasses} ${category === linkCategory ? "text-black" : "text-black/70 hover:text-black"}`
+      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70 hover:text-white"}`
     }
 
-    return `${baseClasses} ${pathname === path ? "text-black" : "text-black/70 hover:text-black"}`
+    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70 hover:text-white"}`
   }
 
   return (
     <header
       ref={headerRef}
-      className={`fixed top-8 left-0 right-0 z-50 bg-white border-b border-black/10 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
+      className={`fixed top-8 left-0 right-0 z-50 bg-black border-b border-white/10 transition-transform duration-300 ${isVisible ? "translate-y-0" : "-translate-y-full"}`}
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          <button className="lg:hidden p-2 text-black" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          <button className="lg:hidden p-2 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
@@ -206,11 +206,11 @@ function HeaderContent() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4 text-black">
-            <button className="p-2 hover:text-black/70 transition-colors">
+          <div className="flex items-center gap-4 text-white">
+            <button className="p-2 hover:text-white/70 transition-colors">
               <Search size={24} />
             </button>
-            <Link href="/panier" className="p-2 hover:text-black/70 transition-colors relative">
+            <Link href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
