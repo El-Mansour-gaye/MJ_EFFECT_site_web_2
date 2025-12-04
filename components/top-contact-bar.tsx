@@ -15,9 +15,9 @@ export function TopContactBar() {
             <span className="hidden md:inline">WhatsApp</span>
           </a>
         </div>
-        <a href="mailto:contact@mj-effect.com" className="flex items-center gap-2 hover:text-white transition-colors mt-2 md:mt-0">
+        <a href="mailto:contact@mgeffect.com" className="flex items-center gap-2 hover:text-white transition-colors mt-2 md:mt-0">
           <Mail size={14} />
-          <span>contact@mj-effect.com</span>
+          <span>contact@mgeffect.com</span>
         </a>
       </div>
     </div>
