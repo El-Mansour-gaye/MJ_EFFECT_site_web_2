@@ -62,10 +62,10 @@ export function VideoViewerModal({ products, startIndex, onClose }: VideoViewerM
                 <>
                   <p className="text-lg mb-4">{product.prix_fcfa.toLocaleString()} FCFA</p>
                   <Link
-                    href={`/collection/${product.id}`}
+                    href="/collection"
                     className="bg-white text-black px-6 py-3 text-sm uppercase tracking-widest hover:bg-gray-200 transition-colors"
                   >
-                    Voir le produit
+                    Acheter maintenant
                   </Link>
                 </>
               )}
