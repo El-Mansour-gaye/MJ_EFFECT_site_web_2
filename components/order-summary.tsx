@@ -16,7 +16,7 @@ export const OrderSummary = () => {
     }
 
     return (
-        <div className="border rounded-lg p-6 shadow-lg bg-background">
+        <div className="border p-6 shadow-lg bg-background">
             <h2 className="text-2xl font-semibold mb-6">Résumé de la Commande</h2>
 
             <div className="space-y-4 mb-6">
@@ -27,7 +27,7 @@ export const OrderSummary = () => {
                             alt={item.nom}
                             width={64}
                             height={64}
-                            className="rounded-md object-cover mr-4"
+                            className="object-cover mr-4"
                         />
                         <div className="flex-grow">
                             <p className="font-medium">{item.nom}</p>

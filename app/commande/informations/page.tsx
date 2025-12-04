@@ -47,7 +47,7 @@ const InformationsPage = () => {
                     {/* Client Info Form */}
                     <div className="md:col-span-1">
                         <h1 className="text-3xl font-semibold mb-6">Vos Informations</h1>
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-8 rounded-xl shadow-md">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-8 shadow-md">
                             <div>
                                 <Label htmlFor="nom" className="text-lg">Nom Complet</Label>
                                 <Input id="nom" {...register('nom', { required: 'Le nom est requis' })} className="mt-2 py-6" />

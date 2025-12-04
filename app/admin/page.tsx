@@ -56,7 +56,7 @@ const AdminLoginPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen">
-      <div className="w-full max-w-md p-8 space-y-6 border rounded-lg">
+      <div className="w-full max-w-md p-8 space-y-6 border">
         <h1 className="text-2xl font-bold text-center">Admin Login</h1>
         <div className="space-y-2">
           <Label htmlFor="password">Mot de passe</Label>
