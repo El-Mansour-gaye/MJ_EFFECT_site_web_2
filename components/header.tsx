@@ -11,6 +11,7 @@ import { encodeImagePath } from "@/lib/utils"
 
 function HeaderContent() {
   const cart = useCartStore((state) => state.cart_content)
+  const setCartIconRef = useCartStore((state) => state.setCartIconRef)
   const cartItemCount = cart.reduce((total, item) => total + item.quantite, 0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<number | null>(null)
@@ -18,8 +19,13 @@ function HeaderContent() {
   const [isVisible, setIsVisible] = useState(true)
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
+  const cartIconRef = useRef<HTMLAnchorElement>(null)
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    setCartIconRef(cartIconRef)
+  }, [setCartIconRef])
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -210,7 +216,7 @@ function HeaderContent() {
             <button className="p-2 hover:text-white/70 transition-colors">
               <Search size={24} />
             </button>
-            <Link href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
+            <Link ref={cartIconRef} href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">

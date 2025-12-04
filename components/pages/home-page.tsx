@@ -123,41 +123,45 @@ export function HomePage() {
         <OlfactiveCollections />
       </AnimatedSection>
 
-      <AnimatedSection>
-        <section className="py-16 lg:py-24 bg-black/5">
-          <div className="container mx-auto px-4 max-w-6xl">
+      <section className="py-16 lg:py-24 bg-black/5">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <AnimatedSection>
             <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
               <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
             </h2>
+          </AnimatedSection>
 
-            {isLoading && <p className="text-center">Chargement des collections...</p>}
-            {error && <p className="text-center text-red-500">Erreur: {error}</p>}
-            {!isLoading && !error && (
-              <>
-                {bestSellers.length > 0 && (
-                  <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
-                )}
-                {newArrivals.length > 0 && (
-                  <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
-                )}
-                {coffrets.length > 0 && (
-                  <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
-                )}
-              </>
-            )}
-          </div>
-        </section>
-      </AnimatedSection>
+          {isLoading && <p className="text-center">Chargement des collections...</p>}
+          {error && <p className="text-center text-red-500">Erreur: {error}</p>}
+          {!isLoading && !error && (
+            <AnimatedSection>
+              {bestSellers.length > 0 && (
+                <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+              )}
+              {newArrivals.length > 0 && (
+                <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+              )}
+              {coffrets.length > 0 && (
+                <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+              )}
+            </AnimatedSection>
+          )}
+        </div>
+      </section>
 
       {/* Parallax Categories Section */}
-      <ParallaxCategories />
+      <AnimatedSection>
+        <ParallaxCategories />
+      </AnimatedSection>
 
       {/* Product Demos Section */}
       <AnimatedSection>
         <ProductDemoCarousel />
       </AnimatedSection>
 
-      <HomeBlogSection />
+      <AnimatedSection>
+        <HomeBlogSection />
+      </AnimatedSection>
     </div>
   )
 }
