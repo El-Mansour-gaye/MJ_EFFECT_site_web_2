@@ -21,19 +21,19 @@ const TicketContent = () => {
             <CheckoutProgress currentStep="confirmation" />
           </div>
 
-          <div className="bg-white p-8 md:p-12 rounded-xl shadow-lg text-center">
+          <div className="bg-white p-8 md:p-12 shadow-lg text-center">
             <CheckCircle2 className="h-20 w-20 text-green-500 mx-auto mb-6" />
             <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">Merci !</h1>
             <p className="text-xl text-gray-600 mb-6">Votre commande a été reçue avec succès.</p>
 
-            <div className="bg-gray-100 rounded-lg p-6 inline-block mb-8">
+            <div className="bg-gray-100 p-6 inline-block mb-8">
               <p className="text-lg text-gray-700 mb-1">Votre numéro de commande est :</p>
               <p className="text-3xl font-bold font-mono text-primary">
                 #{commandeId || 'N/A'}
               </p>
             </div>
 
-            <div className="text-left bg-gray-50 p-8 rounded-lg max-w-2xl mx-auto">
+            <div className="text-left bg-gray-50 p-8 max-w-2xl mx-auto">
               <h2 className="font-semibold text-2xl mb-4">Prochaines Étapes</h2>
               <ul className="list-disc list-inside space-y-3 text-gray-700 text-lg">
                 <li>

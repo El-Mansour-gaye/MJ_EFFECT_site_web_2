@@ -218,7 +218,7 @@ function HeaderContent() {
             <Link ref={cartIconRef} href="/panier" className="p-2 hover:text-white/70 transition-colors relative">    
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-accent text-accent-foreground text-xs w-4 h-4 flex items-center justify-center">
                   {cartItemCount}
                 </span>
               )}

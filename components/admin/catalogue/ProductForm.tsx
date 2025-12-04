@@ -78,17 +78,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       <div>
         <Label htmlFor="nom">Nom du Produit</Label>
         <Input id="nom" {...register('nom')} />
-        {errors.nom && <p className="text-red-500 text-sm">{errors.nom.message}</p>}
+        {errors.nom && <p className="text-accent text-sm">{errors.nom.message}</p>}
       </div>
       <div>
         <Label htmlFor="prix_fcfa">Prix (FCFA)</Label>
         <Input id="prix_fcfa" type="number" {...register('prix_fcfa')} />
-        {errors.prix_fcfa && <p className="text-red-500 text-sm">{errors.prix_fcfa.message}</p>}
+        {errors.prix_fcfa && <p className="text-accent text-sm">{errors.prix_fcfa.message}</p>}
       </div>
       <div>
         <Label htmlFor="stock">Stock</Label>
         <Input id="stock" type="number" {...register('stock')} />
-        {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
+        {errors.stock && <p className="text-accent text-sm">{errors.stock.message}</p>}
       </div>
 
       <Controller

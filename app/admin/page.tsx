@@ -68,7 +68,7 @@ const AdminLoginPage = () => {
             onKeyPress={(e) => e.key === 'Enter' && handleLogin()}
           />
         </div>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-accent text-sm">{error}</p>}
         <Button onClick={handleLogin} className="w-full">
           Connexion
         </Button>

@@ -34,30 +34,30 @@ const PanierPage = () => {
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
               {cart_content.map(item => (
-                <div key={item.produit_id} className="flex items-center bg-white border border-gray-200 rounded-xl p-6 shadow-sm transition-shadow hover:shadow-md">
+                <div key={item.produit_id} className="flex items-center bg-white border border-gray-200 p-6 shadow-sm transition-shadow hover:shadow-md">
                   <Image
                     src={item.image_url || '/placeholder.svg'}
                     alt={item.nom}
                     width={100}
                     height={100}
-                    className="rounded-lg object-cover mr-6"
+                    className="object-cover mr-6"
                   />
                   <div className="flex-grow">
                     <h2 className="font-semibold text-xl">{item.nom}</h2>
                     <p className="text-gray-600 text-md">{item.prix_fcfa.toLocaleString()} FCFA</p>
                   </div>
                   <div className="flex items-center gap-5">
-                    <div className="flex items-center border rounded-lg">
+                    <div className="flex items-center border">
                       <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite - 1)} disabled={item.quantite <= 1}>-</Button>
                       <Input
                           type="number"
                           value={item.quantite}
                           onChange={(e) => updateQuantity(item.produit_id, parseInt(e.target.value, 10))}
-                          className="w-16 h-10 text-center border-l border-r rounded-none focus:ring-0"
+                          className="w-16 h-10 text-center border-l border-r focus:ring-0"
                       />
                       <Button variant="ghost" size="icon" onClick={() => updateQuantity(item.produit_id, item.quantite + 1)}>+</Button>
                     </div>
-                    <Button variant="ghost" size="icon" className="text-red-500 hover:text-red-700 transition-colors" onClick={() => removeFromCart(item.produit_id)}>
+                    <Button variant="ghost" size="icon" className="text-accent hover:text-accent/80 transition-colors" onClick={() => removeFromCart(item.produit_id)}>
                       <Trash2 size={22} />
                     </Button>
                   </div>
@@ -67,7 +67,7 @@ const PanierPage = () => {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="sticky top-28 bg-white border border-gray-200 rounded-xl p-8 shadow-lg">
+              <div className="sticky top-28 bg-white border border-gray-200 p-8 shadow-lg">
                 <h2 className="text-3xl font-semibold mb-6">Résumé</h2>
                 <div className="space-y-4 text-lg">
                   <div className="flex justify-between">

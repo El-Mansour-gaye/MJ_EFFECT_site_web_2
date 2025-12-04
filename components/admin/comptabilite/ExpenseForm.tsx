@@ -71,22 +71,22 @@ const ExpenseForm: React.FC<ExpenseFormProps> = ({ expense, onSubmit }) => {
       <div>
         <Label htmlFor="nom_depense">Nom de la Dépense</Label>
         <Input id="nom_depense" {...register('nom_depense')} />
-        {errors.nom_depense && <p className="text-red-500 text-sm">{errors.nom_depense.message}</p>}
+        {errors.nom_depense && <p className="text-accent text-sm">{errors.nom_depense.message}</p>}
       </div>
       <div>
         <Label htmlFor="montant">Montant (FCFA)</Label>
         <Input id="montant" type="number" {...register('montant')} />
-        {errors.montant && <p className="text-red-500 text-sm">{errors.montant.message}</p>}
+        {errors.montant && <p className="text-accent text-sm">{errors.montant.message}</p>}
       </div>
       <div>
         <Label htmlFor="categorie">Catégorie</Label>
         <Input id="categorie" {...register('categorie')} />
-        {errors.categorie && <p className="text-red-500 text-sm">{errors.categorie.message}</p>}
+        {errors.categorie && <p className="text-accent text-sm">{errors.categorie.message}</p>}
       </div>
       <div>
         <Label htmlFor="date_depense">Date</Label>
         <Input id="date_depense" type="date" {...register('date_depense')} />
-        {errors.date_depense && <p className="text-red-500 text-sm">{errors.date_depense.message}</p>}
+        {errors.date_depense && <p className="text-accent text-sm">{errors.date_depense.message}</p>}
       </div>
       <Button type="submit">{expense ? 'Mettre à jour' : 'Créer'}</Button>
     </form>

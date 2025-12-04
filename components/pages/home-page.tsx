@@ -104,7 +104,12 @@ export function HomePage() {
           }}
         />
         <div className="relative z-10">
-          <Button asChild>
+          <Button
+            variant="default"
+            size="lg"
+            className="border-white text-white bg-transparent hover:bg-white hover:text-black py-3 px-8 text-lg"
+            asChild
+          >
             <Link href="/collection">Acheter Maintenant</Link>
           </Button>
         </div>
