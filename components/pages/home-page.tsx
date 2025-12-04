@@ -5,7 +5,6 @@ import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { BLOG_ARTICLES } from "@/lib/data"
 import { Product } from "@/lib/types"
-import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/product-card"
 import { ProductDemoCarousel } from "@/components/product-demo-carousel"
 import { ParallaxCategories } from "@/components/pages/parallax-categories"
@@ -110,8 +109,11 @@ export function HomePage() {
           }}
         />
         <div className="relative z-10">
-          <Link href="/collection">
-            <Button className="px-8 py-6 text-sm uppercase tracking-widest">Acheter Maintenant</Button>
+          <Link
+            href="/collection"
+            className="bg-accent text-accent-foreground px-8 py-3 text-sm uppercase tracking-widest hover:bg-accent/90 transition-colors"
+          >
+            Acheter Maintenant
           </Link>
         </div>
       </section>
