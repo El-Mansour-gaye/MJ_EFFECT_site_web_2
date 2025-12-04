@@ -73,11 +73,11 @@ const PaiementPage = () => {
                     {/* Payment Method Selection */}
                     <div className="md:col-span-1">
                         <h1 className="text-3xl font-semibold mb-6">Mode de Paiement</h1>
-                        <div className="bg-white p-8 rounded-xl shadow-md space-y-6">
+                        <div className="bg-white p-8 shadow-md space-y-6">
                             <div
                                 onClick={() => setPaymentMethod('PayTech')}
                                 className={cn(
-                                    "flex items-center space-x-4 rounded-xl border p-6 cursor-pointer transition-all hover:border-gray-400",
+                                    "flex items-center space-x-4 border p-6 cursor-pointer transition-all hover:border-gray-400",
                                     payment_method === 'PayTech' ? "border-primary ring-2 ring-primary" : "border-gray-200"
                                 )}
                             >
@@ -91,7 +91,7 @@ const PaiementPage = () => {
                             <div
                                 onClick={() => setPaymentMethod('Presentiel')}
                                 className={cn(
-                                    "flex items-center space-x-4 rounded-xl border p-6 cursor-pointer transition-all hover:border-gray-400",
+                                    "flex items-center space-x-4 border p-6 cursor-pointer transition-all hover:border-gray-400",
                                     payment_method === 'Presentiel' ? "border-primary ring-2 ring-primary" : "border-gray-200"
                                 )}
                             >

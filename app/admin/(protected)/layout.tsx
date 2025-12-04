@@ -14,27 +14,27 @@ const AdminSidebar = () => (
   <aside className="w-64 bg-secondary text-secondary-foreground p-4 border-r border-border">
     <h2 className="text-xl font-bold mb-8 text-primary">Admin</h2>
     <nav className="space-y-4">
-      <Link href="/admin/dashboard" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/dashboard" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <LayoutDashboard />
         <span>Dashboard</span>
       </Link>
-      <Link href="/admin/commandes" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/commandes" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <ShoppingCart />
         <span>Commandes</span>
       </Link>
-      <Link href="/admin/clients" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/clients" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <Users />
         <span>Clients</span>
       </Link>
-      <Link href="/admin/comptabilite" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/comptabilite" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <BarChart />
         <span>Comptabilité</span>
       </Link>
-      <Link href="/admin/abonnes" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/abonnes" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <Mail />
         <span>Abonnés</span>
       </Link>
-      <Link href="/admin/catalogue" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 rounded transition-colors">
+      <Link href="/admin/catalogue" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <Tag />
         <span>Catalogue</span>
       </Link>
