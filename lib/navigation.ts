@@ -60,7 +60,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
               ],
             },
           ],
-          images: [{ src: "/perfume-long-lasting-dakar.png", alt: "Parfum longue durée" }],
+          images: [{ src: "/champagne toast.PNG", alt: "Parfums" }],
         },
         {
           label: "Soins Corporels",
@@ -76,7 +76,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
               ],
             },
           ],
-          images: [{ src: "/glowing-skin-scrub-senegal.jfif", alt: "Gommage pour une peau éclatante" }],
+          images: [{ src: "/Body wash Dr teals - 11000.PNG", alt: "Soins Corporels" }],
         },
         {
           label: "Gommages & Gels Douche",
@@ -90,7 +90,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
               ],
             },
           ],
-          images: [{ src: "/body-butter-vs-lotion-senegal.png", alt: "Beurre corporel vs lotion" }],
+          images: [{ src: "/tree hut tropic glow_1.PNG", alt: "Gommages & Gels Douche" }],
         },
         {
           label: "Coffrets",
@@ -102,8 +102,9 @@ export const NAVIGATION_LINKS: NavLink[] = [
             },
           ],
           images: [
-            { src: "/gift-sets-korite-tabaski-dakar.png", alt: "Coffrets cadeaux" },
-            { src: "/image-illustrative-coffret-ou-set.png", alt: "Image illustrative d'un coffret" },
+            { src: "/set-1-champagne-toast-1.PNG", alt: "Coffret" },
+            { src: "/set-1-champagne-toast-2.PNG", alt: "Coffret" },
+            { src: "/set-1-champagne-toast-3.PNG", alt: "Coffret" },
           ],
         },
       ],
