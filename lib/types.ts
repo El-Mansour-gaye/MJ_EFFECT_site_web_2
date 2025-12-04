@@ -15,6 +15,7 @@ export interface Product {
   images: string[] | null;
   tag: string | null;
   details: string | null;
+  video_url?: string;
 }
 
 // Types based on the database schema
