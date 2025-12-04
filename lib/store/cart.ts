@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { RefObject } from 'react';
 
 // Define the types for the store's state and actions
 interface CartItem {
@@ -22,6 +23,7 @@ interface CartState {
   cart_content: CartItem[];
   client_info: ClientInfo;
   payment_method: PaymentMethod;
+  cartIconRef: RefObject<HTMLElement> | null;
 }
 
 // Define the actions structure
@@ -31,6 +33,7 @@ interface CartActions {
   updateQuantity: (produit_id: string, quantite: number) => void;
   setClientInfo: (info: ClientInfo) => void;
   setPaymentMethod: (method: PaymentMethod) => void;
+  setCartIconRef: (ref: RefObject<HTMLElement>) => void;
   clearCart: () => void;
 }
 
@@ -44,6 +47,7 @@ const initialState: CartState = {
     email: '',
   },
   payment_method: null,
+  cartIconRef: null,
 };
 
 // Create the Zustand store
@@ -87,6 +91,8 @@ export const useCartStore = create<CartState & CartActions>((set) => ({
   setClientInfo: (info) => set({ client_info: info }),
 
   setPaymentMethod: (method) => set({ payment_method: method }),
+
+  setCartIconRef: (ref) => set({ cartIconRef: ref }),
 
   clearCart: () => set(initialState),
 }));

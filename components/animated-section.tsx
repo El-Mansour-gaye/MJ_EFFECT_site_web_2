@@ -1,32 +1,34 @@
 "use client"
 
 import { useRef } from "react"
-import { useIntersectionObserver } from "@/lib/hooks/useIntersectionObserver"
+import { motion, useInView } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 interface AnimatedSectionProps {
   children: React.ReactNode
   className?: string
-  delay?: string
+  delay?: number
 }
 
-export function AnimatedSection({ children, className, delay = "duration-500" }: AnimatedSectionProps) {
-  const [ref, isVisible] = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true,
-  })
+export function AnimatedSection({ children, className, delay = 0 }: AnimatedSectionProps) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.1 })
+
+  const variants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0 },
+  }
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className={cn(
-        "transition-all",
-        delay,
-        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10",
-        className
-      )}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      transition={{ duration: 0.8, ease: "easeOut", delay }}
+      className={cn(className)}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }

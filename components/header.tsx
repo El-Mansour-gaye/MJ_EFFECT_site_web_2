@@ -11,6 +11,7 @@ import { encodeImagePath } from "@/lib/utils"
 
 function HeaderContent() {
   const cart = useCartStore((state) => state.cart_content)
+  const setCartIconRef = useCartStore((state) => state.setCartIconRef)
   const cartItemCount = cart.reduce((total, item) => total + item.quantite, 0)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openMegaMenu, setOpenMegaMenu] = useState<number | null>(null)
@@ -18,8 +19,13 @@ function HeaderContent() {
   const [isVisible, setIsVisible] = useState(true)
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
+  const cartIconRef = useRef<HTMLAnchorElement>(null)
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  useEffect(() => {
+    setCartIconRef(cartIconRef)
+  }, [setCartIconRef])
 
   useEffect(() => {
     const controlNavbar = () => {
