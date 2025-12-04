@@ -108,7 +108,9 @@ export function HomePage() {
           <Link href="/collection">
             <Button
               variant="ghost"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 px-6 py-3 text-lg rounded-none"
+              className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 
+               px-8 py-4 text-xl 
+               rounded-none font-bold tracking-wider"
             >
               Acheter Maintenant
             </Button>
