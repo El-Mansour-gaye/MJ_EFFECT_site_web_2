@@ -1,4 +1,3 @@
-import { Play } from "lucide-react"
 import { Product } from "@/lib/types"
 
 interface ProductDemoCardProps {
@@ -12,18 +11,16 @@ export function ProductDemoCard({ product, onClick }: ProductDemoCardProps) {
       className="relative aspect-[9/16] w-64 flex-shrink-0 cursor-pointer group overflow-hidden"
       onClick={onClick}
     >
-      <img
-        src={product.image}
-        alt={product.nom}
+      <video
+        src={product.video_url}
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        autoPlay
+        loop
+        muted
+        playsInline
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
       <div className="absolute inset-0 flex flex-col justify-end p-4 text-white">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="p-4 bg-white/20 rounded-full backdrop-blur-sm transform scale-75 group-hover:scale-100 transition-transform">
-            <Play size={32} className="text-white" />
-          </div>
-        </div>
         <h3 className="font-serif text-lg font-bold">{product.nom}</h3>
         {product.prix_fcfa > 0 && <p className="text-sm">{product.prix_fcfa.toLocaleString()} FCFA</p>}
       </div>
