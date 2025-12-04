@@ -108,7 +108,7 @@ export function HomePage() {
           <Link href="/collection">
             <Button
               variant="ghost"
-              className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 px-6 py-3 text-lg" // Ajout de border-2, px-6, py-3, text-lg pour le rendre plus visible
+              className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 px-6 py-3 text-lg rounded-none"
             >
               Acheter Maintenant
             </Button>
