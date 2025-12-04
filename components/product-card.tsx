@@ -1,7 +1,9 @@
 "use client"
 
+import { useRef } from "react"
 import { ShoppingBag, Heart } from "lucide-react"
 import { toast } from "sonner"
+import { motion } from "framer-motion"
 import { useCartStore } from "@/lib/store/cart"
 import type { Product } from "@/lib/types"
 import { encodeImagePath } from "@/lib/utils"
@@ -12,9 +14,13 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore((state) => state.addToCart)
+  const cartIconRef = useCartStore((state) => state.cartIconRef)
+  const imageRef = useRef<HTMLImageElement>(null)
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation() // Prevent the modal from opening
+    e.stopPropagation()
+
+    // --- Core logic first ---
     addToCart({
       produit_id: product.id,
       nom: product.nom,
@@ -22,12 +28,52 @@ export function ProductCard({ product }: ProductCardProps) {
       quantite: 1,
     })
     toast.success(`${product.nom} a été ajouté au panier!`)
+    // --- End of core logic ---
+
+    // Animation logic (visual feedback only)
+    if (imageRef.current && cartIconRef?.current) {
+      const imageRect = imageRef.current.getBoundingClientRect()
+      const cartRect = cartIconRef.current.getBoundingClientRect()
+
+      const flyingImage = imageRef.current.cloneNode(true) as HTMLImageElement
+      flyingImage.style.position = "fixed"
+      flyingImage.style.left = `${imageRect.left}px`
+      flyingImage.style.top = `${imageRect.top}px`
+      flyingImage.style.width = `${imageRect.width}px`
+      flyingImage.style.height = `${imageRect.height}px`
+      flyingImage.style.zIndex = "1000"
+      flyingImage.style.transition = "all 0.8s cubic-bezier(0.55, 0.055, 0.675, 0.19)"
+      document.body.appendChild(flyingImage)
+
+      // Add event listener for the end of the transition
+      flyingImage.addEventListener(
+        "transitionend",
+        () => {
+          document.body.removeChild(flyingImage)
+        },
+        { once: true }
+      )
+
+      // Animate to cart
+      requestAnimationFrame(() => {
+        flyingImage.style.left = `${cartRect.left + cartRect.width / 2}px`
+        flyingImage.style.top = `${cartRect.top + cartRect.height / 2}px`
+        flyingImage.style.width = "0px"
+        flyingImage.style.height = "0px"
+        flyingImage.style.opacity = "0"
+      })
+    }
   }
 
   return (
-    <div className="group cursor-pointer">
-      <div className="relative aspect-[3/4] overflow-hidden bg-black/5">
+    <motion.div
+      className="group cursor-pointer"
+      whileHover={{ y: -8 }}
+      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+    >
+      <div className="relative aspect-[3/4] overflow-hidden bg-black/5 shadow-md transition-shadow duration-300 group-hover:shadow-xl">
         <img
+          ref={imageRef}
           src={encodeImagePath(product.image || "/placeholder.svg")}
           alt={product.nom}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -64,6 +110,6 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="font-serif text-lg mb-2">{product.nom}</h3>
         <p className="font-medium">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
       </div>
-    </div>
+    </motion.div>
   )
 }
