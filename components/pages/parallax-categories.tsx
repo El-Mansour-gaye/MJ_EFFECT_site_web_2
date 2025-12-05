@@ -46,7 +46,7 @@ export function ParallaxCategories() {
       <div className="absolute inset-0 z-1 bg-black/50" />
       <div className="z-10 w-full container mx-auto px-4 max-w-6xl text-center text-white">
         <h2 className="font-serif text-4xl md:text-5xl mb-12">
-          <span className="font-light">Explorez l'Univers</span> <span className="font-bold">MJ Effect</span>
+          <span className="font-light">Explorez l'Univers</span> <span className="font-bold">MG Effect</span>
         </h2>
         <div className="flex flex-wrap md:flex-nowrap overflow-x-auto items-start justify-center gap-8 pb-4">
           {categories.map((category) => (

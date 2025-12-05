@@ -16,7 +16,7 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={16} className="text-accent" />
-                contact@mjeffect.sn
+                contact@mgeffect.sn
               </li>
               <li className="flex items-start gap-3">
                 <MapPin size={16} className="text-accent mt-1" />
@@ -116,7 +116,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-white/10 mt-12 pt-8 text-center text-sm text-white/50">
-          <p>© 2025 MJ EFFECT. Tous droits réservés.</p>
+          <p>© 2025 MG EFFECT. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
