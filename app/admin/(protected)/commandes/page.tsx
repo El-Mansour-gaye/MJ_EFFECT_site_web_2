@@ -16,6 +16,9 @@ type Article = {
 
 type Order = {
   id: string;
+  code_commande: string;
+  date_livraison: string;
+  statut_livraison: string;
   client_nom: string;
   client_telephone: string;
   client_adresse: string;
@@ -25,6 +28,14 @@ type Order = {
   date_creation: string;
   articles_commande: Article[];
 };
+
+const DELIVERY_STATUSES = [
+  'En préparation',
+  'Prête pour expédition',
+  'Expédiée',
+  'Livrée',
+  'Annulée',
+];
 
 const CommandesPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -56,19 +67,23 @@ const CommandesPage = () => {
     fetchOrders();
   }, [page]);
 
-  const handleStatusChange = async (orderId: string, newStatus: string) => {
+  const handleStatusChange = async (orderId: string, field: 'statut_paiement' | 'statut_livraison', value: string) => {
     const token = sessionStorage.getItem("admin-auth-token");
     try {
       const response = await fetch(`/api/admin/commandes/${orderId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ statut_paiement: newStatus }),
+        body: JSON.stringify({ [field]: value }),
       });
-      if (!response.ok) throw new Error('Failed to update status');
-      fetchOrders(); // Refresh the list
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update status');
+      }
+      // Optimistic update
+      setOrders(orders.map(o => o.id === orderId ? { ...o, [field]: value } : o));
     } catch (err) {
       setError((err as Error).message);
     }
@@ -84,23 +99,26 @@ const CommandesPage = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead>Code Commande</TableHead>
                   <TableHead>Client</TableHead>
-                  <TableHead>Contact</TableHead>
+                  <TableHead>Date Commande</TableHead>
+                  <TableHead>Date Livraison</TableHead>
                   <TableHead>Montant</TableHead>
-                  <TableHead>Date</TableHead>
                   <TableHead>Articles</TableHead>
                   <TableHead>Statut Paiement</TableHead>
+                  <TableHead>Statut Livraison</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {orders.map((order) => (
                   <TableRow key={order.id}>
-                    <TableCell>{order.client_nom}</TableCell>
-                    <TableCell>{order.client_telephone}<br/>{order.client_adresse}</TableCell>
-                    <TableCell>{order.montant_total} FCFA</TableCell>
+                    <TableCell className="font-mono">{order.code_commande}</TableCell>
+                    <TableCell>{order.client_nom}<br/>{order.client_telephone}</TableCell>
                     <TableCell>{new Date(order.date_creation).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(order.date_livraison).toLocaleDateString()}</TableCell>
+                    <TableCell>{order.montant_total} FCFA</TableCell>
                     <TableCell>
-                      <ul>
+                      <ul className="list-disc list-inside">
                         {order.articles_commande.map((article, index) => (
                           <li key={index}>
                             {article.quantite}x {article.produits.nom}
@@ -111,7 +129,7 @@ const CommandesPage = () => {
                     <TableCell>
                       <Select
                         value={order.statut_paiement}
-                        onValueChange={(value) => handleStatusChange(order.id, value)}
+                        onValueChange={(value) => handleStatusChange(order.id, 'statut_paiement', value)}
                       >
                         <SelectTrigger>
                           <SelectValue />
@@ -120,6 +138,21 @@ const CommandesPage = () => {
                           <SelectItem value="EN_ATTENTE">En attente</SelectItem>
                           <SelectItem value="PAYE_EN_LIGNE">Payé en ligne</SelectItem>
                           <SelectItem value="PAYE_PRESENTIEL">Payé en presentiel</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </TableCell>
+                    <TableCell>
+                      <Select
+                        value={order.statut_livraison}
+                        onValueChange={(value) => handleStatusChange(order.id, 'statut_livraison', value)}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {DELIVERY_STATUSES.map(status => (
+                            <SelectItem key={status} value={status}>{status}</SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </TableCell>

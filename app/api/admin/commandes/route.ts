@@ -19,6 +19,9 @@ export async function GET(request: NextRequest) {
     .from('commandes')
     .select(`
       id,
+      code_commande,
+      date_livraison,
+      statut_livraison,
       client_nom,
       client_telephone,
       client_adresse,
