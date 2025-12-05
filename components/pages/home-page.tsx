@@ -121,7 +121,7 @@ export function HomePage() {
               variant="ghost"
               className="border-white text-white bg-transparent hover:bg-white hover:text-black mt-4 border-2 
                px-8 py-4 text-xl 
-               rounded-none font-bold tracking-wider"
+               rounded-none font-bold tracking-wider font-serif"
             >
               Acheter Maintenant
             </Button>
