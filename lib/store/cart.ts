@@ -14,6 +14,7 @@ interface ClientInfo {
   telephone: string;
   adresse: string; // Ajout du champ adresse
   email?: string; // Email is optional
+  date_livraison?: string;
 }
 
 type PaymentMethod = 'PayTech' | 'Presentiel' | null;
