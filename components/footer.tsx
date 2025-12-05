@@ -62,6 +62,11 @@ export function Footer() {
                   Politique de Confidentialité
                 </Link>
               </li>
+              <li>
+                <Link href="/commande/suivi" className="relative transition-colors hover:text-accent after:absolute after:block after:w-full after:h-[1px] after:bg-accent after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100 after:origin-left">
+                  Suivre ma commande
+                </Link>
+              </li>
             </ul>
           </div>
 

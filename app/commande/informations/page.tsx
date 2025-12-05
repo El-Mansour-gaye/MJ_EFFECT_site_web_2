@@ -18,6 +18,7 @@ interface ClientInfo {
   telephone: string;
   adresse: string; // Ajout du champ adresse
   email?: string;
+  date_livraison?: string;
 }
 
 const InformationsPage = () => {
@@ -52,6 +53,18 @@ const InformationsPage = () => {
                                 <Label htmlFor="nom" className="text-lg">Nom Complet</Label>
                                 <Input id="nom" {...register('nom', { required: 'Le nom est requis' })} className="mt-2 py-6" />
                                 {errors.nom && <p className="text-red-500 text-sm mt-1">{errors.nom.message}</p>}
+                            </div>
+
+                            <div>
+                                <Label htmlFor="date_livraison" className="text-lg">Date de livraison souhaitée</Label>
+                                <Input
+                                    id="date_livraison"
+                                    type="date"
+                                    {...register('date_livraison', { required: 'La date de livraison est requise' })}
+                                    className="mt-2 py-6"
+                                    min={new Date().toISOString().split('T')[0]} // Empêche de sélectionner une date passée
+                                />
+                                {errors.date_livraison && <p className="text-red-500 text-sm mt-1">{errors.date_livraison.message}</p>}
                             </div>
 
                             <div>

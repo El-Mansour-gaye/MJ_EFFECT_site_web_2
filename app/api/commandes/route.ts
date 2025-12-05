@@ -1,6 +1,15 @@
 // /app/api/commandes/route.ts
 import { NextResponse } from 'next/server';
 import { createSupabaseAdmin } from '@/lib/supabase/admin'; // Use the admin client
+import crypto from 'crypto';
+import { sendOrderConfirmationEmail } from '@/lib/email';
+
+// Fonction pour générer un code de commande unique et court
+function generateOrderCode() {
+  const bytes = crypto.randomBytes(5); // 5 bytes for 10 hex characters
+  const hex = bytes.toString('hex');
+  return `${hex.slice(0, 5)}-${hex.slice(5, 10)}`;
+}
 
 export async function POST(request: Request) {
   const supabaseAdmin = createSupabaseAdmin();
@@ -21,20 +30,27 @@ export async function POST(request: Request) {
     }, 0);
     console.log("Calculated total:", montant_total);
 
-    // 2. Create the main order in the 'commandes' table
+    // 2. Generate a unique order code
+    const code_commande = generateOrderCode();
+    console.log("Generated Order Code:", code_commande);
+
+    // 3. Create the main order in the 'commandes' table
     console.log("Inserting into 'commandes' table...");
     const { data: commandeData, error: commandeError } = await supabaseAdmin
       .from('commandes')
       .insert({
         client_nom: client_info.nom,
         client_telephone: client_info.telephone,
-        client_adresse: client_info.adresse, // Ajout de l'adresse
-        client_email: client_info.email,     // Ajout de l'email
+        client_adresse: client_info.adresse,
+        client_email: client_info.email,
         montant_total,
-        statut_paiement: 'EN_ATTENTE', // Statut standardisé
+        statut_paiement: 'EN_ATTENTE',
         methode_paiement: payment_method,
+        code_commande, // Add the unique code
+        date_livraison: client_info.date_livraison, // Add the delivery date
+        // statut_livraison is set by default in the database
       })
-      .select('id')
+      .select('id, code_commande')
       .single();
 
     if (commandeError) throw commandeError;
@@ -77,8 +93,22 @@ export async function POST(request: Request) {
         if (clientError) console.warn('Error upserting client:', clientError);
     }
 
+    const full_order_details = {
+      ...client_info,
+      commande_id,
+      code_commande: commandeData.code_commande,
+      montant_total,
+      methode_paiement: payment_method,
+      articles: cart_content,
+      date_creation: new Date().toISOString(),
+      statut_livraison: 'En préparation', // Matches default value
+    };
+
+    // Send confirmation emails (don't await to avoid blocking the response)
+    sendOrderConfirmationEmail(full_order_details);
+
     console.log("--- Order creation successful ---");
-    return NextResponse.json({ success: true, commande_id });
+    return NextResponse.json({ success: true, order: full_order_details });
 
   } catch (error) {
     console.error('--- Order creation failed ---');
