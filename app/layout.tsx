@@ -20,12 +20,12 @@ const playfairDisplay = Playfair_Display({
   variable: "--font-serif",
 })
 
-// <CHANGE> Updated metadata for MJ EFFECT luxury beauty brand
+// <CHANGE> Updated metadata for MG EFFECT luxury beauty brand
 export const metadata: Metadata = {
-  title: "MJ Effect : Parfums, Soins & Gommages de Luxe à Dakar",
+  title: "MG Effect : Parfums, Soins & Gommages de Luxe à Dakar",
   description: "Découvrez les meilleurs parfums, brumes, gommages et soins corporels. Qualité premium et prix accessibles en FCFA. Livraison rapide à Dakar.",
   openGraph: {
-    site_name: "MJ Effect",
+    site_name: "MG Effect",
     type: "website",
     locale: "fr_FR",
     images: "/logo-mj-effect.png",

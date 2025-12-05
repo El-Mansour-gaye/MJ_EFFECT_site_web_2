@@ -173,7 +173,7 @@ function getOrderEmailHtml(order: OrderDetails): string {
 
       <div class="footer">
         <p>Pour toute question, répondez à cet e-mail ou contactez-nous au ${adminEmail}.</p>
-        <p>&copy; ${new Date().getFullYear()} MJ Effect. Tous droits réservés.</p>
+        <p>&copy; ${new Date().getFullYear()} MG Effect. Tous droits réservés.</p>
       </div>
     </div>
   </body>
@@ -195,9 +195,9 @@ export async function sendOrderConfirmationEmail(order: OrderDetails) {
   // Email to the client
   if (order.client_email) {
     const clientMailOptions = {
-      from: `"MJ Effect" <${adminEmail}>`,
+      from: `"MG Effect" <${adminEmail}>`,
       to: order.client_email,
-      subject: `Votre commande MJ Effect #${order.code_commande} est confirmée`,
+      subject: `Votre commande MG Effect #${order.code_commande} est confirmée`,
       html: emailHtml,
     };
 
