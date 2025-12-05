@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
+import { ProductModal } from "@/components/product-modal"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { BLOG_ARTICLES } from "@/lib/data"
 import { Product } from "@/lib/types"
@@ -18,10 +19,12 @@ function ProductCarousel({
   title,
   titleBold,
   products,
+  onProductClick,
 }: {
   title: string
   titleBold: string
   products: Product[]
+  onProductClick: (product: Product) => void
 }) {
   const carouselRef = useRef<HTMLDivElement>(null)
 
@@ -56,7 +59,11 @@ function ProductCarousel({
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {products.map((product) => (
-          <div key={product.id} className="flex-shrink-0 w-64">
+          <div
+            key={product.id}
+            className="flex-shrink-0 w-64 cursor-pointer"
+            onClick={() => onProductClick(product)}
+          >
             <ProductCard product={product} />
           </div>
         ))}
@@ -69,6 +76,7 @@ export function HomePage() {
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   useEffect(() => {
     const fetchCollections = async () => {
@@ -92,6 +100,9 @@ export function HomePage() {
   const bestSellers = products.filter((p) => p.is_best_seller)
   const newArrivals = products.filter((p) => p.is_new_arrival)
   const coffrets = products.filter((p) => p.is_set_or_pack)
+
+  const handleProductClick = (product: Product) => setSelectedProduct(product)
+  const handleCloseModal = () => setSelectedProduct(null)
 
   return (
     <div>
@@ -140,13 +151,28 @@ export function HomePage() {
           {!isLoading && !error && (
             <AnimatedSection>
               {bestSellers.length > 0 && (
-                <ProductCarousel title="Nos" titleBold="Best Sellers" products={bestSellers} />
+                <ProductCarousel
+                  title="Nos"
+                  titleBold="Best Sellers"
+                  products={bestSellers}
+                  onProductClick={handleProductClick}
+                />
               )}
               {newArrivals.length > 0 && (
-                <ProductCarousel title="Nouveaux" titleBold="Arrivages" products={newArrivals} />
+                <ProductCarousel
+                  title="Nouveaux"
+                  titleBold="Arrivages"
+                  products={newArrivals}
+                  onProductClick={handleProductClick}
+                />
               )}
               {coffrets.length > 0 && (
-                <ProductCarousel title="Coffrets Cadeaux" titleBold="& Packs" products={coffrets} />
+                <ProductCarousel
+                  title="Coffrets Cadeaux"
+                  titleBold="& Packs"
+                  products={coffrets}
+                  onProductClick={handleProductClick}
+                />
               )}
             </AnimatedSection>
           )}
@@ -166,6 +192,8 @@ export function HomePage() {
       <AnimatedSection>
         <HomeBlogSection />
       </AnimatedSection>
+
+      {selectedProduct && <ProductModal product={selectedProduct} onClose={handleCloseModal} />}
     </div>
   )
 }
