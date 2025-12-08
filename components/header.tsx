@@ -164,7 +164,7 @@ function HeaderContent() {
                                         alt={image.alt}
                                         width={200}
                                         height={200}
-                                        className="w-full h-40 object-cover rounded-md"
+                                        className="w-full h-full object-contain rounded-md"
                                       />
                                     </Link>
                                   ))}
