@@ -11,6 +11,27 @@ export interface BlogArticle {
 
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
+    id: 8,
+    title: "Quiz : Quelle Senteur MG Effect êtes-vous ?",
+    excerpt: "Vous ne savez pas quel parfum ou quel soin choisir ? Répondez à notre quiz rapide et découvrez votre profil olfactif idéal. C'est ludique, rapide et personnalisé !",
+    date: "29 Mai 2024",
+    readTime: "2 min",
+    category: "Quiz",
+    image: "/gift-sets-korite-tabaski-dakar.png",
+    content: `
+      <p><strong>(Mots-clés SEO : quiz parfum, quel parfum choisir, test olfactif, trouver sa signature olfactive, quiz beauté MG Effect)</strong></p>
+      <h2 class="text-2xl font-bold my-4">Vous hésitez entre "Into The Night" et "Champagne Toast" ? Vous ne savez pas si votre peau a besoin d'un Body Butter ou d'un Lait Corporel ?</h2>
+      <p class="mb-4">Le monde des senteurs est vaste et il est parfois difficile de trouver la fragrance ou le soin qui nous correspond vraiment. C'est pourquoi nous avons créé ce quiz ludique et rapide pour vous aider à découvrir votre signature olfactive personnelle.</p>
+      <p class="mb-4">En quelques questions, nous analyserons vos préférences et votre personnalité pour vous recommander les produits MG Effect qui sont faits pour vous. Prête à trouver votre match parfait ?</p>
+      <div class="my-8 text-center">
+        <a href="/quiz" class="inline-block bg-accent text-accent-foreground font-bold py-4 px-8 rounded-none hover:bg-accent/90 transition-colors">
+          Démarrer le Quiz !
+        </a>
+      </div>
+      <p class="text-center italic text-white/70">C'est rapide, amusant et les résultats pourraient vous surprendre !</p>
+    `,
+  },
+  {
     id: 1,
     title: "Les 5 Astuces Infuillibles pour Faire Tenir votre Parfum Toute la Journée à Dakar (Malgré la Chaleur)",
     excerpt: "La chaleur et l'humidité de Dakar sont magnifiques, mais elles sont les pires ennemies de votre parfum ! Découvrez comment faire tenir votre fragrance préférée.",
@@ -287,6 +308,52 @@ export const BLOG_ARTICLES: BlogArticle[] = [
           <li>SET #6 Warm Vanilla Sugar</li>
           <li>SET #5 Touch of Gold (Notes de musc chaud, vanille)</li>
         </ul>
+      </div>
+    `,
+  },
+  {
+    id: 7,
+    title: "La Routine Éclat Complète : Le Guide MG Effect en 4 Étapes",
+    excerpt: "Obtenir une peau radieuse et un sillage parfumé qui dure toute la journée à Dakar n'est pas un mystère. C'est une routine. Voici le guide MG Effect en 4 étapes clés.",
+    date: "28 Mai 2024",
+    readTime: "6 min",
+    category: "Routine de Soin",
+    image: "/into-the-night-perfume-review-dakar.png",
+    content: `
+      <p><strong>(Mots-clés SEO : routine soin corporel Sénégal, comment avoir une belle peau Dakar, gommage avant hydratation, layering parfum, guide beauté complet)</strong></p>
+      <h2 class="text-2xl font-bold my-4">Introduction : Le Secret n'est pas un Produit, c'est une Routine</h2>
+      <p class="mb-4">Obtenir une peau radieuse et un sillage parfumé qui dure toute la journée à Dakar n'est pas un mystère. C'est une routine. Beaucoup pensent qu'un seul produit miracle suffit, mais la vérité est dans la synergie de plusieurs étapes. Chez MG Effect, nous avons conçu une routine complète en 4 étapes simples mais puissantes, utilisant nos produits phares pour maximiser leur efficacité.</p>
+
+      <h3 class="text-xl font-bold my-4">Étape 1 : Purifier et Préparer avec le Gommage (2-3 fois/semaine)</h3>
+      <p class="mb-4">La base de toute routine efficace. Le gommage n'est pas un simple nettoyage, c'est une préparation de la toile. Il élimine les cellules mortes qui ternissent le teint et empêchent vos soins de pénétrer.</p>
+      <p class="mb-4"><strong>Action :</strong> Sous la douche, sur peau humide, massez énergiquement votre corps avec l'un de nos gommages. Insistez sur les zones sèches comme les coudes et les genoux.</p>
+      <p class="italic mb-4">*Produit Recommandé MG Effect : Le <strong>Gommage Moroccan Rose (18 000 FCFA)</strong> pour une exfoliation douce et un parfum floral envoûtant, ou le <strong>Tropic Glow</strong> pour un effet tonifiant et frais.</p>
+
+      <h3 class="text-xl font-bold my-4">Étape 2 : Hydrater Intensément (Quotidiennement)</h3>
+      <p class="mb-4">Une peau exfoliée est une peau assoiffée. C'est le moment idéal pour lui apporter une hydratation profonde. Le choix entre un lait et un beurre dépend de vos besoins.</p>
+      <p class="mb-4"><strong>Action :</strong> Juste après la douche, sur une peau encore légèrement humide, appliquez généreusement votre soin hydratant.</p>
+      <p class="mb-4"><strong>Pour une hydratation légère et rapide (le matin) :</strong> Optez pour le <strong>Lait de corps Dr Teals (11 000 FCFA)</strong>. Il pénètre vite et ne laisse aucun film gras.</p>
+      <p class="mb-4"><strong>Pour une nutrition profonde (le soir ou peau très sèche) :</strong> Le <strong>Glowtion Body Butter (disponible en CHAMPAGNE TOAST ou INTO THE NIGHT)</strong> est votre meilleur allié. Sa texture riche répare la peau et laisse un glow subtil.</p>
+
+      <h3 class="text-xl font-bold my-4">Étape 3 : Sceller avec la Brume Parfumée (Le "Layering")</h3>
+      <p class="mb-4">C'est l'étape qui fait toute la différence pour la tenue de votre parfum. La peau hydratée est la meilleure base pour fixer les notes olfactives.</p>
+      <p class="mb-4"><strong>Action :</strong> Vaporisez votre brume préférée sur les points de pulsation (poignets, cou, derrière les oreilles) et sur vos vêtements. Pour une synergie parfaite, utilisez une brume de la même gamme que votre soin corporel.</p>
+      <p class="italic mb-4">*Exemple de combo parfait : Appliquez le Glowtion Body Butter <strong>Into The Night</strong>, puis la <strong>Brume/Eau de Toilette Into The Night (15 000 FCFA)</strong>. Le résultat ? Un sillage sensuel et une tenue prolongée, même avec la chaleur de Dakar.</p>
+
+      <h3 class="text-xl font-bold my-4">Étape 4 (Bonus) : Le Soin Visage Ciblé</h3>
+      <p class="mb-4">Ne négligez pas votre visage ! L'uniformité du teint est la touche finale d'une routine éclat.</p>
+      <p class="mb-4"><strong>Action :</strong> Matin et soir, sur un visage propre, appliquez une crème ciblée pour l'éclat et l'uniformité.</p>
+      <p class="italic mb-4">*Produit Recommandé MG Effect : La <strong>Crème de visage à la vitamine C Advanced Colonels (13 000 FCFA)</strong> est spécialement conçue pour lutter contre les taches et illuminer le teint, un indispensable au Sénégal.</p>
+
+      <div class="bg-gray-100 p-4 rounded-lg">
+        <h4 class="font-bold text-lg mb-2">🛍️ Récapitulatif de la Routine Complète MG Effect :</h4>
+        <ul>
+          <li><strong>Étape 1 (Exfolier) :</strong> Gommage Moroccan Rose ou Tropic Glow (18 000 FCFA)</li>
+          <li><strong>Étape 2 (Hydrater) :</strong> Lait de corps Dr Teals (11 000 FCFA) ou Glowtion Body Butter</li>
+          <li><strong>Étape 3 (Parfumer) :</strong> Brume/Eau de Toilette au choix (ex: Into The Night) (15 000 FCFA)</li>
+          <li><strong>Étape 4 (Visage) :</strong> Crème de visage Vitamine C Advanced Colonels (13 000 FCFA)</li>
+        </ul>
+        <p class="mt-4 font-bold">Le résultat : une peau soignée, lumineuse et un parfum qui vous accompagne durablement.</p>
       </div>
     `,
   },
