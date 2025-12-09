@@ -11,6 +11,27 @@ export interface BlogArticle {
 
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
+    id: 8,
+    title: "Quiz : Quelle Senteur MG Effect êtes-vous ?",
+    excerpt: "Vous ne savez pas quel parfum ou quel soin choisir ? Répondez à notre quiz rapide et découvrez votre profil olfactif idéal. C'est ludique, rapide et personnalisé !",
+    date: "29 Mai 2024",
+    readTime: "2 min",
+    category: "Quiz",
+    image: "/gift-sets-korite-tabaski-dakar.png",
+    content: `
+      <p><strong>(Mots-clés SEO : quiz parfum, quel parfum choisir, test olfactif, trouver sa signature olfactive, quiz beauté MG Effect)</strong></p>
+      <h2 class="text-2xl font-bold my-4">Vous hésitez entre "Into The Night" et "Champagne Toast" ? Vous ne savez pas si votre peau a besoin d'un Body Butter ou d'un Lait Corporel ?</h2>
+      <p class="mb-4">Le monde des senteurs est vaste et il est parfois difficile de trouver la fragrance ou le soin qui nous correspond vraiment. C'est pourquoi nous avons créé ce quiz ludique et rapide pour vous aider à découvrir votre signature olfactive personnelle.</p>
+      <p class="mb-4">En quelques questions, nous analyserons vos préférences et votre personnalité pour vous recommander les produits MG Effect qui sont faits pour vous. Prête à trouver votre match parfait ?</p>
+      <div class="my-8 text-center">
+        <a href="/quiz" class="inline-block bg-accent text-accent-foreground font-bold py-4 px-8 rounded-none hover:bg-accent/90 transition-colors">
+          Démarrer le Quiz !
+        </a>
+      </div>
+      <p class="text-center italic text-white/70">C'est rapide, amusant et les résultats pourraient vous surprendre !</p>
+    `,
+  },
+  {
     id: 1,
     title: "Les 5 Astuces Infuillibles pour Faire Tenir votre Parfum Toute la Journée à Dakar (Malgré la Chaleur)",
     excerpt: "La chaleur et l'humidité de Dakar sont magnifiques, mais elles sont les pires ennemies de votre parfum ! Découvrez comment faire tenir votre fragrance préférée.",
