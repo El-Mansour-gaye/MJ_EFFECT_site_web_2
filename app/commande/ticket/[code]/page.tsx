@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import TicketDisplay from '@/components/commande/ticket-display';
+import ClearCart from '@/components/commande/clear-cart';
 
 // Define the types for better readability
 interface Article {
@@ -127,6 +128,7 @@ export default async function TicketPage({ params }: { params: { code: string } 
             </Button>
         </div>
       </div>
+      <ClearCart />
     </div>
   );
 }
