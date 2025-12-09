@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 type Client = {
   id: string;
@@ -46,7 +47,12 @@ const ClientsPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold font-playfair mb-6">Clients</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold font-playfair">Clients</h1>
+        <Link href="/admin/clients/new">
+          <Button>+ Nouveau Client</Button>
+        </Link>
+      </div>
       {isLoading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!isLoading && !error && (

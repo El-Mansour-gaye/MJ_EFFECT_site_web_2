@@ -2,6 +2,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
@@ -91,7 +92,12 @@ const CommandesPage = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold font-playfair mb-6">Commandes</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold font-playfair">Commandes</h1>
+        <Link href="/admin/commandes/new">
+          <Button>+ Nouvelle Commande Manuelle</Button>
+        </Link>
+      </div>
       {isLoading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!isLoading && !error && (
