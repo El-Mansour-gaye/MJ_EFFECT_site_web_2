@@ -1,4 +1,4 @@
-import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react"
+import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, CreditCard } from "lucide-react"
 import Link from "next/link"
 import { TicketFinder } from "./commande/ticket-finder"
 
@@ -6,7 +6,7 @@ export function Footer() {
   return (
     <footer className="bg-black text-white py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {/* Contact */}
           <div>
             <h3 className="font-serif text-xl mb-6">Contact</h3>
@@ -89,6 +89,17 @@ export function Footer() {
             </form>
           </div>
 
+          {/* Paiement sécurisé */}
+          <div>
+            <h3 className="font-serif text-xl mb-6">Paiement Sécurisé</h3>
+            <p className="text-sm text-white/70 mb-4">
+              Nous acceptons les cartes de crédit et les paiements mobiles.
+            </p>
+            <div className="flex items-center gap-4">
+              <CreditCard size={24} />
+              {/* Vous pouvez ajouter d'autres icônes de paiement ici */}
+            </div>
+          </div>
           {/* Suivre ma commande */}
           <div>
             <h3 className="font-serif text-xl mb-6">Suivre ma Commande</h3>
