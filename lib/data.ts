@@ -358,7 +358,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     `,
   },
   {
-    id: 9,
+    id: 8,
     title: "L'Art du Gifting : Offrir un Parfum MG Effect",
     excerpt: "Un parfum est un cadeau intime et élégant. Découvrez nos conseils pour choisir la fragrance parfaite et offrir une expérience inoubliable, sans craindre de vous tromper.",
     date: "30 Mai 2024",
@@ -387,7 +387,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     `
   },
   {
-    id: 10,
+    id: 9,
     title: "Notre Engagement pour la Qualité : Les Ingrédients d'Exception",
     excerpt: "Derrière chaque sillage MG Effect se cache une promesse : celle de l'excellence. Plongez au cœur de notre philosophie et découvrez la sélection rigoureuse de nos ingrédients.",
     date: "30 Mai 2024",
@@ -412,5 +412,71 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       <h2 class="text-2xl font-bold my-4">Notre Promesse : Une Expérience Inoubliable</h2>
       <p class="mb-4">Choisir MG Effect, c'est choisir une parfumerie qui respecte autant ses clients que les ingrédients qu'elle utilise. C'est la promesse d'une expérience olfactive de haute qualité, pensée pour vous et conçue pour durer.</p>
     `
+    title: "Les Secrets d'un Parfum Réussi : Notes de Tête, de Cœur et de Fond",
+    excerpt: "Découvrez la magie de la pyramide olfactive et comment les notes d'un parfum évoluent pour créer une signature unique.",
+    date: "30 Mai 2024",
+    readTime: "4 min",
+    category: "Conseils Parfum",
+    image: "/perfume-long-lasting-dakar.png",
+    content: `
+      <h2 class="text-2xl font-bold my-4">Plongez dans l'Art de la Parfumerie</h2>
+      <p class="mb-4">Un parfum est bien plus qu'une simple senteur ; c'est une œuvre d'art liquide, une histoire qui se dévoile au fil des heures. Chez MG Effect, nous croyons que pour vraiment apprécier une fragrance, il faut en comprendre les secrets. Le plus important d'entre eux ? La fameuse <strong>pyramide olfactive</strong>.</p>
+
+      <h3 class="text-xl font-bold my-4">1. Les Notes de Tête : La Première Impression Foudroyante</h3>
+      <p class="mb-4">Les notes de tête sont les premières que vous sentez, juste après la vaporisation. Elles sont légères, volatiles et conçues pour intriguer. Pensez à des agrumes pétillants, des herbes fraîches ou des fruits délicats. C'est le coup de foudre, l'accroche qui vous invite à en découvrir plus. Elles durent de quelques minutes à une heure, le temps de laisser place à l'acte suivant.</p>
+      <p class="italic mb-4">*Chez MG Effect : Les premières notes de notre brume "Champagne Toast" vous captivent avec une fraîcheur pétillante inoubliable.</p>
+
+      <h3 class="text-xl font-bold my-4">2. Les Notes de Cœur : L'Âme du Parfum</h3>
+      <p class="mb-4">Une fois les notes de tête dissipées, le cœur du parfum se révèle. C'est le thème principal, la personnalité de la fragrance. Souvent composées de fleurs opulentes, d'épices chaudes ou de fruits plus ronds, les notes de cœur sont plus complexes et durent plusieurs heures. C'est là que réside le véritable caractère d'un parfum.</p>
+      <p class="italic mb-4">*Chez MG Effect : Nos parfums floraux, comme "A Thousand Wishes", révèlent un cœur riche où la pivoine et l'amaretto créent une signature romantique et sophistiquée.</p>
+
+      <h3 class="text-xl font-bold my-4">3. Les Notes de Fond : Le Souvenir Durable</h3>
+      <p class="mb-4">Les notes de fond sont les dernières à apparaître, mais les plus tenaces. Elles sont lourdes, riches et servent de fixateur pour prolonger la durée de vie du parfum. Le bois de santal, la vanille, le musc ou l'ambre sont des notes de fond typiques. C'est le sillage que vous laissez derrière vous, le souvenir olfactif qui persiste sur la peau et les vêtements.</p>
+      <p class="italic mb-4">*Chez MG Effect : Des fragrances comme "Into The Night" laissent un sillage mémorable grâce à des notes de fond profondes de patchouli et de vanille noire, garantissant un <strong>parfum longue tenue</strong>.</p>
+
+      <h2 class="text-2xl font-bold my-4">Conclusion : L'Importance du Test sur la Peau</h2>
+      <p class="mb-4">Vous comprenez maintenant pourquoi un parfum évolue. Il ne faut jamais <strong>choisir son parfum</strong> sur une simple touche en papier. La magie opère au contact de votre peau, dont la chaleur unique révèle chaque facette de la pyramide olfactive. Prenez le temps de laisser une fragrance vivre avec vous pendant quelques heures. C'est le seul moyen de découvrir si son histoire vous correspond vraiment.</p>
+    `,
+  },
+  {
+    id: 10,
+    title: "Plongée dans nos Collections : Laquelle est faite pour vous ?",
+    excerpt: "Boisée, Florale, Orientale, Fraîche... Découvrez nos univers olfactifs et trouvez la collection qui deviendra votre signature.",
+    date: "31 Mai 2024",
+    readTime: "5 min",
+    category: "Collections",
+    image: "/buy-authentic-perfume-dakar.png",
+    content: `
+      <h2 class="text-2xl font-bold my-4">Un Voyage Olfactif à travers les Collections MG Effect</h2>
+      <p class="mb-4">Trouver son parfum signature, c'est un peu comme trouver une partie de soi. Chez MG Effect, nous avons classé nos trésors olfactifs en grandes familles pour vous aider à naviguer dans cet univers fascinant. Laissez-vous guider et découvrez la collection qui raconte le mieux votre histoire.</p>
+
+      <h3 class="text-xl font-bold my-4">La Collection Florale : L'Élégance Romantique</h3>
+      <p class="mb-4">Pour les âmes délicates, romantiques et ultra-féminines. Cette collection capture l'essence des jardins en fleurs. Parfaite pour les beaux jours, les cérémonies ou simplement pour celles qui aiment laisser un sillage de douceur et de sophistication.</p>
+      <p class="mb-4"><strong>Ingrédients Phares :</strong> Rose, Pivoine, Jasmin, Fleur de cerisier.</p>
+      <p class="italic mb-4">*Découvrez dans cette collection : "A Thousand Wishes", "You're The One".</p>
+
+      <h3 class="text-xl font-bold my-4">La Collection Gourmande & Fruitée : La Joie de Vivre</h3>
+      <p class="mb-4">Si vous êtes d'une nature optimiste, pétillante et un brin espiègle, cette collection est faite pour vous. Des notes sucrées, acidulées et réconfortantes qui évoquent des souvenirs heureux et des moments de pur plaisir. Idéale pour le quotidien, pour se donner un coup de boost et rayonner.</p>
+      <p class="mb-4"><strong>Ingrédients Phares :</strong> Vanille, Fraise, Champagne, Pêche.</p>
+      <p class="italic mb-4">*Découvrez dans cette collection : "Champagne Toast", "Warm Vanilla Sugar".</p>
+
+      <h3 class="text-xl font-bold my-4">La Collection Orientale & Sensuelle : Le Mystère Envoûtant</h3>
+      <p class="mb-4">Pour les personnalités audacieuses, mystérieuses et affirmées. Cette famille olfactive regroupe des senteurs riches, chaudes et épicées. Ce sont des parfums de caractère, parfaits pour le soir, qui laissent une empreinte inoubliable et captivante. Osez <strong>trouver votre parfum signature</strong> parmi ces élixirs puissants.</p>
+      <p class="mb-4"><strong>Ingrédients Phares :</strong> Ambre, Patchouli, Vanille Noire, Musc.</p>
+      <p class="italic mb-4">*Découvrez dans cette collection : "Into The Night", "Dark Kiss".</p>
+
+      <h3 class="text-xl font-bold my-4">La Collection Boisée & Aromatique : La Force Tranquille</h3>
+      <p class="mb-4">Souvent associée aux fragrances masculines, cette collection séduit de plus en plus de femmes par son élégance brute et son caractère apaisant. Pour les esprits libres, authentiques et charismatiques. Le <strong>parfum boisé</strong> est un gage de raffinement et de confiance en soi.</p>
+      <p class="mb-4"><strong>Ingrédients Phares :</strong> Acajou (Mahogany), Lavande, Bois de Teck, Musc.</p>
+      <p class="italic mb-4">*Découvrez dans cette collection : "Mahogany Teakwood Intense".</p>
+
+      <h2 class="text-2xl font-bold my-4">Explorez et Trouvez Votre Match Parfait</h2>
+      <p class="mb-4">Chaque collection est une invitation à explorer une facette de votre personnalité. N'hésitez pas à naviguer entre les différentes <strong>collections de parfums</strong> sur notre site. Et si vous êtes encore indécise, notre quiz est là pour vous guider !</p>
+      <div class="my-8 text-center">
+        <a href="/quiz" class="inline-block bg-accent text-accent-foreground font-bold py-4 px-8 rounded-none hover:bg-accent/90 transition-colors">
+          Faire le Quiz des Senteurs
+        </a>
+      </div>
+    `,
   },
 ]
