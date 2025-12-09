@@ -412,6 +412,9 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       <h2 class="text-2xl font-bold my-4">Notre Promesse : Une Expérience Inoubliable</h2>
       <p class="mb-4">Choisir MG Effect, c'est choisir une parfumerie qui respecte autant ses clients que les ingrédients qu'elle utilise. C'est la promesse d'une expérience olfactive de haute qualité, pensée pour vous et conçue pour durer.</p>
     `
+      },
+    {
+    id: 12,
     title: "Les Secrets d'un Parfum Réussi : Notes de Tête, de Cœur et de Fond",
     excerpt: "Découvrez la magie de la pyramide olfactive et comment les notes d'un parfum évoluent pour créer une signature unique.",
     date: "30 Mai 2024",
