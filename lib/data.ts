@@ -11,7 +11,7 @@ export interface BlogArticle {
 
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
-    id: 8,
+    id: 11,
     title: "Quiz : Quelle Senteur MG Effect êtes-vous ?",
     excerpt: "Vous ne savez pas quel parfum ou quel soin choisir ? Répondez à notre quiz rapide et découvrez votre profil olfactif idéal. C'est ludique, rapide et personnalisé !",
     date: "29 Mai 2024",
