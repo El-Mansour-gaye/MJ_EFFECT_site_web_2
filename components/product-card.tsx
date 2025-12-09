@@ -16,6 +16,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const addToCart = useCartStore((state) => state.addToCart)
   const cartIconRef = useCartStore((state) => state.cartIconRef)
   const imageRef = useRef<HTMLImageElement>(null)
+  const isOutOfStock = product.stock <= 0
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -27,6 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
       prix_fcfa: product.prix_fcfa,
       quantite: 1,
       image_url: product.image || undefined,
+      stock: product.stock,
     })
     toast.success(`${product.nom} a été ajouté au panier!`)
     // --- End of core logic ---
@@ -102,7 +104,7 @@ export function ProductCard({ product }: ProductCardProps) {
             className="add-to-cart-button w-full bg-black text-white py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             <ShoppingBag size={16} />
-            Ajouter au panier
+            {isOutOfStock ? "Précommander" : "Ajouter au panier"}
           </button>
         </div>
       </div>
@@ -110,6 +112,11 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
         <h3 className="font-serif text-lg mb-2">{product.nom}</h3>
         <p className="font-medium">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
+        {isOutOfStock && (
+            <p className="text-xs text-accent mt-1">
+                Disponible sous 15 jours
+            </p>
+        )}
       </div>
     </motion.div>
   )

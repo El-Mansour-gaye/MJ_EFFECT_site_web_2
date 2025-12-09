@@ -17,13 +17,14 @@ const PaiementPage = () => {
   const { cart_content, client_info, payment_method, setPaymentMethod, clearCart } = useCartStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [orderSubmitted, setOrderSubmitted] = useState(false);
 
-  // Redirect if cart is empty or client info is missing
+  // Redirect if cart is empty or client info is missing, but not if an order was just submitted
   useEffect(() => {
-    if (cart_content.length === 0 || !client_info?.telephone) {
+    if (!orderSubmitted && (cart_content.length === 0 || !client_info?.telephone)) {
       router.push('/panier');
     }
-  }, [cart_content, client_info, router]);
+  }, [cart_content, client_info, router, orderSubmitted]);
 
   const total = cart_content.reduce((acc, item) => acc + item.prix_fcfa * item.quantite, 0) + (cart_content.length > 0 ? 500 : 0);
 
@@ -49,6 +50,7 @@ const PaiementPage = () => {
 
       const data = await response.json();
       if (data.success && data.order && data.order.code_commande) {
+        setOrderSubmitted(true);
         // Redirect first to avoid race condition with the useEffect that checks for an empty cart
         router.push(`/commande/ticket/${data.order.code_commande}`);
       } else {

@@ -1,7 +1,7 @@
 // /app/panier/page.tsx
 "use client";
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/lib/store/cart';
@@ -9,13 +9,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
 import { CheckoutProgress } from '@/components/checkout-progress';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 
 const PanierPage = () => {
-  const { cart_content, removeFromCart, updateQuantity } = useCartStore();
+  const { cart_content, removeFromCart, updateQuantity, shippingStrategy, setShippingStrategy } = useCartStore();
 
   const subtotal = cart_content.reduce((acc, item) => acc + item.prix_fcfa * item.quantite, 0);
   const deliveryFee = subtotal > 0 ? 500 : 0;
   const total = subtotal + deliveryFee;
+
+  const hasInStockItems = useMemo(() => cart_content.some(item => (item.stock || 0) > 0), [cart_content]);
+  const hasPreOrderItems = useMemo(() => cart_content.some(item => (item.stock || 0) <= 0), [cart_content]);
+  const isMixedCart = hasInStockItems && hasPreOrderItems;
+
 
   return (
     <div className="min-h-screen bg-gray-50/50">
@@ -36,6 +44,26 @@ const PanierPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16">
             {/* Cart Items */}
             <div className="lg:col-span-2 space-y-6">
+              {isMixedCart && (
+                  <Card className="bg-blue-50 border-blue-200">
+                      <CardHeader>
+                          <CardTitle>Options d'expédition</CardTitle>
+                          <CardDescription>Votre panier contient des articles en stock et en précommande. Choisissez comment vous souhaitez les recevoir.</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                          <RadioGroup value={shippingStrategy} onValueChange={(value) => setShippingStrategy(value as 'COMPLETE' | 'PARTIELLE')}>
+                              <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="COMPLETE" id="complete" />
+                                  <Label htmlFor="complete">Expédier toute ma commande en une fois (sous 15 jours)</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                  <RadioGroupItem value="PARTIELLE" id="partial" />
+                                  <Label htmlFor="partial">Expédier les articles disponibles maintenant (peut entraîner des frais supplémentaires)</Label>
+                              </div>
+                          </RadioGroup>
+                      </CardContent>
+                  </Card>
+              )}
               {cart_content.map(item => (
                 <div key={item.produit_id} className="flex items-center bg-white border border-gray-200 p-6 shadow-sm transition-shadow hover:shadow-md">
                   <Link href={`/collection#${item.produit_id}`} className="flex-shrink-0">
@@ -51,7 +79,10 @@ const PanierPage = () => {
                     <Link href={`/collection#${item.produit_id}`} className="hover:underline">
                       <h2 className="font-semibold text-xl">{item.nom}</h2>
                     </Link>
-                    <p className="text-gray-600 text-md">{item.prix_fcfa.toLocaleString()} FCFA</p>
+                    {(item.stock || 0) <= 0 && (
+                        <span className="text-xs font-semibold bg-orange-100 text-orange-600 px-2 py-1 rounded-full">Précommande</span>
+                    )}
+                    <p className="text-gray-600 text-md mt-1">{item.prix_fcfa.toLocaleString()} FCFA</p>
                   </div>
                   <div className="flex items-center gap-5">
                     <div className="flex items-center border">
