@@ -49,8 +49,9 @@ const PaiementPage = () => {
 
       const data = await response.json();
       if (data.success && data.order && data.order.code_commande) {
-        clearCart();
+        // Redirect first to avoid race condition with the useEffect that checks for an empty cart
         router.push(`/commande/ticket/${data.order.code_commande}`);
+        clearCart();
       } else {
         throw new Error(data.error || 'Une erreur est survenue lors de la finalisation.');
       }
