@@ -1,0 +1,66 @@
+**Prompt pour le premier agent IA (Jules) - Articles 2 & 3**
+
+---
+
+**Tâche :** Rédiger deux articles de blog pour le site e-commerce "MG Effect", une marque de parfums et cosmétiques de luxe.
+
+**Contexte :** Le site dispose déjà d'une section blog. Votre mission est de créer le contenu pour les deux articles suivants, en vous basant sur les titres et descriptions fournis. Le ton doit être élégant, informatif et en accord avec l'image de marque. Les articles seront intégrés dans la structure de données existante (`lib/data.ts`).
+
+**Détails des Articles à Rédiger :**
+
+1.  **Article 2 : "Les Secrets d'un Parfum Réussi : Notes de Tête, de Cœur et de Fond"**
+    *   **Objectif :** Éduquer le client sur la pyramide olfactive. Expliquer ce que sont les notes de tête, de cœur et de fond et comment elles évoluent sur la peau.
+    *   **Contenu Attendu :**
+        *   Introduction accrocheuse sur la magie et la complexité d'un parfum.
+        *   Explication claire et concise de chaque type de note (tête : la première impression ; cœur : l'âme du parfum ; fond : le souvenir durable).
+        *   Utilisez des exemples en liant subtilement la théorie aux types de senteurs que MG Effect propose (ex: "nos parfums floraux révèlent une note de cœur de rose et de jasmin...").
+        *   Conclusion sur l'importance de tester un parfum sur sa peau pour en découvrir toutes les facettes.
+    *   **Mots-clés SEO à intégrer :** "pyramide olfactive", "notes de parfum", "parfum longue tenue", "choisir son parfum", "senteurs MG Effect".
+
+2.  **Article 3 : "Plongée dans nos Collections : Laquelle est faite pour vous ?"**
+    *   **Objectif :** Présenter les différentes collections de parfums de MG Effect (ex: Boisée, Florale, Orientale, Fraîche) pour aider le client à s'orienter.
+    *   **Contenu Attendu :**
+        *   Introduction invitant le lecteur à un voyage olfactif à travers les collections.
+        *   Créer une section pour chaque collection.
+        *   Pour chaque collection, décrire l'ambiance, le type de personnalité ou l'occasion à laquelle elle correspond (ex: "La collection Boisée : pour les âmes audacieuses et mystérieuses...").
+        *   Mentionner quelques ingrédients phares de chaque collection sans être trop technique.
+        *   Terminer par un appel à l'action, encourageant à explorer les collections sur le site, voire à essayer le quiz (si vous en avez connaissance).
+    *   **Mots-clés SEO à intégrer :** "collections de parfums", "parfum boisé", "parfum floral", "parfum oriental", "trouver son parfum signature", "MG Effect collections".
+
+**Format de livraison :** Fournir le contenu de chaque article (titre, description courte, contenu principal au format Markdown simple) prêt à être inséré dans le fichier `lib/data.ts`.
+
+
+---
+**Prompt pour le second agent IA (Jules) - Articles 4 & 5**
+---
+
+**Tâche :** Rédiger deux articles de blog pour le site e-commerce "MG Effect", une marque de parfums et cosmétiques de luxe.
+
+**Contexte :** Le site dispose déjà d'une section blog. Votre mission est de créer le contenu pour les deux articles suivants, en vous basant sur les titres et descriptions fournis. Le ton doit être luxueux, rassurant et axé sur la qualité et l'expérience client. Les articles seront intégrés dans la structure de données existante (`lib/data.ts`).
+
+**Détails des Articles à Rédiger :**
+
+1.  **Article 4 : "L'Art du Gifting : Offrir un Parfum MG Effect"**
+    *   **Objectif :** Guider le client dans le choix d'un parfum comme cadeau. Démystifier la peur de "se tromper".
+    *   **Contenu Attendu :**
+        *   Introduction sur l'élégance et l'intimité d'offrir un parfum.
+        *   Donner des conseils pratiques pour choisir :
+            *   Pensez à la personnalité du destinataire (discret, extraverti, etc.).
+            *   Réfléchissez à ses goûts connus (aime-t-il les odeurs sucrées, boisées ?).
+            *   Suggérer des options sûres, comme les coffrets découverte ou les senteurs les plus populaires.
+            *   Mettre en avant l'emballage luxueux et l'expérience de déballage (l'unboxing).
+        *   Conclusion rassurante, expliquant que l'intention est le plus important.
+    *   **Mots-clés SEO à intégrer :** "offrir un parfum", "idée cadeau luxe", "coffret parfum", "cadeau femme", "cadeau homme", "parfum MG Effect".
+
+2.  **Article 5 : "Notre Engagement pour la Qualité : Les Ingrédients d'Exception"**
+    *   **Objectif :** Renforcer la confiance en la marque en mettant en avant la qualité et la provenance des ingrédients.
+    *   **Contenu Attendu :**
+        *   Introduction sur la philosophie de MG Effect : l'excellence avant tout.
+        *   Parler de la sélection rigoureuse des matières premières sans être trop technique. Mettre l'accent sur la recherche de la "meilleure version" d'un ingrédient.
+        *   Mettre en lumière 2 ou 3 ingrédients emblématiques de la marque (ex: "La Rose de Damas de nos parfums floraux", "Le Bois de Santal de nos créations boisées").
+        *   Décrire brièvement l'origine et ce qui rend ces ingrédients spéciaux.
+        *   Lier la qualité des ingrédients à la tenue et à la complexité des parfums.
+        *   Conclusion sur la promesse de MG Effect : offrir une expérience olfactive inoubliable et de haute qualité.
+    *   **Mots-clés SEO à intégrer :** "ingrédients de qualité", "parfumerie de niche", "haute parfumerie", "origine des ingrédients", "engagement qualité MG Effect".
+
+**Format de livraison :** Fournir le contenu de chaque article (titre, description courte, contenu principal au format Markdown simple) prêt à être inséré dans le fichier `lib/data.ts`.
