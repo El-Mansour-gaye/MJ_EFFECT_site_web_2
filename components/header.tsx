@@ -63,15 +63,18 @@ function HeaderContent() {
   }
 
   const navLinkClasses = (path: string, hasMegaMenu?: boolean) => {
-    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors hover:text-accent"
+    const baseClasses = "font-sans text-sm uppercase tracking-widest transition-colors hover:text-white"
+    let isActive = false
 
     if (hasMegaMenu) {
       const category = searchParams.get("category")
       const linkCategory = new URLSearchParams(path.split("?")[1]).get("category")
-      return `${baseClasses} ${category === linkCategory ? "text-white" : "text-white/70"}`
+      isActive = category === linkCategory
+    } else {
+      isActive = pathname === path
     }
 
-    return `${baseClasses} ${pathname === path ? "text-white" : "text-white/70"}`
+    return `${baseClasses} ${isActive ? "text-white" : "text-white/70"}`
   }
 
   return (
