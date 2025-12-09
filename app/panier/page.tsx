@@ -8,18 +8,21 @@ import { useCartStore } from '@/lib/store/cart';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
+import { CheckoutProgress } from '@/components/checkout-progress';
 
 const PanierPage = () => {
   const { cart_content, removeFromCart, updateQuantity } = useCartStore();
 
   const subtotal = cart_content.reduce((acc, item) => acc + item.prix_fcfa * item.quantite, 0);
-  // Assuming a flat delivery fee or more complex logic later
   const deliveryFee = subtotal > 0 ? 500 : 0;
   const total = subtotal + deliveryFee;
 
   return (
     <div className="min-h-screen bg-gray-50/50">
       <div className="container mx-auto px-4 py-16 md:py-24">
+        <div className="max-w-4xl mx-auto mb-12">
+            <CheckoutProgress />
+        </div>
         <h1 className="text-4xl md:text-5xl font-serif font-bold mb-12 text-center">Votre Panier</h1>
 
         {cart_content.length === 0 ? (
@@ -35,15 +38,19 @@ const PanierPage = () => {
             <div className="lg:col-span-2 space-y-6">
               {cart_content.map(item => (
                 <div key={item.produit_id} className="flex items-center bg-white border border-gray-200 p-6 shadow-sm transition-shadow hover:shadow-md">
-                  <Image
-                    src={item.image_url || '/placeholder.svg'}
-                    alt={item.nom}
-                    width={100}
-                    height={100}
-                    className="object-cover mr-6"
-                  />
+                  <Link href={`/collection#${item.produit_id}`} className="flex-shrink-0">
+                    <Image
+                      src={item.image_url || '/placeholder.svg'}
+                      alt={item.nom}
+                      width={100}
+                      height={100}
+                      className="object-cover mr-6"
+                    />
+                  </Link>
                   <div className="flex-grow">
-                    <h2 className="font-semibold text-xl">{item.nom}</h2>
+                    <Link href={`/collection#${item.produit_id}`} className="hover:underline">
+                      <h2 className="font-semibold text-xl">{item.nom}</h2>
+                    </Link>
                     <p className="text-gray-600 text-md">{item.prix_fcfa.toLocaleString()} FCFA</p>
                   </div>
                   <div className="flex items-center gap-5">
