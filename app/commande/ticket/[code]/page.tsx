@@ -1,9 +1,7 @@
 // app/commande/ticket/[code]/page.tsx
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { notFound } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import TicketDisplay from '@/components/commande/ticket-display';
+import TicketPageClient from '@/components/commande/ticket-page-client';
 
 // Define the types for better readability
 interface Article {
@@ -70,63 +68,5 @@ export default async function TicketPage({ params }: { params: { code: string } 
     notFound();
   }
 
-  return (
-    <div className="min-h-screen bg-black text-white">
-      <div className="container mx-auto px-4 py-16 md:py-24 max-w-3xl">
-        <div className="bg-[#1A1A1A] p-8 md:p-12">
-          <div className="text-center mb-10">
-            <h1 className="font-bold text-3xl md:text-4xl mb-2">Merci pour votre commande !</h1>
-            <p className="text-gray-400">Votre ticket de commande</p>
-          </div>
-
-          <div className="space-y-8">
-            {/* Order Code */}
-            <TicketDisplay code={order.code_commande} />
-
-            {/* Client and Delivery Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Client</h3>
-                <p>{order.client_nom}</p>
-                <p>{order.client_adresse}</p>
-                <p>{order.client_telephone}</p>
-                <p>{order.client_email}</p>
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Livraison</h3>
-                <p>Date de livraison souhaitée : <span className="font-bold">{new Date(order.date_livraison).toLocaleDateString('fr-FR')}</span></p>
-                <p>Statut : <span className="font-bold">{order.statut_livraison}</span></p>
-                <p>Paiement : <span className="font-bold">{order.methode_paiement}</span></p>
-              </div>
-            </div>
-
-            {/* Order Items */}
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Résumé de la commande</h3>
-              <div className="border-t border-b border-gray-700 divide-y divide-gray-700">
-                {order.articles_commande.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center py-3">
-                    <p>{item.produits?.nom || 'Produit inconnu'} (x{item.quantite})</p>
-                    <p className="font-mono">{new Intl.NumberFormat('fr-FR').format(item.prix_unitaire_cmd * item.quantite)} FCFA</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Total */}
-            <div className="text-right">
-              <p className="text-gray-400">Total payé</p>
-              <p className="text-2xl font-bold font-mono">{new Intl.NumberFormat('fr-FR').format(order.montant_total)} FCFA</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="text-center mt-12">
-            <Button asChild variant="outline">
-                <Link href="/">Retour à l'accueil</Link>
-            </Button>
-        </div>
-      </div>
-    </div>
-  );
+  return <TicketPageClient order={order} />;
 }

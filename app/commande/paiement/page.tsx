@@ -49,7 +49,6 @@ const PaiementPage = () => {
 
       const data = await response.json();
       if (data.success && data.order && data.order.code_commande) {
-        clearCart();
         router.push(`/commande/ticket/${data.order.code_commande}`);
       } else {
         throw new Error(data.error || 'Une erreur est survenue lors de la finalisation.');
