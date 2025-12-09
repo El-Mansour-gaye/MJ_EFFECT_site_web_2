@@ -3,6 +3,7 @@ import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { notFound } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import TicketDisplay from '@/components/commande/ticket-display';
 
 // Define the types for better readability
 interface Article {
@@ -80,10 +81,7 @@ export default async function TicketPage({ params }: { params: { code: string } 
 
           <div className="space-y-8">
             {/* Order Code */}
-            <div className="text-center bg-black py-4">
-              <p className="text-sm text-gray-400">Code de votre commande</p>
-              <p className="font-mono text-2xl font-bold text-orange-500 tracking-widest">{order.code_commande}</p>
-            </div>
+            <TicketDisplay code={order.code_commande} />
 
             {/* Client and Delivery Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">

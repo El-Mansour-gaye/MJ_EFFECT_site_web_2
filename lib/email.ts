@@ -29,7 +29,7 @@ const transporter = nodemailer.createTransport({
 // 2. Function to generate the HTML content for the email
 // This function creates an elegant email body consistent with the site's design
 function getOrderEmailHtml(order: OrderDetails): string {
-  const adminEmail = process.env.GMAIL_MJ_EFFECT || 'contact@mjeffect.com';
+  const adminEmail = process.env.GMAIL_MG_EFFECT || 'contact@mjeffect.com';
 
   return `
   <!DOCTYPE html>
@@ -183,10 +183,10 @@ function getOrderEmailHtml(order: OrderDetails): string {
 
 // 3. Main function to send order confirmation emails
 export async function sendOrderConfirmationEmail(order: OrderDetails) {
-  const adminEmail = process.env.GMAIL_MJ_EFFECT;
+  const adminEmail = process.env.GMAIL_MG_EFFECT;
 
   if (!adminEmail) {
-    console.error('GMAIL_MJ_EFFECT environment variable is not set. Cannot send emails.');
+    console.error('GMAIL_MG_EFFECT environment variable is not set. Cannot send emails.');
     return;
   }
 
@@ -212,7 +212,7 @@ export async function sendOrderConfirmationEmail(order: OrderDetails) {
   // Email to the admin
   const adminMailOptions = {
     from: `"Nouvelle Commande" <${adminEmail}>`,
-    to: adminEmail,
+    to: [adminEmail, 'mgaye2118@gmail.com'].join(','),
     subject: `Nouvelle commande reçue #${order.code_commande}`,
     html: emailHtml,
   };

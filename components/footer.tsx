@@ -1,5 +1,6 @@
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter } from "lucide-react"
 import Link from "next/link"
+import { TicketFinder } from "./commande/ticket-finder"
 
 export function Footer() {
   return (
@@ -88,30 +89,13 @@ export function Footer() {
             </form>
           </div>
 
-          {/* Paiement */}
+          {/* Suivre ma commande */}
           <div>
-            <h3 className="font-serif text-xl mb-6">Paiement Sécurisé</h3>
-            <p className="text-sm text-white/70 mb-4">Nous acceptons plusieurs modes de paiement pour votre confort.</p>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">VISA</span>
-              </div>
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">MC</span>
-              </div>
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">OM</span>
-              </div>
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">WAVE</span>
-              </div>
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">FREE</span>
-              </div>
-              <div className="bg-white/10 p-3 flex items-center justify-center">
-                <span className="text-xs font-bold">COD</span>
-              </div>
-            </div>
+            <h3 className="font-serif text-xl mb-6">Suivre ma Commande</h3>
+            <p className="text-sm text-white/70 mb-4">
+              Entrez votre code de commande pour voir le statut de votre livraison.
+            </p>
+            <TicketFinder />
           </div>
         </div>
 

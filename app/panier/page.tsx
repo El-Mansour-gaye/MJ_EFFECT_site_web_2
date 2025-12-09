@@ -87,10 +87,10 @@ const PanierPage = () => {
                 <Button asChild className="w-full mt-8 text-lg py-7">
                   <Link href="/commande/informations">Passer la Commande</Link>
                 </Button>
-                <div className="text-center mt-4">
-                    <Button asChild variant="link">
-                        <Link href="/commande/suivi">Suivre une commande existante</Link>
-                    </Button>
+                <div className="text-center mt-4 text-sm">
+                    <Link href="/commande/suivi" className="text-gray-600 hover:text-black underline underline-offset-4 transition-colors">
+                        Retrouver ma commande
+                    </Link>
                 </div>
               </div>
             </div>
