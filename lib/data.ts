@@ -11,7 +11,7 @@ export interface BlogArticle {
 
 export const BLOG_ARTICLES: BlogArticle[] = [
   {
-    id: 11,
+    id: 1,
     title: "Quiz : Quelle Senteur MG Effect êtes-vous ?",
     excerpt: "Vous ne savez pas quel parfum ou quel soin choisir ? Répondez à notre quiz rapide et découvrez votre profil olfactif idéal. C'est ludique, rapide et personnalisé !",
     date: "29 Mai 2024",
@@ -32,7 +32,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     `,
   },
   {
-    id: 1,
+    id: 11,
     title: "Les 5 Astuces Infuillibles pour Faire Tenir votre Parfum Toute la Journée à Dakar (Malgré la Chaleur)",
     excerpt: "La chaleur et l'humidité de Dakar sont magnifiques, mais elles sont les pires ennemies de votre parfum ! Découvrez comment faire tenir votre fragrance préférée.",
     date: "27 Novembre 2025",
