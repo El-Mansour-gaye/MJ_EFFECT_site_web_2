@@ -26,6 +26,7 @@ export function ProductCard({ product }: ProductCardProps) {
       nom: product.nom,
       prix_fcfa: product.prix_fcfa,
       quantite: 1,
+      image_url: product.image || undefined,
     })
     toast.success(`${product.nom} a été ajouté au panier!`)
     // --- End of core logic ---
