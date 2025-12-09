@@ -1,7 +1,7 @@
 // /app/api/admin/commandes/route.ts
 import { NextResponse, NextRequest } from 'next/server';
 import { isAdmin } from '@/lib/admin-auth';
-import { createAdminClient as createSupabaseAdmin } from '@/lib/supabase/admin'; // Alias for consistency
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { customAlphabet } from 'nanoid';
 
 export async function GET(request: NextRequest) {

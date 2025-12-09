@@ -1,6 +1,6 @@
 // /app/api/admin/clients/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { isAdmin } from '@/lib/admin-auth';
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     const rangeStart = (page - 1) * limit;
     const rangeEnd = rangeStart + limit - 1;
 
-    const supabase = createAdminClient();
+    const supabase = createSupabaseAdmin();
     const { data, error, count } = await supabase
       .from('clients')
       .select('*', { count: 'exact' })
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Name is required' }, { status: 400 });
     }
 
-    const supabase = createAdminClient();
+    const supabase = createSupabaseAdmin();
     const { data, error } = await supabase
       .from('clients')
       .insert([{ nom, telephone, email, adresse }])

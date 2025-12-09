@@ -1,6 +1,6 @@
 // /app/api/admin/clients/search/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { createAdminClient } from '@/lib/supabase/admin';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { isAdmin } from '@/lib/admin-auth';
 
 export async function GET(req: NextRequest) {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const supabase = createAdminClient();
+    const supabase = createSupabaseAdmin();
     const { data, error } = await supabase
       .from('clients')
       .select('id, nom, telephone, email, adresse')
