@@ -357,4 +357,60 @@ export const BLOG_ARTICLES: BlogArticle[] = [
       </div>
     `,
   },
+  {
+    id: 9,
+    title: "L'Art du Gifting : Offrir un Parfum MG Effect",
+    excerpt: "Un parfum est un cadeau intime et élégant. Découvrez nos conseils pour choisir la fragrance parfaite et offrir une expérience inoubliable, sans craindre de vous tromper.",
+    date: "30 Mai 2024",
+    readTime: "4 min",
+    category: "Conseils Beauté",
+    image: "/gift-perfume-mg-effect.png",
+    content: `
+      <p><strong>(Mots-clés SEO : offrir un parfum, idée cadeau luxe, coffret parfum, cadeau femme, cadeau homme, parfum MG Effect)</strong></p>
+      <h2 class="text-2xl font-bold my-4">Offrir un Parfum : Un Geste d'Élégance Intemporel</h2>
+      <p class="mb-4">Choisir un parfum pour quelqu'un est l'un des cadeaux les plus personnels et sophistiqués qui soient. C'est offrir une émotion, un sillage, une signature invisible qui accompagnera la personne au quotidien. Pourtant, beaucoup hésitent, paralysés par la peur de "mal choisir". Chez MG Effect, nous croyons que l'intention est reine et nous sommes là pour vous guider.</p>
+
+      <h3 class="text-xl font-bold my-4">1. Pensez à la Personnalité, Pas Seulement au Parfum</h3>
+      <p class="mb-4">Avant de sentir, observez. La personne est-elle discrète et élégante ? Peut-être appréciera-t-elle des notes florales et poudrées comme notre <strong>"A Thousand Wishes"</strong>. Est-elle audacieuse et extravertie ? Un parfum sensuel et mémorable comme <strong>"Into The Night"</strong> pourrait être son match parfait. Le parfum est un prolongement de soi.</p>
+
+      <h3 class="text-xl font-bold my-4">2. Fiez-vous à ses Goûts Connus</h3>
+      <p class="mb-4">A-t-elle déjà des parfums ou des bougies qu'elle adore ? Si elle est attirée par les senteurs sucrées et réconfortantes, une fragrance gourmande comme <strong>"Warm Vanilla Sugar"</strong> sera un choix réconfortant et sûr. Si elle préfère la fraîcheur, des notes plus vives et pétillantes comme celles de <strong>"Champagne Toast"</strong> feront mouche.</p>
+
+      <h3 class="text-xl font-bold my-4">3. L'Option Sûre et Luxueuse : Le Coffret Découverte</h3>
+      <p class="mb-4">En cas de doute, le coffret parfum est l'idée cadeau luxe par excellence. Il offre une expérience complète, un rituel de soin grâce à l'art du "layering" (superposition). Nos <strong>Sets MG Effect (dès 32 000 FCFA)</strong> combinent brume, crème et gel douche pour un sillage intense et une tenue prolongée. C'est un cadeau généreux qui ne déçoit jamais.</p>
+
+      <h3 class="text-xl font-bold my-4">4. L'Expérience Compte Autant que le Contenu</h3>
+      <p class="mb-4">Chez MG Effect, chaque produit est pensé comme un bijou. L'emballage luxueux, le design soigné du flacon... L'expérience de déballage (l'unboxing) fait partie intégrante du cadeau. C'est la promesse d'un moment spécial avant même la première vaporisation.</p>
+
+      <h2 class="text-2xl font-bold my-4">Conclusion : Le Plus Beau Cadeau est Votre Attention</h2>
+      <p class="mb-4">N'oubliez jamais que l'acte d'offrir un parfum est avant tout une preuve d'affection. En prenant le temps de réfléchir à la personne, vous ne pouvez pas vous tromper. Le véritable cadeau, c'est l'intention et l'amour que vous y mettez.</p>
+    `
+  },
+  {
+    id: 10,
+    title: "Notre Engagement pour la Qualité : Les Ingrédients d'Exception",
+    excerpt: "Derrière chaque sillage MG Effect se cache une promesse : celle de l'excellence. Plongez au cœur de notre philosophie et découvrez la sélection rigoureuse de nos ingrédients.",
+    date: "30 Mai 2024",
+    readTime: "3 min",
+    category: "La Marque",
+    image: "/quality-ingredients-mg-effect.png",
+    content: `
+      <p><strong>(Mots-clés SEO : ingrédients de qualité, parfumerie de niche, haute parfumerie, origine des ingrédients, engagement qualité MG Effect)</strong></p>
+      <h2 class="text-2xl font-bold my-4">La Philosophie MG Effect : L'Excellence avant Tout</h2>
+      <p class="mb-4">Dans un monde où tout va vite, nous choisissons de prendre le temps. Le temps de sélectionner, de composer et de perfectionner. Notre engagement qualité n'est pas un argument marketing, c'est le fondement de notre marque. Chaque fragrance que nous vous proposons est le fruit d'une recherche obsessionnelle des meilleurs ingrédients, car nous croyons que la haute parfumerie doit être une expérience accessible.</p>
+
+      <h3 class="text-xl font-bold my-4">Une Sélection Rigoureuse, une Promesse de Qualité</h3>
+      <p class="mb-4">Nous ne nous contentons pas de trouver un ingrédient ; nous cherchons sa meilleure expression. Qu'il s'agisse d'une fleur, d'une résine ou d'une épice, notre quête est celle de la pureté et de l'intensité. Ce processus garantit non seulement un parfum agréable, mais aussi une complexité et une tenue qui distinguent une simple senteur d'une véritable signature olfactive.</p>
+
+      <h3 class="text-xl font-bold my-4">Lumière sur Nos Ingrédients Emblématiques</h3>
+      <p class="mb-4"><strong>La Rose Raffinée :</strong> Loin d'être démodée, la rose est le cœur battant de la parfumerie de niche. Dans des créations comme <strong>"You're The One"</strong>, nous utilisons des essences qui capturent sa facette la plus moderne et veloutée. C'est une rose fraîche, presque croquante, qui apporte une élégance romantique et intemporelle.</p>
+      <p class="mb-4"><strong>La Vanille Chaleureuse et Addictive :</strong> La vanille a mille visages. Chez MG Effect, nous l'aimons profonde, riche et réconfortante. Dans notre best-seller <strong>"Warm Vanilla Sugar"</strong>, elle se dévoile sous son jour le plus gourmand, évoquant le caramel et le sucre filé, sans jamais être écœurante. C'est une vanille de caractère, qui crée une addiction immédiate.</p>
+
+      <h3 class="text-xl font-bold my-4">De l'Ingrédient au Sillage : La Tenue et la Complexité</h3>
+      <p class="mb-4">La qualité de nos ingrédients de base est la raison pour laquelle nos parfums évoluent si bien sur la peau. Un bon ingrédient libère ses facettes tout au long de la journée, créant un sillage vivant et complexe. C'est cette richesse qui fait qu'un parfum MG Effect ne sent jamais "plat" et vous accompagne avec élégance du matin au soir.</p>
+
+      <h2 class="text-2xl font-bold my-4">Notre Promesse : Une Expérience Inoubliable</h2>
+      <p class="mb-4">Choisir MG Effect, c'est choisir une parfumerie qui respecte autant ses clients que les ingrédients qu'elle utilise. C'est la promesse d'une expérience olfactive de haute qualité, pensée pour vous et conçue pour durer.</p>
+    `
+  },
 ]
