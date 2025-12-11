@@ -8,7 +8,13 @@ const ClearCart = () => {
   const { clearCart } = useCartStore();
 
   useEffect(() => {
-    clearCart();
+    // We use a timeout to ensure the clearCart action happens after the hydration is complete.
+    // This prevents the hydration mismatch error (React error #418).
+    const timer = setTimeout(() => {
+      clearCart();
+    }, 1);
+
+    return () => clearTimeout(timer);
   }, [clearCart]);
 
   return null;
