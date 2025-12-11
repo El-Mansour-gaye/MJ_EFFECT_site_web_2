@@ -87,9 +87,35 @@ export function ProductCard({ product }: ProductCardProps) {
           style={{ transform: "translateZ(20px)" }}
         />
         <div
-          className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-center p-4"
           style={{ transform: "translateZ(40px)" }}
-        />
+        >
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150 flex flex-col items-center justify-center h-full">
+            <div className="flex-grow flex flex-col items-center justify-center">
+              {product.stock < 10 ? (
+                <p className="font-serif text-white text-xl">Bientôt Épuisé</p>
+              ) : (
+                product.details && (
+                  <>
+                    <p className="text-white/80 text-xs uppercase tracking-widest">
+                      Note Principale
+                    </p>
+                    <p className="font-serif text-white text-xl mt-1">
+                      {product.details}
+                    </p>
+                  </>
+                )
+              )}
+            </div>
+            <button
+                onClick={handleAddToCart}
+                className="add-to-cart-button w-full bg-black/50 text-white py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors mt-4"
+              >
+                <ShoppingBag size={14} />
+                Ajouter
+              </button>
+          </div>
+        </div>
         {product.tag && (
           <span
             className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
@@ -105,23 +131,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
         <button
-          className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-accent"
+          className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-70 transition-opacity hover:text-accent hover:opacity-100"
           style={{ transform: "translateZ(50px)" }}
         >
           <Heart size={18} />
         </button>
-        <div
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:bottom-6"
-          style={{ transform: "translateZ(60px)" }}
-        >
-          <button
-            onClick={handleAddToCart}
-            className="add-to-cart-button w-full bg-black text-white py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
-            <ShoppingBag size={16} />
-            Ajouter au panier
-          </button>
-        </div>
       </motion.div>
       <div className="pt-4 text-center">
         <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
