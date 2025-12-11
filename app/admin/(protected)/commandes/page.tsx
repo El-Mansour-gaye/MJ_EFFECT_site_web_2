@@ -175,7 +175,7 @@ const CommandesPage = () => {
                       </Select>
                     </TableCell>
                   </TableRow>
-                ))}
+                })}
               </TableBody>
             </Table>
             <div className="flex justify-center items-center space-x-2 mt-4">
