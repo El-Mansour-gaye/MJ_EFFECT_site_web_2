@@ -108,7 +108,7 @@ export async function POST(request: Request) {
     const full_order_details = {
       ...client_info,
       commande_id,
-      code_commande: commandeData.code_commande,
+      code_commande: code_commande, // Use the generated code directly
       montant_total,
       methode_paiement: payment_method,
       articles: cart_content,
