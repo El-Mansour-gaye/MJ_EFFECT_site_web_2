@@ -29,44 +29,37 @@ interface Commande {
   articles_commande: Article[];
 }
 
-// Function to fetch order details from Supabase with retries
-async function getOrderDetails(code: string, retries = 3, delay = 500): Promise<Commande | null> {
+// Function to fetch order details from Supabase
+async function getOrderDetails(code: string): Promise<Commande | null> {
   const supabase = createSupabaseAdmin();
-  for (let i = 0; i < retries; i++) {
-    const { data, error } = await supabase
-      .from('commandes')
-      .select(`
-        code_commande,
-        date_creation,
-        client_nom,
-        client_adresse,
-        client_telephone,
-        client_email,
-        date_livraison,
-        statut_livraison,
-        montant_total,
-        methode_paiement,
-        articles_commande (
-          quantite,
-          prix_unitaire_cmd,
-          produits ( nom )
-        )
-      `)
-      .eq('code_commande', code)
-      .single();
+  const { data, error } = await supabase
+    .from('commandes')
+    .select(`
+      code_commande,
+      date_creation,
+      client_nom,
+      client_adresse,
+      client_telephone,
+      client_email,
+      date_livraison,
+      statut_livraison,
+      montant_total,
+      methode_paiement,
+      articles_commande (
+        quantite,
+        prix_unitaire_cmd,
+        produits ( nom )
+      )
+    `)
+    .eq('code_commande', code)
+    .single();
 
-    if (!error && data) {
-      return data as Commande;
-    }
-
-    if (i < retries - 1) {
-      console.log(`Order not found, retrying in ${delay}ms... (Attempt ${i + 1}/${retries})`);
-      await new Promise(resolve => setTimeout(resolve, delay));
-    } else {
-      console.error(`Error fetching order after ${retries} attempts:`, error);
-    }
+  if (error || !data) {
+    console.error('Error fetching order:', error);
+    return null;
   }
-  return null;
+
+  return data as Commande;
 }
 
 // The page component

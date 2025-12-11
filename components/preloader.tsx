@@ -4,29 +4,44 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 
+import { usePathname } from "next/navigation"
+
 export function Preloader() {
-  const [isLoading, setIsLoading] = useState(true)
+  const [isFirstLoad, setIsFirstLoad] = useState(true)
+  const [isRouting, setIsRouting] = useState(false)
+  const pathname = usePathname()
 
+  // Handle initial page load
   useEffect(() => {
-    const handleLoad = () => {
-      setIsLoading(false)
-    }
+    const handleLoad = () => setIsFirstLoad(false)
 
-    // Check if the document is already loaded
     if (document.readyState === "complete") {
-      handleLoad()
+      // Use a timeout to prevent flicker on fast loads
+      setTimeout(handleLoad, 300)
     } else {
       window.addEventListener("load", handleLoad)
     }
 
-    return () => {
-      window.removeEventListener("load", handleLoad)
-    }
+    return () => window.removeEventListener("load", handleLoad)
   }, [])
+
+  // Handle subsequent route changes
+  useEffect(() => {
+    if (isFirstLoad) return
+
+    setIsRouting(true)
+    const timer = setTimeout(() => {
+      setIsRouting(false)
+    }, 800) // Duration for route change animation
+
+    return () => clearTimeout(timer)
+  }, [pathname, isFirstLoad])
+
+  const shouldShowPreloader = isFirstLoad || isRouting
 
   return (
     <AnimatePresence>
-      {isLoading && (
+      {shouldShowPreloader && (
         <motion.div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-white"
           initial={{ opacity: 1 }}

@@ -7,8 +7,6 @@ interface CartItem {
   quantite: number;
   nom: string;
   prix_fcfa: number;
-  image_url?: string;
-  stock?: number;
 }
 
 interface ClientInfo {
@@ -20,14 +18,12 @@ interface ClientInfo {
 }
 
 type PaymentMethod = 'PayTech' | 'Presentiel' | null;
-type ShippingStrategy = 'COMPLETE' | 'PARTIELLE';
 
 // Define the state structure
 interface CartState {
   cart_content: CartItem[];
   client_info: ClientInfo;
   payment_method: PaymentMethod;
-  shippingStrategy: ShippingStrategy;
   cartIconRef: RefObject<HTMLElement> | null;
 }
 
@@ -38,7 +34,6 @@ interface CartActions {
   updateQuantity: (produit_id: string, quantite: number) => void;
   setClientInfo: (info: ClientInfo) => void;
   setPaymentMethod: (method: PaymentMethod) => void;
-  setShippingStrategy: (strategy: ShippingStrategy) => void;
   setCartIconRef: (ref: RefObject<HTMLElement>) => void;
   clearCart: () => void;
 }
@@ -53,7 +48,6 @@ const initialState: CartState = {
     email: '',
   },
   payment_method: null,
-  shippingStrategy: 'COMPLETE',
   cartIconRef: null,
 };
 
@@ -98,8 +92,6 @@ export const useCartStore = create<CartState & CartActions>((set) => ({
   setClientInfo: (info) => set({ client_info: info }),
 
   setPaymentMethod: (method) => set({ payment_method: method }),
-
-  setShippingStrategy: (strategy) => set({ shippingStrategy: strategy }),
 
   setCartIconRef: (ref) => set({ cartIconRef: ref }),
 
