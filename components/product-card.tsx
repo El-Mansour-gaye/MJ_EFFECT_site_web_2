@@ -66,89 +66,71 @@ export function ProductCard({ product }: ProductCardProps) {
     }
   }
 
+  const dynamicInfo =
+    product.stock && product.stock < 10
+      ? "Bientôt Épuisé"
+      : product.note_principale || "Découvrir"
+
+  const isBientotEpuise = dynamicInfo === "Bientôt Épuisé"
+
   return (
-    <motion.div
-      className="group cursor-pointer"
-      whileHover={{ y: -8 }}
-      transition={{ type: "spring", stiffness: 400, damping: 15 }}
-      style={{ perspective: "1000px" }}
-    >
-      <motion.div
-        className="relative w-full aspect-[3/4]"
-        style={{ perspective: "1000px" }}
-      >
-        <motion.div
-          className="relative w-full h-full shadow-md transition-shadow duration-300 group-hover:shadow-xl"
-          style={{ transformStyle: "preserve-3d" }}
-          whileHover={{ rotateY: -25 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        >
-          {/* Front Face */}
-          <div className="absolute w-full h-full" style={{ backfaceVisibility: "hidden" }}>
-            <img
-              ref={imageRef}
-              src={encodeImagePath(product.image || "/placeholder.svg")}
-              alt={product.nom}
-              className="w-full h-full object-cover"
-            />
-            {product.tag && (
-              <span
-                className={`absolute top-3 left-3 px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${
-                  product.tag === "Promo"
-                    ? "bg-accent text-accent-foreground"
-                    : product.tag === "New"
-                      ? "bg-black text-white"
-                      : "bg-white text-black"
-                }`}
-              >
-                {product.tag}
-              </span>
-            )}
-            <button
-              className="absolute top-3 right-3 p-2 bg-white/80 text-black rounded-full backdrop-blur-sm hover:bg-white"
+    <div className="group cursor-pointer aspect-[3/4] [perspective:1200px]">
+      <div className="relative w-full h-full transition-transform duration-700 ease-in-out group-hover:[transform:rotateY(-20deg)]" style={{ transformStyle: "preserve-3d" }}>
+        {/* Front Face */}
+        <div className="absolute w-full h-full overflow-hidden bg-black/5 shadow-md">
+           <img
+            ref={imageRef}
+            src={encodeImagePath(product.image || "/placeholder.svg")}
+            alt={product.nom}
+            className="w-full h-full object-cover transition-transform duration-300"
+          />
+          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-60 transition-opacity duration-300" />
+          {product.tag && (
+            <span
+              className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
+                product.tag === "Promo"
+                  ? "bg-accent text-accent-foreground"
+                  : product.tag === "New"
+                    ? "bg-black text-white"
+                    : "bg-white text-black"
+              }`}
             >
-              <Heart size={16} />
+              {product.tag}
+            </span>
+          )}
+           <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+             <h3 className="font-serif text-lg text-white mb-1">{product.nom}</h3>
+             <p className="font-medium text-white/90">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
+           </div>
+          <button className="absolute top-4 right-4 p-2 bg-white/80 text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white hover:text-accent">
+            <Heart size={18} />
+          </button>
+        </div>
+
+        {/* Side Face */}
+        <div
+          className="absolute top-0 left-0 h-full w-full bg-black flex flex-col justify-center items-center p-4 text-center"
+          style={{
+            transform: "rotateY(90deg) translateZ(calc(50% + 2px))", // Adjust translateZ to avoid flicker
+            transformOrigin: "center right",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+           }}
+        >
+          <p className={`font-bold text-lg uppercase tracking-wider ${isBientotEpuise ? "text-red-500" : "text-accent"}`}>
+            {dynamicInfo}
+          </p>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)]">
+            <button
+              onClick={handleAddToCart}
+              className="add-to-cart-button w-full bg-white text-black py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              <ShoppingBag size={16} />
+              Ajouter
             </button>
           </div>
-
-          {/* Side Face - Revealed on Hover */}
-          <div
-            className="absolute w-full h-full bg-black/90 p-4 flex flex-col items-center justify-center text-center text-white"
-            style={{
-              transform: "rotateY(90deg) translateZ(calc(100% - 40px))",
-              transformOrigin: "right center",
-              backfaceVisibility: "hidden"
-            }}
-          >
-              {product.stock < 10 ? (
-                <p className="font-serif text-lg">Bientôt Épuisé</p>
-              ) : (
-                product.details && (
-                  <>
-                    <p className="text-white/70 text-[10px] uppercase tracking-widest">
-                      Note Clé
-                    </p>
-                    <p className="font-serif text-lg mt-1">
-                      {product.details}
-                    </p>
-                  </>
-                )
-              )}
-               <button
-                onClick={handleAddToCart}
-                className="add-to-cart-button w-full bg-accent text-accent-foreground py-2.5 flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-accent/90 transition-colors mt-6"
-              >
-                <ShoppingBag size={14} />
-                Ajouter
-              </button>
-          </div>
-        </motion.div>
-      </motion.div>
-      <div className="pt-4 text-center">
-        <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
-        <h3 className="font-serif text-lg mb-2">{product.nom}</h3>
-        <p className="font-medium">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
+        </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
