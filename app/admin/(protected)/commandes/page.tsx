@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 type Article = {
   quantite: number;
   prix_unitaire_cmd: number;
+  est_precommande?: boolean;
   produits: {
     nom: string;
   };
@@ -20,6 +21,7 @@ type Order = {
   code_commande: string;
   date_livraison: string;
   statut_livraison: string;
+  strategie_expedition?: 'COMPLETE' | 'PARTIELLE';
   client_nom: string;
   client_telephone: string;
   client_adresse: string;
@@ -108,7 +110,7 @@ const CommandesPage = () => {
                   <TableHead>Code Commande</TableHead>
                   <TableHead>Client</TableHead>
                   <TableHead>Date Commande</TableHead>
-                  <TableHead>Date Livraison</TableHead>
+                  <TableHead>Expédition</TableHead>
                   <TableHead>Montant</TableHead>
                   <TableHead>Articles</TableHead>
                   <TableHead>Statut Paiement</TableHead>
@@ -116,18 +118,28 @@ const CommandesPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orders.map((order) => (
+                {orders.map((order) => {
+                  const hasPreOrder = order.articles_commande.some(a => a.est_precommande);
+                  return (
                   <TableRow key={order.id}>
-                    <TableCell className="font-mono">{order.code_commande}</TableCell>
+                    <TableCell className="font-mono">
+                        {order.code_commande}
+                        {hasPreOrder && <span className="block text-xs font-semibold bg-orange-100 text-orange-600 px-2 py-1 rounded-full mt-1">Précommande</span>}
+                    </TableCell>
                     <TableCell>{order.client_nom}<br/>{order.client_telephone}</TableCell>
                     <TableCell>{new Date(order.date_creation).toLocaleDateString()}</TableCell>
-                    <TableCell>{new Date(order.date_livraison).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                        {order.strategie_expedition === 'PARTIELLE' ? 'Partielle' : 'Complète'}
+                        <br/>
+                        <span className="text-xs text-muted-foreground">{new Date(order.date_livraison).toLocaleDateString()}</span>
+                    </TableCell>
                     <TableCell>{order.montant_total} FCFA</TableCell>
                     <TableCell>
                       <ul className="list-disc list-inside">
                         {order.articles_commande.map((article, index) => (
                           <li key={index}>
                             {article.quantite}x {article.produits.nom}
+                            {article.est_precommande && <span className="text-xs font-bold text-orange-600"> (P)</span>}
                           </li>
                         ))}
                       </ul>
@@ -163,8 +175,9 @@ const CommandesPage = () => {
                       </Select>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
+                );
+              })}
+            </TableBody>
             </Table>
             <div className="flex justify-center items-center space-x-2 mt-4">
               <Button onClick={() => setPage(page - 1)} disabled={page === 1}>Précédent</Button>
