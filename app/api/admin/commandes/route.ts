@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
       code_commande,
       date_livraison,
       statut_livraison,
+      strategie_expedition,
       client_nom,
       client_telephone,
       client_adresse,
@@ -33,6 +34,7 @@ export async function GET(request: NextRequest) {
       articles_commande (
         quantite,
         prix_unitaire_cmd,
+        est_precommande,
         produits ( nom )
       )
     `, { count: 'exact' })
