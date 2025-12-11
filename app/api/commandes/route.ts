@@ -1,12 +1,12 @@
 // /app/api/commandes/route.ts
 import { NextResponse } from 'next/server';
-import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { createSupabaseAdmin } from '@/lib/supabase/admin'; // Use the admin client
 import crypto from 'crypto';
 import { sendOrderConfirmationEmail } from '@/lib/email';
 
 // Fonction pour générer un code de commande unique et court
 function generateOrderCode() {
-  const bytes = crypto.randomBytes(5);
+  const bytes = crypto.randomBytes(5); // 5 bytes for 10 hex characters
   const hex = bytes.toString('hex');
   return `${hex.slice(0, 5)}-${hex.slice(5, 10)}`;
 }
@@ -16,8 +16,8 @@ export async function POST(request: Request) {
   console.log("--- Creating new order ---");
   try {
     const body = await request.json();
-    const { cart_content, client_info, payment_method, strategie_expedition } = body;
-    console.log("Received data:", { cart_content, client_info, payment_method, strategie_expedition });
+    const { cart_content, client_info, payment_method } = body;
+    console.log("Received data:", { cart_content, client_info, payment_method });
 
 
     if (!cart_content || cart_content.length === 0) {
@@ -46,9 +46,9 @@ export async function POST(request: Request) {
         montant_total,
         statut_paiement: 'EN_ATTENTE',
         methode_paiement: payment_method,
-        code_commande,
-        date_livraison: client_info.date_livraison,
-        strategie_expedition: strategie_expedition || 'COMPLETE', // Add shipping strategy
+        code_commande, // Add the unique code
+        date_livraison: client_info.date_livraison, // Add the delivery date
+        // statut_livraison is set by default in the database
       })
       .select('id, code_commande')
       .single();
@@ -58,24 +58,12 @@ export async function POST(request: Request) {
 
     const commande_id = commandeData.id;
 
-    // 4. Fetch product stock info
-    const productIds = cart_content.map((item: any) => item.produit_id);
-    const { data: products, error: productsError } = await supabaseAdmin
-      .from('produits')
-      .select('id, stock')
-      .in('id', productIds);
-
-    if (productsError) throw productsError;
-
-    const stockMap = new Map(products.map(p => [p.id, p.stock]));
-
-    // 5. Create the order items with pre-order flag
+    // 3. Create the order items in the 'articles_commande' table
     const articles_commande = cart_content.map((item: any) => ({
       commande_id,
       produit_id: item.produit_id,
       quantite: item.quantite,
       prix_unitaire_cmd: item.prix_fcfa,
-      est_precommande: (stockMap.get(item.produit_id) || 0) <= 0, // Set pre-order flag
     }));
 
     console.log("Inserting into 'articles_commande' table...");

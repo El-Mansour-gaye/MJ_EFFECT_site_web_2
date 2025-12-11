@@ -45,7 +45,7 @@ const collections = [
 
 const CollectionCard = ({ collection, className }: { collection: typeof collections[0], className?: string }) => (
   <Link href={collection.route} className={`group block relative overflow-hidden ${className}`}>
-    <Card className="h-full w-full border-0 rounded-none overflow-hidden transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:shadow-2xl shadow-lg">
+    <Card className="h-full w-full border-0 rounded-none overflow-hidden transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:shadow-2xl">
       <div
         className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
         style={{ backgroundImage: `url(${encodeImagePath(collection.imageUrl)})` }}
@@ -66,7 +66,8 @@ export function OlfactiveCollections() {
     <section className="py-16 lg:py-24">
       <div className="container mx-auto px-4 max-w-6xl">
         <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
-          Trouvez Votre Senteur Signature
+          <span className="font-normal">Découvrez nos</span>{" "}
+        <span className="font-bold">Collections de Senteurs MG Effect</span>
         </h2>
         <div className="flex flex-wrap justify-center gap-8">
           {/* Left Column */}
