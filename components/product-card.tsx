@@ -74,68 +74,75 @@ export function ProductCard({ product }: ProductCardProps) {
       style={{ perspective: "1000px" }}
     >
       <motion.div
-        className="relative aspect-[3/4] overflow-hidden bg-black/5 shadow-md transition-shadow duration-300 group-hover:shadow-xl"
-        style={{ transformStyle: "preserve-3d" }}
-        whileHover={{ rotateY: 15 }}
-        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+        className="relative w-full aspect-[3/4]"
+        style={{ perspective: "1000px" }}
       >
-        <img
-          ref={imageRef}
-          src={encodeImagePath(product.image || "/placeholder.svg")}
-          alt={product.nom}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-          style={{ transform: "translateZ(20px)" }}
-        />
-        <div
-          className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center text-center p-4"
-          style={{ transform: "translateZ(40px)" }}
+        <motion.div
+          className="relative w-full h-full shadow-md transition-shadow duration-300 group-hover:shadow-xl"
+          style={{ transformStyle: "preserve-3d" }}
+          whileHover={{ rotateY: -25 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-150 flex flex-col items-center justify-center h-full">
-            <div className="flex-grow flex flex-col items-center justify-center">
+          {/* Front Face */}
+          <div className="absolute w-full h-full" style={{ backfaceVisibility: "hidden" }}>
+            <img
+              ref={imageRef}
+              src={encodeImagePath(product.image || "/placeholder.svg")}
+              alt={product.nom}
+              className="w-full h-full object-cover"
+            />
+            {product.tag && (
+              <span
+                className={`absolute top-3 left-3 px-2 py-1 text-[10px] font-bold uppercase tracking-wider ${
+                  product.tag === "Promo"
+                    ? "bg-accent text-accent-foreground"
+                    : product.tag === "New"
+                      ? "bg-black text-white"
+                      : "bg-white text-black"
+                }`}
+              >
+                {product.tag}
+              </span>
+            )}
+            <button
+              className="absolute top-3 right-3 p-2 bg-white/80 text-black rounded-full backdrop-blur-sm hover:bg-white"
+            >
+              <Heart size={16} />
+            </button>
+          </div>
+
+          {/* Side Face - Revealed on Hover */}
+          <div
+            className="absolute w-full h-full bg-black/90 p-4 flex flex-col items-center justify-center text-center text-white"
+            style={{
+              transform: "rotateY(90deg) translateZ(calc(100% - 40px))",
+              transformOrigin: "right center",
+              backfaceVisibility: "hidden"
+            }}
+          >
               {product.stock < 10 ? (
-                <p className="font-serif text-white text-xl">Bientôt Épuisé</p>
+                <p className="font-serif text-lg">Bientôt Épuisé</p>
               ) : (
                 product.details && (
                   <>
-                    <p className="text-white/80 text-xs uppercase tracking-widest">
-                      Note Principale
+                    <p className="text-white/70 text-[10px] uppercase tracking-widest">
+                      Note Clé
                     </p>
-                    <p className="font-serif text-white text-xl mt-1">
+                    <p className="font-serif text-lg mt-1">
                       {product.details}
                     </p>
                   </>
                 )
               )}
-            </div>
-            <button
+               <button
                 onClick={handleAddToCart}
-                className="add-to-cart-button w-full bg-black/50 text-white py-3 flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors mt-4"
+                className="add-to-cart-button w-full bg-accent text-accent-foreground py-2.5 flex items-center justify-center gap-2 text-xs uppercase tracking-widest hover:bg-accent/90 transition-colors mt-6"
               >
                 <ShoppingBag size={14} />
                 Ajouter
               </button>
           </div>
-        </div>
-        {product.tag && (
-          <span
-            className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
-              product.tag === "Promo"
-                ? "bg-accent text-accent-foreground"
-                : product.tag === "New"
-                  ? "bg-black text-white"
-                  : "bg-white text-black"
-            }`}
-            style={{ transform: "translateZ(50px)" }}
-          >
-            {product.tag}
-          </span>
-        )}
-        <button
-          className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-70 transition-opacity hover:text-accent hover:opacity-100"
-          style={{ transform: "translateZ(50px)" }}
-        >
-          <Heart size={18} />
-        </button>
+        </motion.div>
       </motion.div>
       <div className="pt-4 text-center">
         <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
