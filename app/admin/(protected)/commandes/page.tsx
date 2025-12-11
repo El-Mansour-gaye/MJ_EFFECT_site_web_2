@@ -175,8 +175,9 @@ const CommandesPage = () => {
                       </Select>
                     </TableCell>
                   </TableRow>
-                })}
-              </TableBody>
+                );
+              })}
+            </TableBody>
             </Table>
             <div className="flex justify-center items-center space-x-2 mt-4">
               <Button onClick={() => setPage(page - 1)} disabled={page === 1}>Précédent</Button>
