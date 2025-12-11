@@ -96,7 +96,7 @@
 
 /* Ken Burns Effect */
 .ken-burns-effect {
-  animation: ken-burns 20s ease-out infinite;
+  animation: ken-burns 60s ease-out infinite;
 }
 
 @keyframes ken-burns {
