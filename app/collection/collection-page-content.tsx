@@ -6,6 +6,7 @@ import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
 import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
 import { ProductModal } from "@/components/product-modal"
+import { AnimatedSection } from "@/components/animated-section"
 
 const PRICE_RANGES = ["0 - 15,000 FCFA", "15,000 - 25,000 FCFA", "25,000+ FCFA"]
 
@@ -176,15 +177,17 @@ export default function CollectionPageContent() {
   return (
     <div className="py-8 lg:py-12">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-12">
-          <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
-            <span className="font-normal">Notre</span> <span className="font-bold">Collection</span>
-          </h1>
-          <p className="text-black/70 max-w-2xl mx-auto">
-            Explorez notre sélection exclusive de parfums et soins de luxe, soigneusement choisis pour révéler votre
-            beauté naturelle.
-          </p>
-        </div>
+        <AnimatedSection delay={0}>
+          <div className="text-center mb-12">
+            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
+              <span className="font-normal">Notre</span> <span className="font-bold">Collection</span>
+            </h1>
+            <p className="text-black/70 max-w-2xl mx-auto">
+              Explorez notre sélection exclusive de parfums et soins de luxe, soigneusement choisis pour révéler votre
+              beauté naturelle.
+            </p>
+          </div>
+        </AnimatedSection>
 
         <div className="lg:hidden mb-6">
           <button
@@ -210,30 +213,36 @@ export default function CollectionPageContent() {
         )}
 
         <div className="flex gap-12">
-          <aside className="hidden lg:block w-64 flex-shrink-0">
-            <FilterSidebar />
-          </aside>
+          <AnimatedSection delay={0.2} className="hidden lg:block w-64 flex-shrink-0">
+            <aside>
+              <FilterSidebar />
+            </aside>
+          </AnimatedSection>
 
           <div className="flex-1">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-sm text-black/70">{sortedProducts.length} produits</p>
-              <select
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value)}
-                className="border border-black/20 px-4 py-2 text-sm bg-transparent"
-              >
-                <option value="price-asc">Prix: Croissant</option>
-                <option value="price-desc">Prix: Décroissant</option>
-              </select>
-            </div>
+            <AnimatedSection delay={0.3}>
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-black/70">{sortedProducts.length} produits</p>
+                <select
+                  value={sortOrder}
+                  onChange={(e) => setSortOrder(e.target.value)}
+                  className="border border-black/20 px-4 py-2 text-sm bg-transparent"
+                >
+                  <option value="price-asc">Prix: Croissant</option>
+                  <option value="price-desc">Prix: Décroissant</option>
+                </select>
+              </div>
+            </AnimatedSection>
             {isLoading && <p>Chargement des produits...</p>}
             {error && <p className="text-red-500">Erreur: {error}</p>}
             {!isLoading && !error && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sortedProducts.map((product) => (
-                  <div key={product.id} onClick={() => handleProductClick(product)} className="cursor-pointer">
-                    <ProductCard product={product} />
-                  </div>
+                {sortedProducts.map((product, index) => (
+                  <AnimatedSection key={product.id} delay={0.4 + index * 0.1}>
+                    <div onClick={() => handleProductClick(product)} className="cursor-pointer h-full">
+                      <ProductCard product={product} />
+                    </div>
+                  </AnimatedSection>
                 ))}
               </div>
             )}
