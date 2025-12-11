@@ -141,7 +141,7 @@ export function HomePage() {
 
       <section className="py-16 lg:py-24 bg-black/5">
         <div className="container mx-auto px-4 max-w-6xl">
-          <AnimatedSection>
+          <AnimatedSection delay={0}>
             <h2 className="font-serif text-3xl md:text-4xl text-center mb-16">
               <span className="font-normal">Découvrez</span> <span className="font-bold">nos Collections Phares</span>
             </h2>
@@ -150,32 +150,38 @@ export function HomePage() {
           {isLoading && <p className="text-center">Chargement des collections...</p>}
           {error && <p className="text-center text-red-500">Erreur: {error}</p>}
           {!isLoading && !error && (
-            <AnimatedSection>
+            <>
               {bestSellers.length > 0 && (
-                <ProductCarousel
-                  title="Nos"
-                  titleBold="Best Sellers"
-                  products={bestSellers}
-                  onProductClick={handleProductClick}
-                />
+                <AnimatedSection delay={0.2}>
+                  <ProductCarousel
+                    title="Nos"
+                    titleBold="Best Sellers"
+                    products={bestSellers}
+                    onProductClick={handleProductClick}
+                  />
+                </AnimatedSection>
               )}
               {newArrivals.length > 0 && (
-                <ProductCarousel
-                  title="Nouveaux"
-                  titleBold="Arrivages"
-                  products={newArrivals}
-                  onProductClick={handleProductClick}
-                />
+                 <AnimatedSection delay={0.3}>
+                    <ProductCarousel
+                      title="Nouveaux"
+                      titleBold="Arrivages"
+                      products={newArrivals}
+                      onProductClick={handleProductClick}
+                    />
+                 </AnimatedSection>
               )}
               {coffrets.length > 0 && (
-                <ProductCarousel
-                  title="Coffrets Cadeaux"
-                  titleBold="& Packs"
-                  products={coffrets}
-                  onProductClick={handleProductClick}
-                />
+                 <AnimatedSection delay={0.4}>
+                    <ProductCarousel
+                      title="Coffrets Cadeaux"
+                      titleBold="& Packs"
+                      products={coffrets}
+                      onProductClick={handleProductClick}
+                    />
+                 </AnimatedSection>
               )}
-            </AnimatedSection>
+            </>
           )}
         </div>
       </section>
