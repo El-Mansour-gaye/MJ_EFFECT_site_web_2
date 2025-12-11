@@ -110,7 +110,7 @@ export function HomePage() {
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-end justify-center overflow-hidden pb-8">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center ken-burns-effect"
           style={{
             backgroundImage: "url('/image-banniere.png')",
           }}

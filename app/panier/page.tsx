@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCartStore } from '@/lib/store/cart';
 import { Button } from '@/components/ui/button';
+import { AnimatedCounter } from '@/components/ui/animated-counter';
 import { Input } from '@/components/ui/input';
 import { Trash2 } from 'lucide-react';
 import { CheckoutProgress } from '@/components/checkout-progress';
@@ -79,7 +80,7 @@ const PanierPage = () => {
                 <div className="space-y-4 text-lg">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Sous-total</span>
-                    <span>{subtotal.toLocaleString()} FCFA</span>
+                    <span><AnimatedCounter value={subtotal} /> FCFA</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Livraison</span>
@@ -88,7 +89,7 @@ const PanierPage = () => {
                   <div className="border-t my-4"></div>
                   <div className="flex justify-between font-bold text-xl">
                     <span>Total</span>
-                    <span>{total.toLocaleString()} FCFA</span>
+                    <span><AnimatedCounter value={total} /> FCFA</span>
                   </div>
                 </div>
                 <Button asChild className="w-full mt-8 text-lg py-7">

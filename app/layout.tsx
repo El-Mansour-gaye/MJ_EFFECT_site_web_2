@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster as SonnerToaster } from "sonner"
 import { Header } from "@/components/header"
+import { Preloader } from "@/components/preloader"
 import { Footer } from "@/components/footer"
 import { TopContactBar } from "@/components/top-contact-bar"
 import AdminSessionManager from "@/components/admin/security/AdminSessionManager"
@@ -48,6 +49,7 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfairDisplay.variable} font-sans antialiased pt-24 lg:pt-28`}>
         <ThemeProvider attribute="class" defaultTheme="light">
+          <Preloader />
           <AdminSessionManager />
           <TopContactBar />
           <Header />
