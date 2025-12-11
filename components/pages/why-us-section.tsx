@@ -6,22 +6,22 @@ const features = [
   {
     icon: <Gem size={40} className="text-orange-500" />,
     title: "Produits Authentiques des USA",
-    description: "Nous importons directement des États-Unis une sélection exclusive de produits de beauté, vous garantissant une qualité et une authenticité inégalées.",
+    description: "Une sélection exclusive de produits de beauté importés directement des États-Unis, garantissant qualité et authenticité.",
   },
   {
     icon: <ShieldCheck size={40} className="text-orange-500" />,
     title: "Qualité Testée et Approuvée",
-    description: "Votre sécurité est notre priorité. Chaque article est rigoureusement testé par nos experts avant d'être proposé, assurant efficacité et fiabilité.",
+    description: "Chaque article est rigoureusement testé par nos experts pour assurer efficacité, fiabilité et votre sécurité.",
   },
   {
     icon: <Users size={40} className="text-orange-500" />,
     title: "Conseils Personnalisés",
-    description: "Nous croyons en une approche sur-mesure. Profitez de l'expertise de notre équipe pour des recommandations adaptées à vos besoins uniques.",
+    description: "Profitez de l'expertise de notre équipe pour des recommandations sur-mesure, adaptées à vos besoins uniques.",
   },
     {
     icon: <Globe size={40} className="text-orange-500" />,
     title: "Une Expertise Locale au Sénégal",
-    description: "En tant qu'entreprise sénégalaise, nous comprenons les besoins spécifiques de notre marché et nous nous engageons à servir notre communauté avec passion.",
+    description: "En tant qu'entreprise sénégalaise, nous comprenons notre marché et servons notre communauté avec passion.",
   },
 ];
 
