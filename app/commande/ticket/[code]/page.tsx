@@ -1,6 +1,8 @@
 // app/commande/ticket/[code]/page.tsx
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 import { notFound } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import TicketDisplay from '@/components/commande/ticket-display';
