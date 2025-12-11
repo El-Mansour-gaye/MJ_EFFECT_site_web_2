@@ -13,6 +13,7 @@ import { ParallaxCategories } from "@/components/pages/parallax-categories"
 import { OlfactiveCollections } from "@/components/olfactive-collections"
 import { AnimatedSection } from "@/components/animated-section"
 import { HomeBlogSection } from "@/components/pages/home-blog-section"
+import { WhyUsSection } from "@/components/pages/why-us-section"
 import { cn } from "@/lib/utils"
 
 function ProductCarousel({
@@ -191,6 +192,10 @@ export function HomePage() {
 
       <AnimatedSection>
         <HomeBlogSection />
+      </AnimatedSection>
+
+      <AnimatedSection>
+        <WhyUsSection />
       </AnimatedSection>
 
       {selectedProduct && <ProductModal product={selectedProduct} onClose={handleCloseModal} />}
