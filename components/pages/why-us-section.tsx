@@ -4,24 +4,24 @@ import { AnimatedSection } from '@/components/animated-section';
 
 const features = [
   {
-    icon: <Gem size={40} className="text-orange-500" />,
-    title: "Produits Authentiques des USA",
-    description: "Nous importons directement des États-Unis une sélection exclusive de produits de beauté, vous garantissant une qualité et une authenticité inégalées.",
+    icon: <Globe size={40} className="text-orange-500" />,
+    title: "Import Direct USA",
+    description: "L'assurance de produits authentiques et certifiés.",
   },
   {
     icon: <ShieldCheck size={40} className="text-orange-500" />,
-    title: "Qualité Testée et Approuvée",
-    description: "Votre sécurité est notre priorité. Chaque article est rigoureusement testé par nos experts avant d'être proposé, assurant efficacité et fiabilité.",
+    title: "Qualité Contrôlée",
+    description: "Testés par nos soins pour garantir votre sécurité.",
   },
   {
     icon: <Users size={40} className="text-orange-500" />,
-    title: "Conseils Personnalisés",
-    description: "Nous croyons en une approche sur-mesure. Profitez de l'expertise de notre équipe pour des recommandations adaptées à vos besoins uniques.",
+    title: "Conseils d'Experts",
+    description: "Des recommandations uniques pour des résultats réels.",
   },
     {
-    icon: <Globe size={40} className="text-orange-500" />,
-    title: "Une Expertise Locale au Sénégal",
-    description: "En tant qu'entreprise sénégalaise, nous comprenons les besoins spécifiques de notre marché et nous nous engageons à servir notre communauté avec passion.",
+    icon: <Gem size={40} className="text-orange-500" />,
+    title: "Fierté Locale",
+    description: "Le meilleur de la beauté américaine, adapté au Sénégal.",
   },
 ];
 
