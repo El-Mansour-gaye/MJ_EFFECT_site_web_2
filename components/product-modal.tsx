@@ -5,6 +5,7 @@ import { Product } from "@/lib/types"
 import useEmblaCarousel from "embla-carousel-react"
 import { useState, useCallback, useEffect } from "react"
 import { encodeImagePath } from "@/lib/utils"
+import { useCartStore } from "@/lib/store/cart"
 
 interface ProductModalProps {
   product: Product & { description?: string; conseils_utilisation?: string; composition?: string };
@@ -12,6 +13,7 @@ interface ProductModalProps {
 }
 
 export function ProductModal({ product, onClose }: ProductModalProps) {
+  const addToCart = useCartStore((state) => state.addToCart)
   const [emblaRef, emblaApi] = useEmblaCarousel()
   const [canScrollPrev, setCanScrollPrev] = useState(false)
   const [canScrollNext, setCanScrollNext] = useState(false)
@@ -156,8 +158,19 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     </button>
                 </div>
             </div>
-             <button className="w-full bg-black text-white py-3 text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors">
-                Ajouter au Panier
+            <button
+              onClick={() => {
+                addToCart({
+                  produit_id: product.id,
+                  nom: product.nom,
+                  prix_fcfa: product.prix_fcfa,
+                  quantite: quantity,
+                })
+                onClose()
+              }}
+              className="w-full bg-black text-white py-3 text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors"
+            >
+              Ajouter au Panier
             </button>
           </div>
         </div>
