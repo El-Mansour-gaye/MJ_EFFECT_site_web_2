@@ -1,17 +1,16 @@
 // /app/api/admin/arrivages/[id]/route.ts
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/admin';
-import { adminAuth } from '@/lib/admin-auth';
+import { NextResponse, NextRequest } from 'next/server';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { isAdmin } from '@/lib/admin-auth';
 
 // GET - Récupérer un arrivage spécifique avec ses détails
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    const authError = await adminAuth(req);
-    if (authError) {
-      return authError;
+    if (!isAdmin(req)) {
+      return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
     }
 
     const { id } = params;
@@ -19,7 +18,7 @@ export async function GET(
       return NextResponse.json({ error: "ID de l'arrivage manquant." }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = createSupabaseAdmin();
 
     // 1. Récupérer les informations de l'arrivage principal
     const { data: arrivage, error: arrivageError } = await supabase

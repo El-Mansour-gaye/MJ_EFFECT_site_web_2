@@ -1,17 +1,16 @@
 // /app/api/admin/arrivages/route.ts
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/admin';
-import { adminAuth } from '@/lib/admin-auth';
+import { NextResponse, NextRequest } from 'next/server';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { isAdmin } from '@/lib/admin-auth';
 
 // GET - Lister tous les arrivages
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
   try {
-    const authError = await adminAuth(req);
-    if (authError) {
-      return authError;
+    if (!isAdmin(req)) {
+      return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
     }
 
-    const supabase = createClient();
+    const supabase = createSupabaseAdmin();
     const { data: arrivages, error } = await supabase
       .from('arrivages')
       .select('*')
@@ -31,11 +30,10 @@ export async function GET(req: Request) {
 }
 
 // POST - Créer un nouvel arrivage
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const authError = await adminAuth(req);
-    if (authError) {
-      return authError;
+    if (!isAdmin(req)) {
+      return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
     }
 
     const { arrivage, details } = await req.json();
@@ -44,7 +42,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Données invalides. Un arrivage et au moins un détail sont requis.' }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = createSupabaseAdmin();
 
     // 1. Insérer l'arrivage principal
     const { data: newArrivage, error: arrivageError } = await supabase

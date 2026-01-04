@@ -1,14 +1,13 @@
 // /app/api/admin/arrivages/apply-to-shop/route.ts
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/admin';
-import { adminAuth } from '@/lib/admin-auth';
+import { NextResponse, NextRequest } from 'next/server';
+import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { isAdmin } from '@/lib/admin-auth';
 
 // POST - Appliquer les prix et stocks à la boutique pour un arrivage donné
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const authError = await adminAuth(req);
-    if (authError) {
-      return authError;
+    if (!isAdmin(req)) {
+      return new NextResponse(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
     }
 
     const { arrivage_id } = await req.json();
@@ -17,7 +16,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "ID de l'arrivage manquant." }, { status: 400 });
     }
 
-    const supabase = createClient();
+    const supabase = createSupabaseAdmin();
 
     // 1. Récupérer l'arrivage et ses détails
     const { data: arrivageData, error: fetchError } = await supabase
