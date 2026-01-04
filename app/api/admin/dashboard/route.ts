@@ -64,16 +64,68 @@ export async function GET(request: NextRequest) {
 
     if (orderStatusError) throw orderStatusError;
 
+    // 8. Fetch total import costs
+    const { data: arrivagesData, error: arrivagesError } = await supabase
+      .from('arrivages')
+      .select(`
+        taux_change_usd_to_fcfa,
+        transport_global_fcfa,
+        details_arrivage (
+          quantite,
+          prix_achat_usd_unitaire,
+          marge_fcfa
+        )
+      `)
+      .gte('date', startDate)
+      .lte('date', endDate);
+
+    if (arrivagesError) throw arrivagesError;
+
+    const totalImportCost = arrivagesData.reduce((acc, arrivage) => {
+      const totalPurchaseCostUSD = arrivage.details_arrivage.reduce((detailAcc, detail) => {
+          return detailAcc + (detail.quantite * detail.prix_achat_usd_unitaire);
+      }, 0);
+      const totalPurchaseCostFCFA = totalPurchaseCostUSD * arrivage.taux_change_usd_to_fcfa;
+      return acc + totalPurchaseCostFCFA + arrivage.transport_global_fcfa;
+    }, 0);
+
+    const potentialGrossMargin = arrivagesData.reduce((acc, arrivage) => {
+        return acc + arrivage.details_arrivage.reduce((detailAcc, detail) => {
+            return detailAcc + (detail.quantite * detail.marge_fcfa);
+        }, 0);
+    }, 0);
+
+
     const dashboardData = {
       statisticCards: {
         totalCommandes: totalCommandes ?? 0,
         totalClients: totalClients ?? 0,
         revenusTotaux: revenusTotaux ?? 0,
+        totalImportCost: totalImportCost ?? 0,
+        potentialGrossMargin: potentialGrossMargin ?? 0,
       },
       salesByMonth: salesByMonthData ?? [],
       paymentMethods: paymentMethodsData ?? [],
       orderStatus: orderStatusData ?? [],
+      importCostsByDate: [], // Placeholder for the new data
     };
+
+    // 9. Aggregate import costs by date for the chart
+    const importCostsByDate = arrivagesData.reduce((acc, arrivage) => {
+        const date = formatISO(new Date(arrivage.date), { representation: 'date' });
+        const totalCost = (arrivage.details_arrivage.reduce((sum, d) => sum + (d.quantite * d.prix_achat_usd_unitaire), 0) * arrivage.taux_change_usd_to_fcfa) + arrivage.transport_global_fcfa;
+
+        const existingEntry = acc.find(item => item.date === date);
+        if (existingEntry) {
+            existingEntry.totalCost += totalCost;
+        } else {
+            acc.push({ date, totalCost });
+        }
+        return acc;
+    }, [] as { date: string; totalCost: number }[]).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+    dashboardData.importCostsByDate = importCostsByDate;
+
 
     return NextResponse.json(dashboardData);
   } catch (error) {
