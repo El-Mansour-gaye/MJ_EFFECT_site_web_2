@@ -238,7 +238,7 @@ export default function CollectionPageContent() {
             {!isLoading && !error && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {sortedProducts.map((product, index) => (
-                  <AnimatedSection key={product.id} delay={0.4 + index * 0.1}>
+                  <AnimatedSection key={product.id} delay={0.2 + index * 0.05}>
                     <div onClick={() => handleProductClick(product)} className="cursor-pointer h-full">
                       <ProductCard product={product} />
                     </div>
