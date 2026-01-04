@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
     const { data: arrivagesData, error: arrivagesError } = await supabase
       .from('arrivages')
       .select(`
+        date,
         taux_change_usd_to_fcfa,
         transport_global_fcfa,
         details_arrivage (
