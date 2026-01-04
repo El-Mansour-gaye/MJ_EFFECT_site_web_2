@@ -3,12 +3,11 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { PlusCircle, DatabaseZap } from 'lucide-react';
+import { PlusCircle } from 'lucide-react';
 import ProductTable from '@/components/admin/catalogue/ProductTable';
 import ProductForm from '@/components/admin/catalogue/ProductForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ConfirmationDialog from '@/components/admin/ConfirmationDialog';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 
 export type Product = {
   id?: string;
@@ -29,29 +28,6 @@ const CataloguePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<string | null>(null);
-  const [isMigrating, setIsMigrating] = useState(false);
-  const [migrationMessage, setMigrationMessage] = useState('');
-
-  const handleMigration = async () => {
-    setIsMigrating(true);
-    setMigrationMessage('Migration en cours... Veuillez ne pas quitter cette page.');
-    const token = sessionStorage.getItem("admin-auth-token");
-    try {
-      const response = await fetch('/api/admin/migrate-images', {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || 'La migration a échoué.');
-      }
-      setMigrationMessage(data.message || 'Migration terminée avec succès !');
-    } catch (err) {
-      setMigrationMessage((err as Error).message);
-    } finally {
-      setIsMigrating(false);
-    }
-  };
 
   const fetchProducts = async () => {
     setIsLoading(true);
@@ -121,23 +97,6 @@ const CataloguePage = () => {
           <PlusCircle className="mr-2 h-4 w-4" /> Ajouter un Produit
         </Button>
       </div>
-
-      <Card className="mb-6">
-          <CardHeader>
-              <CardTitle>Migration des Images Produits</CardTitle>
-              <CardDescription>
-                  Cette action va scanner tous vos produits, trouver les images locales (stockées dans /public) et les téléverser sur le stockage cloud (Supabase Storage). Mettez à jour votre base de données avec les nouvelles URLs.
-                  <br /><strong>Cette opération est à n'effectuer qu'une seule fois.</strong>
-              </CardDescription>
-          </CardHeader>
-          <CardContent>
-              <Button onClick={handleMigration} disabled={isMigrating}>
-                  <DatabaseZap className="mr-2 h-4 w-4" />
-                  {isMigrating ? 'Migration en cours...' : 'Lancer la migration des images'}
-              </Button>
-              {migrationMessage && <p className="mt-4 text-sm text-muted-foreground">{migrationMessage}</p>}
-          </CardContent>
-      </Card>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogContent>
