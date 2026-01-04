@@ -112,7 +112,7 @@ export function HomePage() {
         <div
           className="absolute inset-0 bg-cover bg-center ken-burns-effect"
           style={{
-            backgroundImage: "url('/image-banniere.png')",
+            backgroundImage: "url('/image-banniere.jpg')",
           }}
         />
         <div className="relative z-10">

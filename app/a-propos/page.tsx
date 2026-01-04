@@ -17,7 +17,7 @@ export default function AboutPage() {
       <div className="container mx-auto px-4 py-16 text-center max-w-6xl">
         <div className="mb-12">
           <Image
-            src="/image-banniere.png"
+            src="/image-banniere.jpg"
             alt="Notre Histoire"
             width={800}
             height={400}
