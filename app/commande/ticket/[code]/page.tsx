@@ -34,8 +34,8 @@ interface Commande {
 // Function to fetch order details from Supabase with retry logic
 async function getOrderDetails(code: string): Promise<Commande | null> {
   const supabase = createSupabaseAdmin();
-  const MAX_RETRIES = 3;
-  const RETRY_DELAY = 500; // 500ms
+  const MAX_RETRIES = 5;
+  const RETRY_DELAY = 1000; // 1s
 
   for (let i = 0; i < MAX_RETRIES; i++) {
     const { data, error } = await supabase
