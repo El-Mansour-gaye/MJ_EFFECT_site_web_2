@@ -1,26 +1,36 @@
 // components/admin/catalogue/ProductForm.tsx
 "use client";
 
-import React, { useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { useForm, Controller, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Product } from '@/app/admin/(protected)/catalogue/page';
-
-import { useState } from 'react';
 import Image from 'next/image';
-import { X, UploadCloud } from 'lucide-react';
+import { X, UploadCloud, PlusCircle } from 'lucide-react';
 
-// Extend the Product type to include image fields
+// Le type de base du produit venant de la page catalogue
+export type Product = {
+  id?: string;
+  nom: string;
+  prix_fcfa: number;
+  stock: number;
+  slug?: string;
+  is_best_seller: boolean;
+  is_new_arrival: boolean;
+  is_set_or_pack: boolean;
+};
+
+// On étend le type pour inclure les champs d'image
 type ProductWithImages = Product & {
   image?: string | null;
   images?: string[] | null;
 };
 
+// Schéma de validation avec Zod
 const formSchema = z.object({
   nom: z.string().min(1, 'Le nom est requis'),
   prix_fcfa: z.coerce.number().min(0, 'Le prix doit être positif'),
@@ -38,10 +48,9 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
-  const [imageUrls, setImageUrls] = useState<string[]>(product?.images || []);
   const [isUploading, setIsUploading] = useState(false);
 
-  const { register, handleSubmit, reset, control, setValue, formState: { errors } } = useForm<ProductWithImages>({
+  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<ProductWithImages>({
     resolver: zodResolver(formSchema),
     defaultValues: product || {
       nom: '',
@@ -50,10 +59,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
-      image: null,
+      image: '',
       images: [],
     },
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "images",
+  });
+
+  const mainImageUrl = watch('image');
 
   useEffect(() => {
     const defaultValues = product || {
@@ -63,16 +79,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
-      image: null,
+      image: '',
       images: [],
     };
     reset(defaultValues);
-    setImageUrls(defaultValues.images || []);
   }, [product, reset]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
-    if (!files) return;
+    if (!files || files.length === 0) return;
 
     setIsUploading(true);
     const token = sessionStorage.getItem("admin-auth-token");
@@ -82,28 +97,40 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('/api/admin/upload', {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}` },
-          body: formData,
-        });
-
-        if (!response.ok) {
-          console.error('Failed to upload image:', file.name);
-          return null;
+        try {
+            const response = await fetch('/api/admin/upload', {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+                body: formData,
+            });
+            if (!response.ok) {
+                console.error('Échec du téléversement pour:', file.name);
+                return null;
+            }
+            const data = await response.json();
+            return data.imageUrl;
+        } catch (error) {
+            console.error('Erreur lors du téléversement:', error);
+            return null;
         }
-        const data = await response.json();
-        return data.imageUrl;
       })
     );
 
     const newImageUrls = uploadedUrls.filter((url): url is string => url !== null);
-    setImageUrls((prev) => [...prev, ...newImageUrls]);
-    setIsUploading(false);
-  };
 
-  const handleRemoveImage = (urlToRemove: string) => {
-    setImageUrls((prev) => prev.filter((url) => url !== urlToRemove));
+    if (newImageUrls.length > 0) {
+      // Si l'image principale est vide, on la remplit avec la première image téléversée
+      if (!watch('image')) {
+        setValue('image', newImageUrls[0]);
+        // On ajoute le reste à la galerie
+        newImageUrls.slice(1).forEach(url => append(url));
+      } else {
+        // Sinon, on ajoute toutes les nouvelles images à la galerie
+        newImageUrls.forEach(url => append(url));
+      }
+    }
+
+    setIsUploading(false);
   };
 
   const handleFormSubmit = async (data: ProductWithImages) => {
@@ -111,10 +138,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     const method = product ? 'PUT' : 'POST';
     const url = product ? `/api/admin/catalogue/${product.id}` : '/api/admin/catalogue';
 
+    // On s'assure que les images sont bien un tableau, même s'il est vide
     const payload = {
       ...data,
-      images: imageUrls,
-      image: imageUrls.length > 0 ? imageUrls[0] : null, // Set the first image as the main one
+      images: data.images || [],
     };
 
     try {
@@ -128,7 +155,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       });
 
       if (!response.ok) {
-        throw new Error(product ? 'Failed to update product' : 'Failed to create product');
+        throw new Error(product ? 'Échec de la mise à jour' : 'Échec de la création');
       }
       onSubmit();
     } catch (error) {
@@ -137,98 +164,110 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 max-h-[80vh] overflow-y-auto pr-4">
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 max-h-[80vh] overflow-y-auto pr-4">
       <div>
         <Label htmlFor="nom">Nom du Produit</Label>
         <Input id="nom" {...register('nom')} />
         {errors.nom && <p className="text-red-500 text-sm">{errors.nom.message}</p>}
       </div>
-      <div>
-        <Label htmlFor="prix_fcfa">Prix (FCFA)</Label>
-        <Input id="prix_fcfa" type="number" {...register('prix_fcfa')} />
-        {errors.prix_fcfa && <p className="text-red-500 text-sm">{errors.prix_fcfa.message}</p>}
-      </div>
-      <div>
-        <Label htmlFor="stock">Stock</Label>
-        <Input id="stock" type="number" {...register('stock')} />
-        {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
-      </div>
-
-      <div>
-        <Label>Images</Label>
-        <div className="grid grid-cols-3 gap-2 mb-2">
-          {imageUrls.map((url) => (
-            <div key={url} className="relative">
-              <Image src={url} alt="Product image" width={100} height={100} className="object-cover rounded w-full h-24" />
-              <button
-                type="button"
-                onClick={() => handleRemoveImage(url)}
-                className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
-              >
-                <X size={12} />
-              </button>
-            </div>
-          ))}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="prix_fcfa">Prix (FCFA)</Label>
+          <Input id="prix_fcfa" type="number" {...register('prix_fcfa')} />
+          {errors.prix_fcfa && <p className="text-red-500 text-sm">{errors.prix_fcfa.message}</p>}
         </div>
-        <div className="flex items-center justify-center w-full">
-          <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-muted/50">
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <UploadCloud className="w-8 h-8 mb-2 text-muted-foreground" />
-              <p className="mb-2 text-sm text-center text-muted-foreground">
-                {isUploading ? "Téléversement..." : "Cliquez ou glissez des images"}
-              </p>
-            </div>
-            <Input id="dropzone-file" type="file" multiple className="hidden" onChange={handleImageUpload} disabled={isUploading} />
-          </label>
+        <div>
+          <Label htmlFor="stock">Stock</Label>
+          <Input id="stock" type="number" {...register('stock')} />
+          {errors.stock && <p className="text-red-500 text-sm">{errors.stock.message}</p>}
         </div>
       </div>
 
-      <Controller
-        name="is_best_seller"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="is_best_seller"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="is_best_seller">Best Seller</Label>
+      {/* Champ pour l'image principale */}
+      <div>
+        <Label htmlFor="image">URL de l'Image Principale</Label>
+        <Input id="image" {...register('image')} placeholder="https://... ou /image.png" />
+        {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
+        {mainImageUrl && (
+          <div className="mt-2 relative w-32 h-32">
+            <Image src={mainImageUrl} alt="Aperçu principal" layout="fill" className="object-cover rounded-md" />
           </div>
         )}
-      />
+      </div>
 
-      <Controller
-        name="is_new_arrival"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="is_new_arrival"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="is_new_arrival">Nouvel Arrivage</Label>
+      {/* Champs pour la galerie d'images */}
+      <div className="space-y-3">
+        <Label>URLs des Images de la Galerie</Label>
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex items-center gap-2">
+            <Input {...register(`images.${index}`)} placeholder="https://... ou /image.png" />
+            <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)}>
+              <X size={16} />
+            </Button>
           </div>
-        )}
-      />
+        ))}
+        {errors.images && <p className="text-red-500 text-sm">Une ou plusieurs URLs de la galerie sont invalides.</p>}
+        <Button type="button" variant="outline" size="sm" onClick={() => append('')}>
+            <PlusCircle size={16} className="mr-2" />
+            Ajouter une URL à la galerie
+        </Button>
+      </div>
 
-      <Controller
-        name="is_set_or_pack"
-        control={control}
-        render={({ field }) => (
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              id="is_set_or_pack"
-              checked={field.value}
-              onCheckedChange={field.onChange}
-            />
-            <Label htmlFor="is_set_or_pack">Coffret / Pack</Label>
+      {/* Zone de téléversement */}
+      <div>
+          <Label>Téléverser de nouvelles images</Label>
+          <div className="flex items-center justify-center w-full">
+              <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer hover:bg-muted/50">
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <UploadCloud className="w-8 h-8 mb-2 text-muted-foreground" />
+                      <p className="mb-2 text-sm text-center text-muted-foreground">
+                          {isUploading ? "Téléversement en cours..." : "Cliquez ou glissez pour téléverser"}
+                      </p>
+                      <p className="text-xs text-muted-foreground">Une ou plusieurs images</p>
+                  </div>
+                  <Input id="dropzone-file" type="file" multiple className="hidden" onChange={handleImageUpload} disabled={isUploading} />
+              </label>
           </div>
-        )}
-      />
+          <p className="text-xs text-muted-foreground mt-1">Les images téléversées rempliront d'abord l'URL principale si elle est vide, puis la galerie.</p>
+      </div>
 
-      <Button type="submit">{product ? 'Mettre à jour' : 'Créer'}</Button>
+
+      <div className="space-y-2 pt-4">
+        <Controller
+          name="is_best_seller"
+          control={control}
+          render={({ field }) => (
+            <div className="flex items-center space-x-2">
+              <Checkbox id="is_best_seller" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="is_best_seller">Marquer comme "Best Seller"</Label>
+            </div>
+          )}
+        />
+        <Controller
+          name="is_new_arrival"
+          control={control}
+          render={({ field }) => (
+            <div className="flex items-center space-x-2">
+              <Checkbox id="is_new_arrival" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="is_new_arrival">Marquer comme "Nouvel Arrivage"</Label>
+            </div>
+          )}
+        />
+        <Controller
+          name="is_set_or_pack"
+          control={control}
+          render={({ field }) => (
+            <div className="flex items-center space-x-2">
+              <Checkbox id="is_set_or_pack" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="is_set_or_pack">Marquer comme "Coffret / Pack"</Label>
+            </div>
+          )}
+        />
+      </div>
+
+      <div className="pt-4">
+          <Button type="submit" disabled={isUploading}>{product ? 'Mettre à jour le produit' : 'Créer le produit'}</Button>
+      </div>
     </form>
   );
 };
