@@ -31,37 +31,48 @@ interface Commande {
   articles_commande: Article[];
 }
 
-// Function to fetch order details from Supabase
+// Function to fetch order details from Supabase with retry logic
 async function getOrderDetails(code: string): Promise<Commande | null> {
   const supabase = createSupabaseAdmin();
-  const { data, error } = await supabase
-    .from('commandes')
-    .select(`
-      code_commande,
-      date_creation,
-      client_nom,
-      client_adresse,
-      client_telephone,
-      client_email,
-      date_livraison,
-      statut_livraison,
-      montant_total,
-      methode_paiement,
-      articles_commande (
-        quantite,
-        prix_unitaire_cmd,
-        produits ( nom )
-      )
-    `)
-    .eq('code_commande', code)
-    .single();
+  const MAX_RETRIES = 3;
+  const RETRY_DELAY = 500; // 500ms
 
-  if (error || !data) {
-    console.error('Error fetching order:', error);
-    return null;
+  for (let i = 0; i < MAX_RETRIES; i++) {
+    const { data, error } = await supabase
+      .from('commandes')
+      .select(`
+        code_commande,
+        date_creation,
+        client_nom,
+        client_adresse,
+        client_telephone,
+        client_email,
+        date_livraison,
+        statut_livraison,
+        montant_total,
+        methode_paiement,
+        articles_commande (
+          quantite,
+          prix_unitaire_cmd,
+          produits ( nom )
+        )
+      `)
+      .eq('code_commande', code)
+      .single();
+
+    if (!error && data) {
+      return data as Commande;
+    }
+
+    if (i < MAX_RETRIES - 1) {
+      console.log(`Order not found, retrying in ${RETRY_DELAY}ms... (Attempt ${i + 1}/${MAX_RETRIES})`);
+      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
+    } else {
+       console.error(`Error fetching order after ${MAX_RETRIES} attempts:`, error);
+    }
   }
 
-  return data as Commande;
+  return null;
 }
 
 // The page component
