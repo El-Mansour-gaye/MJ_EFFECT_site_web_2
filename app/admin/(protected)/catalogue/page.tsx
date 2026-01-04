@@ -62,6 +62,7 @@ const CataloguePage = () => {
 
   const handleDeleteConfirm = async () => {
     if (!productToDelete) return;
+    setError(null); // Reset error before new attempt
 
     const token = sessionStorage.getItem("admin-auth-token");
     try {
@@ -69,7 +70,15 @@ const CataloguePage = () => {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) throw new Error('Failed to delete product');
+
+      if (!response.ok) {
+        if (response.status === 409) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || 'Conflict deleting product.');
+        }
+        throw new Error('Failed to delete product');
+      }
+
       fetchProducts(); // Refresh the list
     } catch (err) {
       setError((err as Error).message);
