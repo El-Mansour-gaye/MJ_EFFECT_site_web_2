@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 // Assuming you have icons, e.g., from lucide-react
-import { LayoutDashboard, ShoppingCart, Users, BarChart, Mail, Tag } from 'lucide-react';
+import { LayoutDashboard, ShoppingCart, Users, BarChart, Mail, Tag, ClipboardList } from 'lucide-react';
 
 // Client-side auth check
 const checkAuth = () => !!sessionStorage.getItem('admin-auth-token');
@@ -37,6 +37,10 @@ const AdminSidebar = () => (
       <Link href="/admin/catalogue" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
         <Tag />
         <span>Catalogue</span>
+      </Link>
+      <Link href="/admin/arrivages" className="flex items-center space-x-2 hover:bg-muted hover:text-accent p-2 transition-colors">
+        <ClipboardList />
+        <span>Gestion Arrivages</span>
       </Link>
     </nav>
   </aside>
