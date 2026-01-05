@@ -44,7 +44,7 @@ export const quizQuestions: QuizQuestion[] = [
     ],
   },
   {
-    question: "Choisissez un accessoire :",
+    question: "Choisissez un accessory :",
     answers: [
       { text: "Un collier de diamants discret mais scintillant.", profile: 'A' },
       { text: "Des boucles d'oreilles audacieuses qui ne passent pas inaperçues.", profile: 'B' },
@@ -59,9 +59,9 @@ export const quizResults: QuizResult[] = [
     title: "Votre profil : L'Élégante Sophistiquée",
     description: "Vous êtes attirée par le mystère, l'élégance et le luxe intemporel. Votre sillage doit être aussi mémorable et chic que vous. Vous ne suivez pas les tendances, vous les créez.",
     products: [
-      { name: "Into The Night", image: "/into-the-night-perfume-review-dakar.png", category: "Brume & Soins Corporels" },
-      { name: "Dark Kiss", image: "/images/products/dark-kiss-brume.webp", category: "Brume & Soins Corporels" },
-      { name: "SET #2 Into The Night", image: "/images/sets/set-2.jpeg", category: "Coffret Cadeau" },
+      { name: "Into The Night", image: "/into-the-night.png", category: "Brume & Soins Corporels" },
+      { name: "Dark Kiss", image: "/dark-kiss.png", category: "Brume & Soins Corporels" },
+      { name: "SET #2 Into The Night", image: "/set-2-into-the-night-1.png", category: "Coffret Cadeau" },
     ],
   },
   {
@@ -69,9 +69,9 @@ export const quizResults: QuizResult[] = [
     title: "Votre profil : La Pétillante Sociale",
     description: "Vous êtes l'âme de la fête ! Énergique, joyeuse et toujours optimiste, vous aimez les senteurs qui pétillent et qui attirent l'attention. Votre parfum est une extension de votre personnalité vibrante.",
     products: [
-      { name: "Champagne Toast", image: "/images/products/champagne-toast-brume.webp", category: "Brume & Soins Corporels" },
-      { name: "A Thousand Wishes", image: "/images/products/a-thousand-wishes-brume.webp", category: "Brume & Soins Corporels" },
-      { name: "SET #1 Champagne Toast", image: "/images/sets/set-1.jpeg", category: "Coffret Cadeau" },
+      { name: "Champagne Toast", image: "/champagne-toast.png", category: "Brume & Soins Corporels" },
+      { name: "A Thousand Wishes", image: "/a-thousand-wishes.png", category: "Brume & Soins Corporels" },
+      { name: "SET #1 Champagne Toast", image: "/set-1-champagne-toast-1.png", category: "Coffret Cadeau" },
     ],
   },
   {
@@ -79,9 +79,9 @@ export const quizResults: QuizResult[] = [
     title: "Votre profil : La Douce Rêveuse",
     description: "Vous êtes une âme douce, en quête de confort et de réconfort. Vous appréciez les moments de calme et les plaisirs simples. Votre parfum idéal est une caresse, une senteur gourmande et chaleureuse qui vous enveloppe.",
     products: [
-      { name: "Warm Vanilla Sugar", image: "/images/products/warm-vanilla-sugar-brume.webp", category: "Brume & Soins Corporels" },
-      { name: "Glowtion Body Butter", image: "/body-butter-vs-lotion-senegal.png", category: "Soin Corporel" },
-      { name: "SET #6 Warm Vanilla Sugar", image: "/images/sets/set-6.jpeg", category: "Coffret Cadeau" },
+      { name: "Warm Vanilla Sugar", image: "/placeholder.jpg", category: "Brume & Soins Corporels" },
+      { name: "Glowtion Body Butter", image: "/glowtion-body-butter.png", category: "Soin Corporel" },
+      { name: "SET #6 Warm Vanilla Sugar", image: "/set-6-warm-vanilla-sugar-1.png", category: "Coffret Cadeau" },
     ],
   },
 ];
