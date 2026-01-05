@@ -79,23 +79,23 @@ export function OlfactiveCollections() {
 
   return (
     <section className="py-16 lg:py-24">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4">
         <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
           <span className="font-normal">Découvrez nos</span>{" "}
         <span className="font-bold">Collections de Senteurs MG Effect</span>
         </h2>
-        <div className="flex md:flex-nowrap overflow-x-auto justify-start gap-4 pb-4">
+        <div className="flex justify-center gap-4">
           {/* Left Column */}
-          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col flex-shrink-0">
+          <div className="w-1/4 space-y-4 flex flex-col">
             <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
           </div>
           {/* Center Column */}
-          <div className="w-[32rem] flex-shrink-0 flex-shrink-0">
+          <div className="w-1/2">
             <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
           </div>
           {/* Right Column */}
-          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col flex-shrink-0">
+          <div className="w-1/4 space-y-4 flex flex-col">
             <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
           </div>
