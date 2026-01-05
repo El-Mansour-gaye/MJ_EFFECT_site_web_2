@@ -35,10 +35,10 @@ const categories = [
 export function ParallaxCategories() {
   return (
     <section
-      className="relative w-full h-[50vh] grid place-items-center"
+      className="relative w-full min-h-[50vh] grid place-items-center py-20"
     >
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center bg-fixed"
+        className="absolute inset-0 z-0 bg-cover bg-center"
         style={{
           backgroundImage: "url('/image-section-parallaxe.png')",
         }}
