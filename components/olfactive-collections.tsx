@@ -16,7 +16,7 @@ const collections = [
     title: "Into The Night",
     description: "Pour une élégance sombre et mystérieuse.",
     route: "/collection",
-    imageUrl: "/into-the-night.png",
+    imageUrl: "/set-2-into-the-night-2.png",
   },
   {
     title: "Warm Vanilla Sugar",
