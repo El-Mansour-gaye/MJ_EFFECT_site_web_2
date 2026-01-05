@@ -1,12 +1,12 @@
-// app/commande/ticket/[code]/page.tsx
-import { createSupabaseAdmin } from '@/lib/supabase/admin';
-import { notFound } from 'next/navigation';
+// app/commande/ticket/[orderCode]/page.tsx
+"use client";
 
-export const dynamic = 'force-dynamic';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import TicketDisplay from '@/components/commande/ticket-display';
 import ReturnHomeButton from '@/components/commande/ReturnHomeButton';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 // Define the types for better readability
 interface Article {
@@ -31,70 +31,63 @@ interface Commande {
   articles_commande: Article[];
 }
 
-// Function to fetch order details from Supabase with retry logic and detailed logging
-async function getOrderDetails(code: string): Promise<Commande | null> {
-  console.log(`--- Fetching order with code: ${code} ---`);
-  const supabase = createSupabaseAdmin();
-  const MAX_RETRIES = 5;
-  const RETRY_DELAY = 1000; // 1s
+export default function TicketPage() {
+  const params = useParams();
+  const orderCode = params.orderCode as string;
 
-  for (let i = 0; i < MAX_RETRIES; i++) {
-    console.log(`Attempt ${i + 1}/${MAX_RETRIES}...`);
-    const { data, error } = await supabase
-      .from('commandes')
-      .select(`
-        code_commande,
-        date_creation,
-        client_nom,
-        client_adresse,
-        client_telephone,
-        client_email,
-        date_livraison,
-        statut_livraison,
-        montant_total,
-        methode_paiement,
-        articles_commande (
-          quantite,
-          prix_unitaire_cmd,
-          produits ( nom )
-        )
-      `)
-      .eq('code_commande', code)
-      .single();
+  const [order, setOrder] = useState<Commande | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    if (!error && data) {
-      console.log(`--- Successfully fetched order on attempt ${i + 1} ---`);
-      return data as Commande;
-    }
+  useEffect(() => {
+    if (!orderCode) return;
 
-    if (error) {
-        console.error(`Attempt ${i + 1} failed. Supabase error:`, error.message);
-    }
+    const fetchOrder = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(`/api/commandes/${orderCode}`);
+        if (!response.ok) {
+          throw new Error('Commande non trouvée.');
+        }
+        const data = await response.json();
+        setOrder(data);
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    if (!data) {
-        console.log(`Attempt ${i + 1}: Order data not found.`);
-    }
+    fetchOrder();
+  }, [orderCode]);
 
-    if (i < MAX_RETRIES - 1) {
-      console.log(`Retrying in ${RETRY_DELAY}ms...`);
-      await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
-    } else {
-      console.error(`--- Failed to fetch order after ${MAX_RETRIES} attempts. ---`);
-    }
+  if (isLoading) {
+    return (
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+            <div className="text-center">
+                <p className="text-xl">Chargement du ticket de commande...</p>
+            </div>
+        </div>
+    );
   }
 
-  console.log(`--- Returning null, order not found. ---`);
-  return null;
-}
-
-// The page component
-export default async function TicketPage({ params }: { params: { orderCode: string } }) {
-  console.log('--- Ticket Page Received Params:', JSON.stringify(params));
-  const { orderCode } = params;
-  const order = await getOrderDetails(orderCode);
+  if (error) {
+    return (
+        <div className="min-h-screen bg-black text-white flex items-center justify-center">
+            <div className="text-center bg-[#1A1A1A] p-12">
+                <h1 className="text-3xl font-bold mb-4">Erreur</h1>
+                <p className="text-red-500 mb-8">{error}</p>
+                <Button asChild variant="outline">
+                    <Link href="/">Retour à l'accueil</Link>
+                </Button>
+            </div>
+        </div>
+    );
+  }
 
   if (!order) {
-    notFound();
+    return null; // Should be handled by error state
   }
 
   return (
@@ -107,10 +100,7 @@ export default async function TicketPage({ params }: { params: { orderCode: stri
           </div>
 
           <div className="space-y-8">
-            {/* Order Code */}
             <TicketDisplay code={order.code_commande} />
-
-            {/* Client and Delivery Info */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
               <div>
                 <h3 className="font-semibold text-lg mb-2">Client</h3>
@@ -126,8 +116,6 @@ export default async function TicketPage({ params }: { params: { orderCode: stri
                 <p>Paiement : <span className="font-bold">{order.methode_paiement}</span></p>
               </div>
             </div>
-
-            {/* Order Items */}
             <div>
               <h3 className="font-semibold text-lg mb-2">Résumé de la commande</h3>
               <div className="border-t border-b border-gray-700 divide-y divide-gray-700">
@@ -139,8 +127,6 @@ export default async function TicketPage({ params }: { params: { orderCode: stri
                 ))}
               </div>
             </div>
-
-            {/* Total */}
             <div className="text-right">
               <p className="text-gray-400">Total payé</p>
               <p className="text-2xl font-bold font-mono">{new Intl.NumberFormat('fr-FR').format(order.montant_total)} FCFA</p>
