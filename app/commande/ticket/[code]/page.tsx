@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import TicketDisplay from '@/components/commande/ticket-display';
-import ClearCart from '@/components/commande/clear-cart';
+import ReturnHomeButton from '@/components/commande/ReturnHomeButton';
 
 // Define the types for better readability
 interface Article {
@@ -136,12 +136,9 @@ export default async function TicketPage({ params }: { params: { code: string } 
         </div>
 
         <div className="text-center mt-12">
-            <Button asChild variant="outline">
-                <Link href="/">Retour à l'accueil</Link>
-            </Button>
+            <ReturnHomeButton />
         </div>
       </div>
-      <ClearCart />
     </div>
   );
 }
