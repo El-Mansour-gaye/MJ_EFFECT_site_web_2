@@ -69,18 +69,18 @@ export function OlfactiveCollections() {
           <span className="font-normal">Découvrez nos</span>{" "}
         <span className="font-bold">Collections de Senteurs MG Effect</span>
         </h2>
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="flex flex-nowrap overflow-x-auto justify-start gap-4 pb-4">
           {/* Left Column */}
-          <div className="w-full sm:w-[45%] lg:w-[23%] space-y-8 flex flex-col">
+          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col">
             <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
           </div>
           {/* Center Column */}
-          <div className="w-full lg:w-[48%] order-first lg:order-none">
+          <div className="w-[32rem] flex-shrink-0">
             <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
           </div>
           {/* Right Column */}
-          <div className="w-full sm:w-[45%] lg:w-[23%] space-y-8 flex flex-col">
+          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col">
             <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
           </div>

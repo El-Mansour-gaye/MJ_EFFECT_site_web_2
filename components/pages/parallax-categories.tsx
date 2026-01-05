@@ -48,7 +48,7 @@ export function ParallaxCategories() {
         <h2 className="font-serif text-4xl md:text-5xl mb-12">
           <span className="font-light">Explorez l'Univers</span> <span className="font-bold">MG Effect</span>
         </h2>
-        <div className="flex flex-wrap md:flex-nowrap overflow-x-auto items-start justify-center gap-8 pb-4">
+        <div className="flex flex-wrap items-start justify-center gap-8 pb-4">
           {categories.map((category) => (
             <Link href={category.href} key={category.name} className="group text-center">
               <div className="relative w-36 h-36 md:w-48 md:h-48 rounded-full overflow-hidden bg-white/20 backdrop-blur-sm border border-white/30 mx-auto">
