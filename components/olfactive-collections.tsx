@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { encodeImagePath } from "@/lib/utils"
 
@@ -43,16 +44,30 @@ const collections = [
   },
 ]
 
-const CollectionCard = ({ collection, className }: { collection: typeof collections[0], className?: string }) => (
-  <Link href={collection.route} className={`group block relative overflow-hidden ${className}`}>
+const CollectionCard = ({
+  collection,
+  className,
+}: {
+  collection: (typeof collections)[0]
+  className?: string
+}) => (
+  <Link
+    href={collection.route}
+    className={`group block relative overflow-hidden ${className}`}
+  >
     <Card className="h-full w-full border-0 rounded-none overflow-hidden transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:shadow-2xl">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-        style={{ backgroundImage: `url(${encodeImagePath(collection.imageUrl)})` }}
+      <Image
+        src={encodeImagePath(collection.imageUrl)}
+        alt={collection.title}
+        layout="fill"
+        objectFit="cover"
+        className="transition-transform duration-500 ease-in-out group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-black/30 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
       <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-        <h3 className="font-serif text-lg md:text-xl font-bold mb-1">{collection.title}</h3>
+        <h3 className="font-serif text-lg md:text-xl font-bold mb-1">
+          {collection.title}
+        </h3>
         <p className="text-xs text-white/80">{collection.description}</p>
       </CardContent>
     </Card>
@@ -64,23 +79,23 @@ export function OlfactiveCollections() {
 
   return (
     <section className="py-16 lg:py-24">
-      <div className="container mx-auto px-4 max-w-6xl">
+      <div className="container mx-auto px-4">
         <h2 className="font-serif text-3xl md:text-4xl text-center mb-12">
           <span className="font-normal">Découvrez nos</span>{" "}
         <span className="font-bold">Collections de Senteurs MG Effect</span>
         </h2>
-        <div className="flex md:flex-nowrap overflow-x-auto justify-start gap-4 pb-4">
+        <div className="flex justify-center gap-4">
           {/* Left Column */}
-          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col flex-shrink-0">
+          <div className="w-1/4 space-y-4 flex flex-col">
             <CollectionCard collection={collections[0]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[1]} className="aspect-square flex-1" />
           </div>
           {/* Center Column */}
-          <div className="w-[32rem] flex-shrink-0 flex-shrink-0">
+          <div className="w-1/2">
             <CollectionCard collection={collections[2]} className="aspect-square h-full w-full" />
           </div>
           {/* Right Column */}
-          <div className="w-64 flex-shrink-0 space-y-4 flex flex-col flex-shrink-0">
+          <div className="w-1/4 space-y-4 flex flex-col">
             <CollectionCard collection={collections[3]} className="aspect-square flex-1" />
             <CollectionCard collection={collections[4]} className="aspect-square flex-1" />
           </div>
