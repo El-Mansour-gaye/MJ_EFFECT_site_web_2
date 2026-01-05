@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { encodeImagePath } from "@/lib/utils"
 
@@ -43,16 +44,30 @@ const collections = [
   },
 ]
 
-const CollectionCard = ({ collection, className }: { collection: typeof collections[0], className?: string }) => (
-  <Link href={collection.route} className={`group block relative overflow-hidden ${className}`}>
+const CollectionCard = ({
+  collection,
+  className,
+}: {
+  collection: (typeof collections)[0]
+  className?: string
+}) => (
+  <Link
+    href={collection.route}
+    className={`group block relative overflow-hidden ${className}`}
+  >
     <Card className="h-full w-full border-0 rounded-none overflow-hidden transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:shadow-2xl">
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110"
-        style={{ backgroundImage: `url(${encodeImagePath(collection.imageUrl)})` }}
+      <Image
+        src={encodeImagePath(collection.imageUrl)}
+        alt={collection.title}
+        layout="fill"
+        objectFit="cover"
+        className="transition-transform duration-500 ease-in-out group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-black/30 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
       <CardContent className="relative z-10 flex flex-col justify-end h-full p-6 text-white">
-        <h3 className="font-serif text-lg md:text-xl font-bold mb-1">{collection.title}</h3>
+        <h3 className="font-serif text-lg md:text-xl font-bold mb-1">
+          {collection.title}
+        </h3>
         <p className="text-xs text-white/80">{collection.description}</p>
       </CardContent>
     </Card>

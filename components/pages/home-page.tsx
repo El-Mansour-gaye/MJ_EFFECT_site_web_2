@@ -15,6 +15,31 @@ import { AnimatedSection } from "@/components/animated-section"
 import { HomeBlogSection } from "@/components/pages/home-blog-section"
 import { WhyUsSection } from "@/components/pages/why-us-section"
 import { cn } from "@/lib/utils"
+import dynamic from "next/dynamic"
+
+const DynamicOlfactiveCollections = dynamic(() =>
+  import("@/components/olfactive-collections").then(
+    (mod) => mod.OlfactiveCollections
+  )
+)
+const DynamicParallaxCategories = dynamic(() =>
+  import("@/components/pages/parallax-categories").then(
+    (mod) => mod.ParallaxCategories
+  )
+)
+const DynamicProductDemoCarousel = dynamic(() =>
+  import("@/components/product-demo-carousel").then(
+    (mod) => mod.ProductDemoCarousel
+  )
+)
+const DynamicHomeBlogSection = dynamic(() =>
+  import("@/components/pages/home-blog-section").then(
+    (mod) => mod.HomeBlogSection
+  )
+)
+const DynamicWhyUsSection = dynamic(() =>
+  import("@/components/pages/why-us-section").then((mod) => mod.WhyUsSection)
+)
 
 function ProductCarousel({
   title,
@@ -133,7 +158,7 @@ export function HomePage() {
 
       {/* Olfactive Collections Section */}
       <AnimatedSection>
-        <OlfactiveCollections />
+        <DynamicOlfactiveCollections />
       </AnimatedSection>
 
       <section className="py-16 lg:py-24 bg-black/5">
@@ -179,20 +204,20 @@ export function HomePage() {
 
       {/* Parallax Categories Section */}
       <AnimatedSection>
-        <ParallaxCategories />
+        <DynamicParallaxCategories />
       </AnimatedSection>
 
       {/* Product Demos Section */}
       <AnimatedSection>
-        <ProductDemoCarousel />
+        <DynamicProductDemoCarousel />
       </AnimatedSection>
 
       <AnimatedSection>
-        <HomeBlogSection />
+        <DynamicHomeBlogSection />
       </AnimatedSection>
 
       <AnimatedSection>
-        <WhyUsSection />
+        <DynamicWhyUsSection />
       </AnimatedSection>
 
       {selectedProduct && <ProductModal product={selectedProduct} onClose={handleCloseModal} />}

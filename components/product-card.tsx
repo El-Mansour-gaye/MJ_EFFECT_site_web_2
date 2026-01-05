@@ -1,6 +1,7 @@
 "use client"
 
 import { useRef } from "react"
+import Image from "next/image"
 import { ShoppingBag, Heart } from "lucide-react"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
@@ -74,11 +75,13 @@ export function ProductCard({ product }: ProductCardProps) {
       transition={{ type: "spring", stiffness: 400, damping: 15 }}
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-black/5 shadow-md transition-shadow duration-300 group-hover:shadow-xl">
-        <img
+        <Image
           ref={imageRef}
           src={encodeImagePath(product.image || "/placeholder.svg")}
           alt={product.nom}
-          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          layout="fill"
+          objectFit="cover"
+          className="transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
