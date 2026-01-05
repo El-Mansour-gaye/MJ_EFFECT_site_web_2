@@ -1,0 +1,68 @@
+-- =====================================================================================
+-- MISE À JOUR DES CHEMINS D'IMAGES DANS LA TABLE 'produits'
+-- =====================================================================================
+-- Ce script met à jour les colonnes 'image' (type TEXT) et 'images' (type TEXT[]) pour
+-- refléter les nouveaux noms de fichiers d'images qui ont été standardisés (minuscules, sans espaces).
+--
+-- !! IMPORTANT !!
+-- Il est fortement recommandé de faire une sauvegarde de votre table 'produits'
+-- avant d'exécuter ce script.
+-- Exemple de sauvegarde: CREATE TABLE produits_backup AS TABLE produits;
+-- =====================================================================================
+
+UPDATE produits
+SET
+  -- Chaîne de remplacements pour la colonne 'image'
+  image = REPLACE(
+    REPLACE(
+      REPLACE(
+        REPLACE(
+          REPLACE(
+            REPLACE(
+              REPLACE(
+                REPLACE(
+                  REPLACE(image,
+                    'a thousand wishes.PNG', 'a-thousand-wishes.png'),
+                  'champagne toast.PNG', 'champagne-toast.png'),
+                'dark kiss.PNG', 'dark-kiss.png'),
+              'into the night - glowtion Body Butter.PNG', 'glowtion-body-butter.png'),
+            'into the night.PNG', 'into-the-night.png'),
+          'set-1-champagne-toast-1.PNG', 'set-1-champagne-toast-1.png'),
+        'SET #2 – Into The Night_1.PNG', 'set-2-into-the-night-1.png'),
+      'SET #2 – Into The Night_2.PNG', 'set-2-into-the-night-2.png'),
+    'set-6-warm-vanilla-sugar-1.PNG', 'set-6-warm-vanilla-sugar-1.png'
+  ),
+  -- Chaîne de remplacements pour la colonne 'images' (tableau de TEXT)
+  images = CAST(
+    REPLACE(
+      REPLACE(
+        REPLACE(
+          REPLACE(
+            REPLACE(
+              REPLACE(
+                REPLACE(
+                  REPLACE(
+                    REPLACE(CAST(images AS TEXT),
+                      'a thousand wishes.PNG', 'a-thousand-wishes.png'),
+                    'champagne toast.PNG', 'champagne-toast.png'),
+                  'dark kiss.PNG', 'dark-kiss.png'),
+                'into the night - glowtion Body Butter.PNG', 'glowtion-body-butter.png'),
+              'into the night.PNG', 'into-the-night.png'),
+            'set-1-champagne-toast-1.PNG', 'set-1-champagne-toast-1.png'),
+          'SET #2 – Into The Night_1.PNG', 'set-2-into-the-night-1.png'),
+        'SET #2 – Into The Night_2.PNG', 'set-2-into-the-night-2.png'),
+      'set-6-warm-vanilla-sugar-1.PNG', 'set-6-warm-vanilla-sugar-1.png'
+    ) AS TEXT[]
+  )
+-- Condition pour ne modifier que les lignes potentiellement concernées
+WHERE
+  image LIKE '%.PNG%' OR CAST(images AS TEXT) LIKE '%.PNG%';
+
+-- =====================================================================================
+-- VÉRIFICATION
+-- =====================================================================================
+-- Après avoir exécuté le script, vous pouvez utiliser la requête suivante pour
+-- vérifier que les chemins ont bien été mis à jour.
+--
+-- SELECT id, nom, image, images FROM produits WHERE image LIKE '%.png%' OR CAST(images AS TEXT) LIKE '%.png%';
+-- =====================================================================================
