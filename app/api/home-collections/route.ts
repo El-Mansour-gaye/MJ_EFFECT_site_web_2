@@ -22,8 +22,7 @@ export async function GET() {
       image,
       images,
       tag,
-      details,
-      video_url
+      details
     `)
     .or('is_best_seller.eq.true,is_new_arrival.eq.true,is_set_or_pack.eq.true')
     .order('nom', { ascending: true });
