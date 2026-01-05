@@ -89,6 +89,7 @@ async function getOrderDetails(code: string): Promise<Commande | null> {
 
 // The page component
 export default async function TicketPage({ params }: { params: { orderCode: string } }) {
+  console.log('--- Ticket Page Received Params:', JSON.stringify(params));
   const { orderCode } = params;
   const order = await getOrderDetails(orderCode);
 
