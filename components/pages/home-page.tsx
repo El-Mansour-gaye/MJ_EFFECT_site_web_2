@@ -125,9 +125,7 @@ export function HomePage() {
 
   const bestSellers = products.filter((p) => p.is_best_seller)
   const newArrivals = products.filter((p) => p.is_new_arrival)
-  const coffrets = products.filter(
-    (p) => p.category === "Coffret" || p.category === "Pack"
-  )
+  const coffrets = products.filter((p) => p.is_set_or_pack)
 
   const handleProductClick = (product: Product) => setSelectedProduct(product)
   const handleCloseModal = () => setSelectedProduct(null)

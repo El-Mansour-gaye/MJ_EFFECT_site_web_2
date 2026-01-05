@@ -8,7 +8,23 @@ export async function GET() {
   // Fetches all products that are either best-sellers, new arrivals, or sets/packs
   const { data, error } = await supabase
     .from('produits')
-    .select('*')
+    .select(`
+      id,
+      nom,
+      prix_fcfa,
+      stock: stock_disponible,
+      slug,
+      is_best_seller,
+      is_new_arrival,
+      is_set_or_pack,
+      category: categorie,
+      subCategory: sub_category,
+      image,
+      images,
+      tag,
+      details,
+      video_url
+    `)
     .or('is_best_seller.eq.true,is_new_arrival.eq.true,is_set_or_pack.eq.true')
     .order('nom', { ascending: true });
 
