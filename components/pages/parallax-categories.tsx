@@ -13,7 +13,7 @@ const categories = [
   {
     name: "Soins Corporels",
     href: "/collection?category=Soins Corporels",
-    imageUrl: "/into the night - glowtion Body Butter.PNG",
+    imageUrl: "/champagne-toast-body-butter.png",
   },
   {
     name: "Gommages & Gels Douche",
@@ -28,7 +28,7 @@ const categories = [
   {
     name: "Best Sellers",
     href: "/collection",
-    imageUrl: "/champagne toast body butter.PNG",
+    imageUrl: "/body-wash-dr-teals-11000.png",
   },
 ]
 
