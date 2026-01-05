@@ -31,13 +31,15 @@ interface Commande {
   articles_commande: Article[];
 }
 
-// Function to fetch order details from Supabase with retry logic
+// Function to fetch order details from Supabase with retry logic and detailed logging
 async function getOrderDetails(code: string): Promise<Commande | null> {
+  console.log(`--- Fetching order with code: ${code} ---`);
   const supabase = createSupabaseAdmin();
   const MAX_RETRIES = 5;
   const RETRY_DELAY = 1000; // 1s
 
   for (let i = 0; i < MAX_RETRIES; i++) {
+    console.log(`Attempt ${i + 1}/${MAX_RETRIES}...`);
     const { data, error } = await supabase
       .from('commandes')
       .select(`
@@ -61,17 +63,27 @@ async function getOrderDetails(code: string): Promise<Commande | null> {
       .single();
 
     if (!error && data) {
+      console.log(`--- Successfully fetched order on attempt ${i + 1} ---`);
       return data as Commande;
     }
 
+    if (error) {
+        console.error(`Attempt ${i + 1} failed. Supabase error:`, error.message);
+    }
+
+    if (!data) {
+        console.log(`Attempt ${i + 1}: Order data not found.`);
+    }
+
     if (i < MAX_RETRIES - 1) {
-      console.log(`Order not found, retrying in ${RETRY_DELAY}ms... (Attempt ${i + 1}/${MAX_RETRIES})`);
+      console.log(`Retrying in ${RETRY_DELAY}ms...`);
       await new Promise(resolve => setTimeout(resolve, RETRY_DELAY));
     } else {
-       console.error(`Error fetching order after ${MAX_RETRIES} attempts:`, error);
+      console.error(`--- Failed to fetch order after ${MAX_RETRIES} attempts. ---`);
     }
   }
 
+  console.log(`--- Returning null, order not found. ---`);
   return null;
 }
 
