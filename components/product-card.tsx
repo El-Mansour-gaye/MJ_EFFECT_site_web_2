@@ -13,6 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const isOutOfStock = product.stock_disponible <= 0;
   const addToCart = useCartStore((state) => state.addToCart)
   const cartIconRef = useCartStore((state) => state.cartIconRef)
   const imageRef = useRef<HTMLImageElement>(null)
@@ -80,7 +81,12 @@ export function ProductCard({ product }: ProductCardProps) {
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        {product.tag && (
+
+        {isOutOfStock ? (
+          <span className="absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest bg-red-500 text-white">
+            En rupture
+          </span>
+        ) : product.tag && (
           <span
             className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
               product.tag === "Promo"
@@ -93,6 +99,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.tag}
           </span>
         )}
+
         <button className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-accent">
           <Heart size={18} />
         </button>
@@ -102,13 +109,16 @@ export function ProductCard({ product }: ProductCardProps) {
             className="add-to-cart-button w-full bg-black text-white py-3 flex items-center justify-center gap-2 text-sm uppercase tracking-widest hover:bg-accent hover:text-accent-foreground transition-colors"
           >
             <ShoppingBag size={16} />
-            Ajouter au panier
+            {isOutOfStock ? "Précommander" : "Ajouter au panier"}
           </button>
         </div>
       </div>
       <div className="pt-4 text-center">
         <p className="text-xs text-black/50 uppercase tracking-widest mb-1">{product.category}</p>
         <h3 className="font-serif text-lg mb-2">{product.nom}</h3>
+        {isOutOfStock && (
+          <p className="text-sm text-red-500 mb-2">Sera expédié dans 10-20 jours</p>
+        )}
         <p className="font-medium">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
       </div>
     </motion.div>
