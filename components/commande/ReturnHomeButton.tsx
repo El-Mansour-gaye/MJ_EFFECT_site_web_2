@@ -15,7 +15,11 @@ export default function ReturnHomeButton() {
   };
 
   return (
-    <Button onClick={handleClick} variant="outline">
+    <Button
+      onClick={handleClick}
+      variant="outline"
+      className="border-white text-white hover:bg-white hover:text-black"
+    >
       Retour à l'accueil
     </Button>
   );
