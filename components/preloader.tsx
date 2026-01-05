@@ -13,16 +13,12 @@ export function Preloader() {
 
   // Handle initial page load
   useEffect(() => {
-    const handleLoad = () => setIsFirstLoad(false)
+    // Hide preloader after a fixed time to avoid waiting for lazy-loaded assets
+    const timer = setTimeout(() => {
+      setIsFirstLoad(false)
+    }, 1500) // Show for 1.5s on first load
 
-    if (document.readyState === "complete") {
-      // Use a timeout to prevent flicker on fast loads
-      setTimeout(handleLoad, 300)
-    } else {
-      window.addEventListener("load", handleLoad)
-    }
-
-    return () => window.removeEventListener("load", handleLoad)
+    return () => clearTimeout(timer)
   }, [])
 
   // Handle subsequent route changes
