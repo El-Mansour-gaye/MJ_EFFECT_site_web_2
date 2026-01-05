@@ -118,7 +118,6 @@ export function HomePage() {
           }}
         />
         <div className="relative z-10">
-          {/* NOUVEAU BOUTON AJOUTÉ ICI */}
           <Link href="/collection">
             <Button
               variant="ghost"
@@ -129,10 +128,6 @@ export function HomePage() {
               Acheter Maintenant
             </Button>
           </Link>
-          {/* ANCIEN CODE SUPPRIMÉ/REMPLACÉ */}
-          {/* <Button asChild>
-            <Link href="/collection">Acheter Maintenant</Link>
-          </Button> */}
         </div>
       </section>
 
