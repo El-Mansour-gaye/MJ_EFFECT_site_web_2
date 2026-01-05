@@ -46,7 +46,7 @@ export default function TicketPage() {
       setIsLoading(true);
       setError(null);
       try {
-        const response = await fetch(`/api/commandes/${orderCode}`);
+        const response = await fetch(`/api/commande?code=${orderCode}`);
         if (!response.ok) {
           throw new Error('Commande non trouvée.');
         }

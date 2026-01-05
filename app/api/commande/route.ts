@@ -1,5 +1,5 @@
-// /app/api/commandes/[orderCode]/route.ts
-import { NextResponse } from 'next/server';
+// /app/api/commande/route.ts
+import { NextResponse, NextRequest } from 'next/server';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 
 async function getOrderDetails(orderCode: string) {
@@ -44,12 +44,10 @@ async function getOrderDetails(orderCode: string) {
   return null;
 }
 
-export async function GET(
-  request: Request,
-  { params }: { params: { orderCode: string } }
-) {
+export async function GET(request: NextRequest) {
   try {
-    const orderCode = params.orderCode;
+    const { searchParams } = new URL(request.url);
+    const orderCode = searchParams.get('code');
 
     if (!orderCode) {
       return NextResponse.json({ error: 'Order code is required' }, { status: 400 });
