@@ -43,9 +43,7 @@ export async function GET(request: NextRequest) {
   try {
     const { count, error } = await supabase
       .from('clients')
-      .select('*', { count: 'exact', head: true })
-      .gte('date_inscription', startDate)
-      .lte('date_inscription', endDate);
+      .select('*', { count: 'exact', head: true });
     if (error) throw error;
     totalClients = count ?? 0;
   } catch (error) {
