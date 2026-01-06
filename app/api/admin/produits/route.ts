@@ -17,17 +17,13 @@ export async function POST(req: NextRequest) {
 
     const supabase = createSupabaseAdmin();
 
-    // Insert the new product.
-    // All other fields can have default values or be null.
+    // Insert the new product, matching the provided schema.
     const { data, error } = await supabase
       .from('produits')
       .insert({
         nom: nom.trim(),
-        // Sensible defaults for a new product
-        prix_fcfa: 0,
-        stock_disponible: 0,
-        description: '',
-        is_active: true,
+        prix_fcfa: 0, // Default value as per schema
+        stock: 0,     // Default value as per schema
        })
       .select('id, nom')
       .single();

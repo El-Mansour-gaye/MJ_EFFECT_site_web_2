@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const supabase = createSupabaseAdmin();
     let supabaseQuery = supabase
       .from('produits')
-      .select('id, nom, prix_fcfa, stock_disponible as stock');
+      .select('id, nom, prix_fcfa, stock');
 
     if (query) {
       supabaseQuery = supabaseQuery.ilike('nom', `%${query}%`);
