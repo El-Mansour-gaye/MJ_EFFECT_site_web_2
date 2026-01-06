@@ -3,11 +3,12 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import { PlusCircle, Trash2, Save, Send } from 'lucide-react';
+import { PlusCircle, Trash2, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { CreateProductModal } from '@/components/admin/arrivages/CreateProductModal';
 
 // Define types for our data structures
 interface Product {
@@ -46,8 +47,9 @@ const NewArrivagePage = () => {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('Failed to fetch products');
+        // The API returns { products: [...] }
         const data = await response.json();
-        setProducts(data);
+        setProducts(data.products || []);
       } catch (error) {
         toast.error('Erreur lors du chargement des produits.');
         console.error(error);
@@ -105,6 +107,15 @@ const NewArrivagePage = () => {
       }
       return d;
     }));
+  };
+
+  const handleProductCreated = (newProduct: Product, detailId: string) => {
+    // Add to the general products list to make it available for other rows
+    const updatedProducts = [...products, newProduct].sort((a, b) => a.nom.localeCompare(b.nom));
+    setProducts(updatedProducts);
+
+    // Update the specific row that triggered the creation
+    handleDetailChange(detailId, 'produit_id', newProduct.id);
   };
 
   const getCalculatedValues = (detail: ArrivageDetail) => {
@@ -211,14 +222,19 @@ const NewArrivagePage = () => {
                   const { prixRevientUnitaire, prixVenteFinal } = getCalculatedValues(detail);
                   return (
                     <tr key={detail.id} className="border-b odd:bg-muted/50">
-                      <td className="p-2">
+                      <td className="p-2 flex items-center gap-2">
                         <select
                           value={detail.produit_id}
                           onChange={(e) => handleDetailChange(detail.id, 'produit_id', e.target.value)}
-                          className="w-full bg-transparent border-none p-1 focus:ring-0"
+                          className="w-full bg-transparent border-none p-1 focus:ring-0 flex-grow"
                         >
                           {products.map(p => <option key={p.id} value={p.id}>{p.nom}</option>)}
                         </select>
+                        <CreateProductModal onProductCreated={(newProduct) => handleProductCreated(newProduct, detail.id)}>
+                           <Button variant="ghost" size="sm" className="flex-shrink-0">
+                             <PlusCircle className="h-4 w-4" />
+                           </Button>
+                        </CreateProductModal>
                       </td>
                       <td className="p-2"><Input type="number" value={detail.quantite} onChange={(e) => handleDetailChange(detail.id, 'quantite', Number(e.target.value))} className="w-20" /></td>
                       <td className="p-2"><Input type="number" value={detail.prix_achat_usd_unitaire} onChange={(e) => handleDetailChange(detail.id, 'prix_achat_usd_unitaire', Number(e.target.value))} className="w-28" /></td>
