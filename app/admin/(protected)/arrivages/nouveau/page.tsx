@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { CreateProductModalContent } from '@/components/admin/arrivages/CreateProductModal';
+import { CreateProductModalContent } from '@/components/admin/arrivages/CreateProductModalContent';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 // Define types for our data structures
