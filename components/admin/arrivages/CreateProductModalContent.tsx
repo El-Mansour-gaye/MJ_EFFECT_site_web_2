@@ -4,25 +4,21 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogFooter,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { PlusCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface CreateProductModalProps {
   onProductCreated: (newProduct: { id: string; nom: string }) => void;
-  children: React.ReactNode;
+  onClose: () => void;
 }
 
-export const CreateProductModal = ({ onProductCreated, children }: CreateProductModalProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+export const CreateProductModalContent = ({ onProductCreated, onClose }: CreateProductModalProps) => {
   const [newProductName, setNewProductName] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -45,7 +41,9 @@ export const CreateProductModal = ({ onProductCreated, children }: CreateProduct
       });
 
       if (!response.ok) {
-        throw new Error('Échec de la création du produit.');
+        const errorData = await response.json().catch(() => null);
+        const errorMessage = errorData?.error || 'Échec de la création du produit.';
+        throw new Error(errorMessage);
       }
 
       const newProduct = await response.json();
@@ -53,7 +51,7 @@ export const CreateProductModal = ({ onProductCreated, children }: CreateProduct
 
       onProductCreated(newProduct);
       setNewProductName('');
-      setIsOpen(false);
+      onClose(); // Close the modal on success
 
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Une erreur est survenue.');
@@ -63,30 +61,25 @@ export const CreateProductModal = ({ onProductCreated, children }: CreateProduct
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Créer un Nouveau Produit</DialogTitle>
-        </DialogHeader>
-        <div className="py-4 space-y-2">
-          <Label htmlFor="product-name">Nom du Produit</Label>
-          <Input
-            id="product-name"
-            value={newProductName}
-            onChange={(e) => setNewProductName(e.target.value)}
-            placeholder="Ex: Brume Corporelle 'Sensualité'"
-          />
-        </div>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>Annuler</Button>
-          <Button onClick={handleCreateProduct} disabled={isCreating}>
-            {isCreating ? 'Création...' : 'Créer le Produit'}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Créer un Nouveau Produit</DialogTitle>
+      </DialogHeader>
+      <div className="py-4 space-y-2">
+        <Label htmlFor="product-name">Nom du Produit</Label>
+        <Input
+          id="product-name"
+          value={newProductName}
+          onChange={(e) => setNewProductName(e.target.value)}
+          placeholder="Ex: Brume Corporelle 'Sensualité'"
+        />
+      </div>
+      <DialogFooter>
+        <Button variant="outline" onClick={onClose}>Annuler</Button>
+        <Button onClick={handleCreateProduct} disabled={isCreating}>
+          {isCreating ? 'Création...' : 'Créer le Produit'}
+        </Button>
+      </DialogFooter>
+    </DialogContent>
   );
 };

@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { CreateProductModal } from '@/components/admin/arrivages/CreateProductModal';
+import { CreateProductModalContent } from '@/components/admin/arrivages/CreateProductModalContent';
+import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
 // Define types for our data structures
 interface Product {
@@ -29,6 +30,7 @@ const NewArrivagePage = () => {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [creatingForDetailId, setCreatingForDetailId] = useState<string | null>(null);
 
   // Arrivage global info
   const [nomArrivage, setNomArrivage] = useState('');
@@ -47,7 +49,6 @@ const NewArrivagePage = () => {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) throw new Error('Failed to fetch products');
-        // The API returns { products: [...] }
         const data = await response.json();
         setProducts(data.products || []);
       } catch (error) {
@@ -73,22 +74,17 @@ const NewArrivagePage = () => {
 
 
   const handleAddDetail = () => {
-    if (products.length === 0) {
-      toast.warning("Veuillez attendre le chargement des produits.");
-      return;
-    }
-    const firstProduct = products[0];
-    setDetails([
-      ...details,
-      {
-        id: crypto.randomUUID(),
-        produit_id: firstProduct.id,
-        produit_nom: firstProduct.nom,
-        quantite: 1,
-        prix_achat_usd_unitaire: 0,
-        marge_fcfa: 2000,
-      },
-    ]);
+    // Allow adding a line even if no products exist.
+    // The user can then create a new one.
+    const newDetail = {
+      id: crypto.randomUUID(),
+      produit_id: products.length > 0 ? products[0].id : '',
+      produit_nom: products.length > 0 ? products[0].nom : '',
+      quantite: 1,
+      prix_achat_usd_unitaire: 0,
+      marge_fcfa: 2000,
+    };
+    setDetails([...details, newDetail]);
   };
 
   const handleRemoveDetail = (id: string) => {
@@ -116,6 +112,9 @@ const NewArrivagePage = () => {
 
     // Update the specific row that triggered the creation
     handleDetailChange(detailId, 'produit_id', newProduct.id);
+
+    // Close the modal
+    setCreatingForDetailId(null);
   };
 
   const getCalculatedValues = (detail: ArrivageDetail) => {
@@ -230,11 +229,19 @@ const NewArrivagePage = () => {
                         >
                           {products.map(p => <option key={p.id} value={p.id}>{p.nom}</option>)}
                         </select>
-                        <CreateProductModal onProductCreated={(newProduct) => handleProductCreated(newProduct, detail.id)}>
-                           <Button variant="ghost" size="sm" className="flex-shrink-0">
-                             <PlusCircle className="h-4 w-4" />
-                           </Button>
-                        </CreateProductModal>
+                        <Dialog onOpenChange={(isOpen) => !isOpen && setCreatingForDetailId(null)}>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="sm" className="flex-shrink-0" onClick={() => setCreatingForDetailId(detail.id)}>
+                              <PlusCircle className="h-4 w-4" />
+                            </Button>
+                          </DialogTrigger>
+                          {creatingForDetailId === detail.id && (
+                            <CreateProductModalContent
+                              onProductCreated={(newProduct) => handleProductCreated(newProduct, detail.id)}
+                              onClose={() => setCreatingForDetailId(null)}
+                            />
+                          )}
+                        </Dialog>
                       </td>
                       <td className="p-2"><Input type="number" value={detail.quantite} onChange={(e) => handleDetailChange(detail.id, 'quantite', Number(e.target.value))} className="w-20" /></td>
                       <td className="p-2"><Input type="number" value={detail.prix_achat_usd_unitaire} onChange={(e) => handleDetailChange(detail.id, 'prix_achat_usd_unitaire', Number(e.target.value))} className="w-28" /></td>
