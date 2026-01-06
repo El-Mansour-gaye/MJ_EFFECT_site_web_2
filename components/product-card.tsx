@@ -6,6 +6,7 @@ import { ShoppingBag, Heart } from "lucide-react"
 import { toast } from "sonner"
 import { motion } from "framer-motion"
 import { useCartStore } from "@/lib/store/cart"
+import { useFavoritesStore } from "@/lib/store/favorites"
 import type { Product } from "@/lib/types"
 import { encodeImagePath } from "@/lib/utils"
 
@@ -17,7 +18,17 @@ export function ProductCard({ product }: ProductCardProps) {
   const isOutOfStock = product.stock_disponible <= 0;
   const addToCart = useCartStore((state) => state.addToCart)
   const cartIconRef = useCartStore((state) => state.cartIconRef)
+  const { favoriteIds, toggleFavorite } = useFavoritesStore()
+  const isFavorite = favoriteIds.includes(product.id)
   const imageRef = useRef<HTMLImageElement>(null)
+
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    toggleFavorite(product.id)
+    toast.success(isFavorite ? `${product.nom} retiré des favoris` : `${product.nom} ajouté aux favoris!`, {
+      icon: <Heart size={16} className={`mr-2 ${isFavorite ? "text-gray-400" : "text-red-500"}`} />,
+    })
+  }
 
   const handleAddToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation()
@@ -103,8 +114,11 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         )}
 
-        <button className="absolute top-4 right-4 p-2 bg-white text-black rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:text-accent">
-          <Heart size={18} />
+        <button
+          onClick={handleFavoriteClick}
+          className="absolute top-4 right-4 p-2 bg-white text-black rounded-full transition-all hover:text-accent z-10"
+        >
+          <Heart size={18} className={`${isFavorite ? 'fill-red-500 text-red-500' : 'fill-transparent'}`}/>
         </button>
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:bottom-6">
           <button

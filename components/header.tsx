@@ -3,7 +3,7 @@
 import { useState, Suspense, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams, useRouter } from "next/navigation"
 import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react"
 import { NAVIGATION_LINKS, DynamicMegaMenuItem } from "@/lib/navigation"
 import { useCartStore } from "@/lib/store/cart"
@@ -17,9 +17,12 @@ function HeaderContent() {
   const [openMegaMenu, setOpenMegaMenu] = useState<number | null>(null)
   const [activeMegaMenuItem, setActiveMegaMenuItem] = useState<DynamicMegaMenuItem | null>(null)
   const [isVisible, setIsVisible] = useState(true)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
   const cartIconRef = useRef<HTMLAnchorElement>(null)
+  const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
@@ -50,6 +53,15 @@ function HeaderContent() {
       window.removeEventListener("scroll", controlNavbar)
     }
   }, [])
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/collection?search=${encodeURIComponent(searchQuery.trim())}`)
+      setSearchQuery("")
+      setSearchOpen(false)
+    }
+  }
 
   const handleMegaMenuOpen = (index: number) => {
     const link = NAVIGATION_LINKS[index]
@@ -215,10 +227,33 @@ function HeaderContent() {
           </nav>
 
           <div className="flex items-center gap-4 text-white">
-            <button className="p-2 hover:text-accent transition-colors">
-              <Search size={24} />
-            </button>
-            <Link ref={cartIconRef} href="/panier" className="p-2 hover:text-white/70 transition-colors relative">    
+            {searchOpen ? (
+              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Rechercher un produit..."
+                  className="bg-transparent border-b border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all duration-300 w-48 pl-8"
+                  autoFocus
+                />
+                <button type="submit" className="absolute left-0 p-2 text-white/70 hover:text-white">
+                  <Search size={20} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSearchOpen(false)}
+                  className="absolute right-0 p-2 text-white/70 hover:text-white"
+                >
+                  <X size={20} />
+                </button>
+              </form>
+            ) : (
+              <button onClick={() => setSearchOpen(true)} className="p-2 hover:text-accent transition-colors">
+                <Search size={24} />
+              </button>
+            )}
+            <Link ref={cartIconRef} href="/panier" className="p-2 hover:text-white/70 transition-colors relative">
               <ShoppingBag size={24} />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">
