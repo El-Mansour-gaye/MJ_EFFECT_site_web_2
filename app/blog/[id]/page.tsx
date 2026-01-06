@@ -97,7 +97,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
             <img
               src={article.image}
               alt={article.title}
-              className="w-full aspect-video object-cover mb-8"
+              className="w-full mb-8"
             />
 
             {/* Content */}
