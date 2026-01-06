@@ -1,12 +1,13 @@
 "use client"
 
-import { useState, useEffect, Suspense } from "react"
+import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react"
+import { ChevronDown, SlidersHorizontal, X, Heart } from "lucide-react"
 import { Product } from "@/lib/types"
 import { ProductCard } from "@/components/product-card"
 import { ProductModal } from "@/components/product-modal"
 import { AnimatedSection } from "@/components/animated-section"
+import { useFavoritesStore } from "@/lib/store/favorites"
 
 const PRICE_RANGES = ["0 - 15,000 FCFA", "15,000 - 25,000 FCFA", "25,000+ FCFA"]
 
@@ -14,13 +15,17 @@ export default function CollectionPageContent() {
   const searchParams = useSearchParams()
   const initialCategory = searchParams.get("category")
   const initialSubCategory = searchParams.get("subCategory")
+  const searchTerm = searchParams.get("search")
 
+  const { favoriteIds } = useFavoritesStore()
+  const [showOnlyFavorites, setShowOnlyFavorites] = useState(false)
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [selectedSubCategories, setSelectedSubCategories] = useState<string[]>([])
   const [selectedPrices, setSelectedPrices] = useState<string[]>([])
   const [openAccordion, setOpenAccordion] = useState<string | null>("category")
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
   const [products, setProducts] = useState<Product[]>([])
+  const [allProducts, setAllProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<string[]>([])
   const [olfactiveFamilies, setOlfactiveFamilies] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -32,14 +37,20 @@ export default function CollectionPageContent() {
     const fetchProducts = async () => {
       setIsLoading(true)
       try {
-        const response = await fetch('/api/products')
+        const url = searchTerm ? `/api/products?search=${encodeURIComponent(searchTerm)}` : '/api/products'
+        const response = await fetch(url)
         if (!response.ok) throw new Error('Failed to fetch products')
         const data: Product[] = await response.json()
         setProducts(data)
 
-        // Dynamically populate filters
-        setCategories([...new Set(data.map((p) => p.category).filter(Boolean))])
-        setOlfactiveFamilies([...new Set(data.map((p) => p.subCategory).filter(Boolean))])
+        // Populate filters from all products if not already done
+        if (allProducts.length === 0) {
+            const allResponse = await fetch('/api/products')
+            const allData = await allResponse.json()
+            setAllProducts(allData)
+            setCategories([...new Set(allData.map((p: Product) => p.category).filter(Boolean))])
+            setOlfactiveFamilies([...new Set(allData.map((p: Product) => p.subCategory).filter(Boolean))])
+        }
 
       } catch (err) {
         setError((err as Error).message)
@@ -48,7 +59,7 @@ export default function CollectionPageContent() {
       }
     }
     fetchProducts()
-  }, [])
+  }, [searchTerm])
 
   useEffect(() => {
     const categories = initialCategory ? [decodeURIComponent(initialCategory)] : []
@@ -65,6 +76,7 @@ export default function CollectionPageContent() {
   }
 
   const filteredProducts = products.filter((product) => {
+    const favoritesMatch = !showOnlyFavorites || favoriteIds.includes(product.id)
     const categoryMatch = selectedCategories.length === 0 || (product.category && selectedCategories.includes(product.category))
     const subCategoryMatch = selectedSubCategories.length === 0 || (product.subCategory && selectedSubCategories.includes(product.subCategory))
     const priceMatch =
@@ -76,7 +88,7 @@ export default function CollectionPageContent() {
         if (range === "25,000+ FCFA") return price > 25000
         return false
       })
-    return categoryMatch && subCategoryMatch && priceMatch
+    return favoritesMatch && categoryMatch && subCategoryMatch && priceMatch
   })
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -94,6 +106,22 @@ export default function CollectionPageContent() {
 
   const FilterSidebar = () => (
     <div className="space-y-6">
+       {/* Favorites Filter */}
+      <div className="border-b border-black/10 pb-6">
+        <label className="flex items-center gap-3 cursor-pointer">
+            <input
+            type="checkbox"
+            checked={showOnlyFavorites}
+            onChange={() => setShowOnlyFavorites(!showOnlyFavorites)}
+            className="w-4 h-4 accent-[#C9A050]"
+            />
+            <span className="flex items-center gap-2">
+                <Heart size={16} className={`${showOnlyFavorites ? 'text-red-500' : ''}`} />
+                Mes favoris
+            </span>
+        </label>
+      </div>
+
       {/* Category Accordion */}
       <div className="border-b border-black/10 pb-6">
         <button
@@ -179,13 +207,27 @@ export default function CollectionPageContent() {
       <div className="container mx-auto px-4 max-w-6xl">
         <AnimatedSection delay={0}>
           <div className="text-center mb-12">
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
-              <span className="font-normal">Notre</span> <span className="font-bold">Collection</span>
-            </h1>
-            <p className="text-black/70 max-w-2xl mx-auto">
-              Explorez notre sélection exclusive de parfums et soins de luxe, soigneusement choisis pour révéler votre
-              beauté naturelle.
-            </p>
+            {searchTerm ? (
+                <>
+                <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
+                    Résultats pour : "{searchTerm}"
+                </h1>
+                <p className="text-black/70 max-w-2xl mx-auto">
+                    {sortedProducts.length} {sortedProducts.length > 1 ? 'produits trouvés' : 'produit trouvé'}
+                </p>
+                </>
+            ) : (
+                <>
+                 <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl mb-4">
+                    <span className="font-normal">Notre</span> <span className="font-bold">Collection</span>
+                    </h1>
+                    <p className="text-black/70 max-w-2xl mx-auto">
+                    Explorez notre sélection exclusive de parfums et soins de luxe, soigneusement choisis pour révéler votre
+                    beauté naturelle.
+                    </p>
+                </>
+            )}
+
           </div>
         </AnimatedSection>
 

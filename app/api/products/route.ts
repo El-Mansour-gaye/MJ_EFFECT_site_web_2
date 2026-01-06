@@ -1,13 +1,21 @@
 // /app/api/products/route.ts
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 import { createSupabaseAdmin } from '@/lib/supabase/admin';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const supabase = createSupabaseAdmin();
-  const { data, error } = await supabase
+  const search = request.nextUrl.searchParams.get('search');
+
+  let query = supabase
     .from('produits')
     .select('*')
     .order('nom', { ascending: true });
+
+  if (search) {
+    query = query.ilike('nom', `%${search}%`);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
