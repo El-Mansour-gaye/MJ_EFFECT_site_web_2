@@ -38,7 +38,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "27 Novembre 2025",
     readTime: "5 min",
     category: "Conseils Beauté",
-    image: "/perfume-long-lasting-dakar.png",
+    image: "/into-the-night.png",
     content: `
       <p><strong>(Mots-clés SEO : parfum longue tenue Dakar, brume corporelle chaleur, fixateur parfum Sénégal)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -80,7 +80,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "26 Novembre 2025",
     readTime: "4 min",
     category: "Soins Corporels",
-    image: "/body-butter-vs-lotion-senegal.png",
+    image: "/glowtion-body-butter.png",
     content: `
       <p><strong>(Mots-clés SEO : Body Butter Dakar, meilleur lait corps peau sèche Sénégal, hydratation intense Afrique)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -144,7 +144,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "25 Novembre 2025",
     readTime: "4 min",
     category: "Soins",
-    image: "/glowing-skin-scrub-senegal.jfif",
+    image: "/tree-hut-maroccan-rose.png",
     content: `
       <p><strong>(Mots-clés SEO : gommage corps Sénégal, peau éclatante Dakar, gommage Moroccan Rose prix, routine soin avant hydratation)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -227,7 +227,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "23 Novembre 2025",
     readTime: "4 min",
     category: "Guide d'Achat",
-    image: "/buy-authentic-perfume-dakar.png",
+    image: "/set-6-warm-vanilla-sugar-2.png",
     content: `
       <p><strong>(Mots-clés SEO : parfum pas cher Dakar, boutique parfum fiable Sénégal, prix brumes FCFA, meilleur magasin parfum Dakar)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -267,7 +267,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "22 Novembre 2025",
     readTime: "5 min",
     category: "Cadeaux",
-    image: "/gift-sets-korite-tabaski-dakar.png",
+    image: "/image-article-pack.jpeg",
     content: `
       <p><strong>(Mots-clés SEO : idée cadeau femme Tabaski, coffret parfum Korité, cadeau luxe prix abordable Dakar, set parfum 32000 FCFA)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -318,7 +318,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "28 Mai 2024",
     readTime: "6 min",
     category: "Routine de Soin",
-    image: "/into-the-night-perfume-review-dakar.png",
+    image: "/tree-hut-tropic-glow_1.png",
     content: `
       <p><strong>(Mots-clés SEO : routine soin corporel Sénégal, comment avoir une belle peau Dakar, gommage avant hydratation, layering parfum, guide beauté complet)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction : Le Secret n'est pas un Produit, c'est une Routine</h2>
@@ -364,7 +364,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "30 Mai 2024",
     readTime: "4 min",
     category: "Conseils Beauté",
-    image: "/gift-perfume-mg-effect.png",
+    image: "/image-illustrative-coffret-ou-set.png",
     content: `
       <p><strong>(Mots-clés SEO : offrir un parfum, idée cadeau luxe, coffret parfum, cadeau femme, cadeau homme, parfum MG Effect)</strong></p>
       <h2 class="text-2xl font-bold my-4">Offrir un Parfum : Un Geste d'Élégance Intemporel</h2>
@@ -393,7 +393,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "30 Mai 2024",
     readTime: "3 min",
     category: "La Marque",
-    image: "/quality-ingredients-mg-effect.png",
+    image: "/champagne-toast.png",
     content: `
       <p><strong>(Mots-clés SEO : ingrédients de qualité, parfumerie de niche, haute parfumerie, origine des ingrédients, engagement qualité MG Effect)</strong></p>
       <h2 class="text-2xl font-bold my-4">La Philosophie MG Effect : L'Excellence avant Tout</h2>
@@ -448,7 +448,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "31 Mai 2024",
     readTime: "5 min",
     category: "Collections",
-    image: "/buy-authentic-perfume-dakar.png",
+    image: "/a-thousand-wishes.png",
     content: `
       <h2 class="text-2xl font-bold my-4">Un Voyage Olfactif à travers les Collections MG Effect</h2>
       <p class="mb-4">Trouver son parfum signature, c'est un peu comme trouver une partie de soi. Chez MG Effect, nous avons classé nos trésors olfactifs en grandes familles pour vous aider à naviguer dans cet univers fascinant. Laissez-vous guider et découvrez la collection qui raconte le mieux votre histoire.</p>
