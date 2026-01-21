@@ -18,6 +18,24 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createSupabaseAdmin();
+
+    // Verify bucket exists and is accessible
+    const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
+    if (bucketError) {
+      return NextResponse.json({
+        error: 'Storage error',
+        details: `Failed to list buckets: ${bucketError.message}`
+      }, { status: 500 });
+    }
+
+    const bucketName = 'images';
+    if (!buckets.find(b => b.name === bucketName)) {
+      return NextResponse.json({
+        error: 'Bucket not found',
+        details: `The '${bucketName}' bucket does not exist. Please create it in the Supabase dashboard.`
+      }, { status: 500 });
+    }
+
     const fileExtension = file.name.split('.').pop();
     const fileName = `${uuidv4()}.${fileExtension}`;
     const filePath = `products/${fileName}`;
@@ -33,9 +51,15 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error('Supabase upload error details:', JSON.stringify(uploadError, null, 2));
+
+      let hint = "";
+      if (uploadError.message.includes("row-level security")) {
+        hint = " Check if SUPABASE_SERVICE_ROLE_KEY is correctly set and that the 'images' bucket exists with proper RLS policies (or RLS disabled).";
+      }
+
       return NextResponse.json({
         error: 'Failed to upload image',
-        details: uploadError.message
+        details: uploadError.message + hint
       }, { status: 500 });
     }
 
