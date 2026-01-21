@@ -15,7 +15,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const isOutOfStock = product.stock_disponible <= 0;
+  const isOutOfStock = product.stock <= 0;
   const addToCart = useCartStore((state) => state.addToCart)
   const cartIconRef = useCartStore((state) => state.cartIconRef)
   const { favoriteIds, toggleFavorite } = useFavoritesStore()
