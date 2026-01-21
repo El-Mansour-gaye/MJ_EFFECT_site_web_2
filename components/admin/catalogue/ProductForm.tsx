@@ -28,11 +28,10 @@ const formSchema = z.object({
   tag: z.string().optional().nullable(),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
-  description: z.string().optional(),
-  intensite: z.string().optional(),
-  famille_olfactive: z.string().optional(),
+  description: z.string().optional().nullable(),
+  intensite: z.string().optional().nullable(),
+  famille_olfactive: z.string().optional().nullable(),
   details: z.string().optional().nullable(),
-  slug: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
@@ -44,7 +43,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<Product>({
+  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<any>({
     resolver: zodResolver(formSchema),
     defaultValues: product || {
       nom: '',
@@ -64,7 +63,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       intensite: '',
       famille_olfactive: '',
       details: '',
-      slug: '',
     },
   });
 
@@ -149,18 +147,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     setIsUploading(false);
   };
 
-  const handleFormSubmit = async (data: Product) => {
+  const handleFormSubmit = async (data: any) => {
     setFormError(null);
     const token = sessionStorage.getItem("admin-auth-token");
     const method = product ? 'PUT' : 'POST';
     const url = product ? `/api/admin/catalogue/${product.id}` : '/api/admin/catalogue';
 
-    // On s'assure que les images sont bien un tableau, même s'il est vide
-    // Et on nettoie l'objet pour ne pas envoyer d'ID lors d'un POST
-    const { id, ...rest } = data;
+    // On retire l'ID du corps de la requête pour éviter les conflits avec Supabase
+    const { id, ...payloadData } = data;
+
     const payload = {
-      ...(product ? data : rest),
-      images: data.images || [],
+      ...payloadData,
+      images: (data.images || []).filter((url: string) => url && url.trim() !== ""),
     };
 
     try {
@@ -199,7 +197,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       </div>
 
       <div>
-        <Label htmlFor="details">Description / Détails</Label>
+        <Label htmlFor="description">Description courte (pour le site)</Label>
+        <textarea
+          id="description"
+          {...register('description')}
+          className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        />
+        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="details">Détails / Caractéristiques (optionnel)</Label>
         <textarea
           id="details"
           {...register('details')}
