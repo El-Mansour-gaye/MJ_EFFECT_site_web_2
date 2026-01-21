@@ -1,25 +1,27 @@
-// /app/api/products/route.ts
-import { NextResponse, NextRequest } from 'next/server';
-import { createSupabaseAdmin } from '@/lib/supabase/admin';
+import { NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase/admin';
 
-export async function GET(request: NextRequest) {
-  const supabase = createSupabaseAdmin();
-  const search = request.nextUrl.searchParams.get('search');
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const search = searchParams.get('search');
 
-  let query = supabase
-    .from('produits')
-    .select('*')
-    .order('nom', { ascending: true });
+  try {
+    let query = supabase
+      .from('produits')
+      .select('*')
+      .order('created_at', { ascending: false });
 
-  if (search) {
-    query = query.ilike('nom', `%${search}%`);
+    if (search) {
+      query = query.ilike('nom', `%${search}%`);
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+
+    return NextResponse.json(data || []);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
   }
-
-  const { data, error } = await query;
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
-  }
-
-  return NextResponse.json(data);
 }

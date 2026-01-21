@@ -4,10 +4,11 @@ import { useState, Suspense, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname, useSearchParams, useRouter } from "next/navigation"
-import { Search, ShoppingBag, Menu, X, ChevronDown } from "lucide-react"
+import { Search, ShoppingBag, Menu, X, ChevronDown, Loader2 } from "lucide-react"
 import { NAVIGATION_LINKS, DynamicMegaMenuItem } from "@/lib/navigation"
 import { useCartStore } from "@/lib/store/cart"
 import { encodeImagePath } from "@/lib/utils"
+import { Product } from "@/lib/types"
 
 function HeaderContent() {
   const cart = useCartStore((state) => state.cart_content)
@@ -19,8 +20,11 @@ function HeaderContent() {
   const [isVisible, setIsVisible] = useState(true)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState<Product[]>([])
+  const [isSearching, setIsSearching] = useState(false)
   const lastScrollY = useRef(0)
   const headerRef = useRef<HTMLElement>(null)
+  const searchContainerRef = useRef<HTMLDivElement>(null)
   const cartIconRef = useRef<HTMLAnchorElement>(null)
   const router = useRouter()
   const pathname = usePathname()
@@ -29,6 +33,42 @@ function HeaderContent() {
   useEffect(() => {
     setCartIconRef(cartIconRef)
   }, [setCartIconRef])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setSearchResults([])
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      if (searchQuery.trim().length < 2) {
+        setSearchResults([])
+        return
+      }
+
+      setIsSearching(true)
+      try {
+        const response = await fetch(`/api/products?search=${encodeURIComponent(searchQuery.trim())}`)
+        if (response.ok) {
+          const data = await response.json()
+          setSearchResults(data.slice(0, 5)) // Limiter à 5 résultats pour le dropdown
+        }
+      } catch (error) {
+        console.error("Error fetching search results:", error)
+      } finally {
+        setIsSearching(false)
+      }
+    }
+
+    const debounce = setTimeout(fetchResults, 300)
+    return () => clearTimeout(debounce)
+  }, [searchQuery])
 
   useEffect(() => {
     const controlNavbar = () => {
@@ -228,26 +268,94 @@ function HeaderContent() {
 
           <div className="flex items-center gap-4 text-white">
             {searchOpen ? (
-              <form onSubmit={handleSearchSubmit} className="relative flex items-center">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Rechercher un produit..."
-                  className="bg-transparent border-b border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all duration-300 w-48 pl-8"
-                  autoFocus
-                />
-                <button type="submit" className="absolute left-0 p-2 text-white/70 hover:text-white">
-                  <Search size={20} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(false)}
-                  className="absolute right-0 p-2 text-white/70 hover:text-white"
-                >
-                  <X size={20} />
-                </button>
-              </form>
+              <div ref={searchContainerRef} className="relative">
+                <form onSubmit={handleSearchSubmit} className="relative flex items-center">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Rechercher un produit..."
+                    className="bg-transparent border-b border-white/50 text-white placeholder-white/50 focus:outline-none focus:border-white transition-all duration-300 w-48 lg:w-64 pl-8"
+                    autoFocus
+                  />
+                  <button type="submit" className="absolute left-0 p-2 text-white/70 hover:text-white">
+                    <Search size={20} />
+                  </button>
+                  {isSearching ? (
+                    <Loader2 size={18} className="absolute right-8 animate-spin text-white/50" />
+                  ) : searchQuery ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery("")
+                        setSearchResults([])
+                      }}
+                      className="absolute right-8 p-1 text-white/70 hover:text-white"
+                    >
+                      <X size={14} />
+                    </button>
+                  ) : null}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchOpen(false)
+                      setSearchResults([])
+                      setSearchQuery("")
+                    }}
+                    className="absolute right-0 p-2 text-white/70 hover:text-white"
+                  >
+                    <X size={20} />
+                  </button>
+                </form>
+
+                {/* Live Search Results */}
+                {searchResults.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-white text-black shadow-2xl rounded-sm overflow-hidden z-50 border border-black/10 min-w-[280px]">
+                    <div className="py-2">
+                      {searchResults.map((product) => (
+                        <Link
+                          key={product.id}
+                          href={`/collection?search=${encodeURIComponent(product.nom)}`}
+                          onClick={() => {
+                            setSearchOpen(false)
+                            setSearchQuery("")
+                            setSearchResults([])
+                          }}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
+                        >
+                          <div className="relative w-12 h-12 flex-shrink-0 bg-gray-50 rounded-sm overflow-hidden">
+                            <Image
+                              src={product.image ? encodeImagePath(product.image) : "/placeholder.svg"}
+                              alt={product.nom}
+                              fill
+                              className="object-contain p-1"
+                            />
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-sm font-medium truncate">{product.nom}</span>
+                            <span className="text-xs text-black/50">{product.prix_fcfa.toLocaleString()} FCFA</span>
+                          </div>
+                        </Link>
+                      ))}
+                      <Link
+                        href={`/collection?search=${encodeURIComponent(searchQuery)}`}
+                        onClick={() => {
+                          setSearchOpen(false)
+                          setSearchResults([])
+                        }}
+                        className="block px-4 py-2 text-center text-xs uppercase tracking-widest font-bold bg-black text-white hover:bg-black/90 transition-colors"
+                      >
+                        Voir tous les résultats
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                {searchQuery.length >= 2 && !isSearching && searchResults.length === 0 && (
+                   <div className="absolute top-full left-0 right-0 mt-2 bg-white text-black shadow-2xl rounded-sm p-4 z-50 border border-black/10 text-center text-sm">
+                      Aucun produit trouvé
+                   </div>
+                )}
+              </div>
             ) : (
               <button onClick={() => setSearchOpen(true)} className="p-2 hover:text-accent transition-colors">
                 <Search size={24} />
