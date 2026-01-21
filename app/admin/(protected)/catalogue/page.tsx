@@ -23,6 +23,10 @@ export type Product = {
   famille_olfactive?: string;
   category?: string;
   subcategory?: string;
+  tag?: string;
+  details?: string;
+  image?: string;
+  images?: string[];
 };
 
 const CataloguePage = () => {

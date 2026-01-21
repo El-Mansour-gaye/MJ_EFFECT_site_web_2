@@ -27,22 +27,27 @@ export type Product = {
   famille_olfactive?: string;
   category?: string;
   subcategory?: string;
+  tag?: string;
+  details?: string;
+  image?: string;
+  images?: string[];
 };
 
-// On étend le type pour inclure les champs d'image
-type ProductWithImages = Product & {
-  image?: string | null;
-  images?: string[] | null;
-};
+// On étend le type pour inclure les champs d'image (compatibilité)
+type ProductWithImages = Product;
 
 // Schéma de validation avec Zod
 const formSchema = z.object({
   nom: z.string().min(1, 'Le nom est requis'),
   prix_fcfa: z.coerce.number().min(0, 'Le prix doit être positif'),
   stock: z.coerce.number().int('Le stock doit être un entier'),
+  slug: z.string().optional().nullable(),
   is_best_seller: z.boolean().default(false),
   is_new_arrival: z.boolean().default(false),
   is_set_or_pack: z.boolean().default(false),
+  category: z.string().optional().nullable(),
+  subcategory: z.string().optional().nullable(),
+  tag: z.string().optional().nullable(),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
   description: z.string().optional(),
@@ -50,25 +55,31 @@ const formSchema = z.object({
   famille_olfactive: z.string().optional(),
   category: z.string().optional(),
   subcategory: z.string().optional(),
+  details: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
-  product: ProductWithImages | null;
+  product: Product | null;
   onSubmit: () => void;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<ProductWithImages>({
+  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<Product>({
     resolver: zodResolver(formSchema),
     defaultValues: product || {
       nom: '',
       prix_fcfa: 0,
       stock: 0,
+      slug: '',
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
+      category: '',
+      subcategory: '',
+      tag: '',
       image: '',
       images: [],
       description: '',
@@ -76,6 +87,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       famille_olfactive: '',
       category: '',
       subcategory: '',
+      details: '',
     },
   });
 
@@ -91,9 +103,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       nom: '',
       prix_fcfa: 0,
       stock: 0,
+      slug: '',
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
+      category: '',
+      subcategory: '',
+      tag: '',
       image: '',
       images: [],
       description: '',
@@ -101,6 +117,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       famille_olfactive: '',
       category: '',
       subcategory: '',
+      details: '',
     };
     reset(defaultValues);
   }, [product, reset]);
@@ -124,13 +141,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
                 body: formData,
             });
             if (!response.ok) {
-                console.error('Échec du téléversement pour:', file.name);
+                const errorData = await response.json().catch(() => ({}));
+                console.error('Échec du téléversement pour:', file.name, errorData);
+                setFormError(`Échec du téléversement pour ${file.name}: ${errorData.details || errorData.error || 'Erreur réseau'}`);
                 return null;
             }
             const data = await response.json();
             return data.imageUrl;
         } catch (error) {
             console.error('Erreur lors du téléversement:', error);
+            setFormError(`Erreur lors du téléversement: ${(error as Error).message}`);
             return null;
         }
       })
@@ -153,14 +173,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     setIsUploading(false);
   };
 
-  const handleFormSubmit = async (data: ProductWithImages) => {
+  const handleFormSubmit = async (data: Product) => {
+    setFormError(null);
     const token = sessionStorage.getItem("admin-auth-token");
     const method = product ? 'PUT' : 'POST';
     const url = product ? `/api/admin/catalogue/${product.id}` : '/api/admin/catalogue';
 
     // On s'assure que les images sont bien un tableau, même s'il est vide
+    // Et on nettoie l'objet pour ne pas envoyer d'ID lors d'un POST
+    const { id, ...rest } = data;
     const payload = {
-      ...data,
+      ...(product ? data : rest),
       images: data.images || [],
     };
 
@@ -175,16 +198,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       });
 
       if (!response.ok) {
-        throw new Error(product ? 'Échec de la mise à jour' : 'Échec de la création');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || (product ? 'Échec de la mise à jour' : 'Échec de la création'));
       }
       onSubmit();
     } catch (error) {
       console.error(error);
+      setFormError((error as Error).message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 max-h-[80vh] overflow-y-auto pr-4">
+      {formError && (
+        <div className="bg-destructive/15 text-destructive p-3 rounded-md text-sm">
+          {formError}
+        </div>
+      )}
+
       <div>
         <Label htmlFor="nom">Nom du Produit</Label>
         <Input id="nom" {...register('nom')} />
@@ -192,13 +223,24 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       </div>
 
       <div>
-        <Label htmlFor="description">Description</Label>
+        <Label htmlFor="details">Description / Détails</Label>
         <textarea
-          id="description"
-          {...register('description')}
+          id="details"
+          {...register('details')}
           className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         />
-        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+        {errors.details && <p className="text-red-500 text-sm">{errors.details.message}</p>}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Catégorie</Label>
+          <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins Corporels" />
+        </div>
+        <div>
+          <Label htmlFor="subcategory">Sous-catégorie</Label>
+          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Brumes, Lotions" />
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -224,6 +266,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
           <Label htmlFor="famille_olfactive">Famille Olfactive (Détails)</Label>
           <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
           {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
+          <Label htmlFor="slug">Slug (URL)</Label>
+          <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
+        </div>
+        <div>
+          <Label htmlFor="tag">Tag</Label>
+          <Input id="tag" {...register('tag')} placeholder="Ex: Promotion, Nouveau" />
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
