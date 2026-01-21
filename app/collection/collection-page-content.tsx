@@ -49,7 +49,7 @@ export default function CollectionPageContent() {
             const allData = await allResponse.json()
             setAllProducts(allData)
             setCategories([...new Set(allData.map((p: Product) => p.category).filter(Boolean))])
-            setOlfactiveFamilies([...new Set(allData.map((p: Product) => p.subCategory).filter(Boolean))])
+            setOlfactiveFamilies([...new Set(allData.map((p: Product) => p.subcategory).filter(Boolean))])
         }
 
       } catch (err) {
@@ -78,7 +78,7 @@ export default function CollectionPageContent() {
   const filteredProducts = products.filter((product) => {
     const favoritesMatch = !showOnlyFavorites || favoriteIds.includes(product.id)
     const categoryMatch = selectedCategories.length === 0 || (product.category && selectedCategories.includes(product.category))
-    const subCategoryMatch = selectedSubCategories.length === 0 || (product.subCategory && selectedSubCategories.includes(product.subCategory))
+    const subCategoryMatch = selectedSubCategories.length === 0 || (product.subcategory && selectedSubCategories.includes(product.subcategory))
     const priceMatch =
       selectedPrices.length === 0 ||
       selectedPrices.some((range) => {
