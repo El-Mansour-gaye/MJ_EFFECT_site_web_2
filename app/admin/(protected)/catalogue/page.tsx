@@ -8,27 +8,7 @@ import ProductTable from '@/components/admin/catalogue/ProductTable';
 import ProductForm from '@/components/admin/catalogue/ProductForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ConfirmationDialog from '@/components/admin/ConfirmationDialog';
-
-export type Product = {
-  id?: string;
-  nom: string;
-  prix_fcfa: number;
-  stock: number;
-  slug?: string;
-  is_best_seller: boolean;
-  is_new_arrival: boolean;
-  is_set_or_pack: boolean;
-  description?: string;
-  intensite?: string;
-  famille_olfactive?: string;
-  category?: string;
-  subcategory?: string;
-  tag?: string;
-  details?: string;
-  image?: string;
-  images?: string[];
-  is_archived: boolean;
-};
+import { Product } from '@/lib/types';
 
 const CataloguePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
