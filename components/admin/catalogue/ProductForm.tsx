@@ -31,6 +31,7 @@ export type Product = {
   details?: string;
   image?: string;
   images?: string[];
+  is_archived: boolean;
 };
 
 // On étend le type pour inclure les champs d'image (compatibilité)
@@ -45,6 +46,7 @@ const formSchema = z.object({
   is_best_seller: z.boolean().default(false),
   is_new_arrival: z.boolean().default(false),
   is_set_or_pack: z.boolean().default(false),
+  is_archived: z.boolean().default(false),
   category: z.string().optional().nullable(),
   subcategory: z.string().optional().nullable(),
   tag: z.string().optional().nullable(),
@@ -53,9 +55,8 @@ const formSchema = z.object({
   description: z.string().optional(),
   intensite: z.string().optional(),
   famille_olfactive: z.string().optional(),
-  category: z.string().optional(),
-  subcategory: z.string().optional(),
   details: z.string().optional().nullable(),
+  slug: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
@@ -77,6 +78,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
+      is_archived: false,
       category: '',
       subcategory: '',
       tag: '',
@@ -85,9 +87,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       description: '',
       intensite: '',
       famille_olfactive: '',
-      category: '',
-      subcategory: '',
       details: '',
+      slug: '',
     },
   });
 
@@ -107,6 +108,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_best_seller: false,
       is_new_arrival: false,
       is_set_or_pack: false,
+      is_archived: false,
       category: '',
       subcategory: '',
       tag: '',
@@ -115,8 +117,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       description: '',
       intensite: '',
       famille_olfactive: '',
-      category: '',
-      subcategory: '',
       details: '',
     };
     reset(defaultValues);
@@ -236,22 +236,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         <div>
           <Label htmlFor="category">Catégorie</Label>
           <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins Corporels" />
-        </div>
-        <div>
-          <Label htmlFor="subcategory">Sous-catégorie</Label>
-          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Brumes, Lotions" />
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <Label htmlFor="category">Catégorie</Label>
-          <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins" />
           {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
         </div>
         <div>
-          <Label htmlFor="subcategory">Sous-catégorie (Famille)</Label>
-          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Floral, Boisé" />
+          <Label htmlFor="subcategory">Sous-catégorie / Famille Olfactive</Label>
+          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Brumes, Floral, Boisé" />
           {errors.subcategory && <p className="text-red-500 text-sm">{errors.subcategory.message}</p>}
         </div>
       </div>
@@ -364,6 +353,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
             <div className="flex items-center space-x-2">
               <Checkbox id="is_set_or_pack" checked={field.value} onCheckedChange={field.onChange} />
               <Label htmlFor="is_set_or_pack">Marquer comme "Coffret / Pack"</Label>
+            </div>
+          )}
+        />
+        <Controller
+          name="is_archived"
+          control={control}
+          render={({ field }) => (
+            <div className="flex items-center space-x-2 border-t pt-2 mt-2">
+              <Checkbox id="is_archived" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="is_archived" className="text-orange-600 font-bold">Archiver ce produit (ne s'affichera plus sur le site)</Label>
             </div>
           )}
         />

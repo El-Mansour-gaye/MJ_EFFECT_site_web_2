@@ -27,6 +27,7 @@ export type Product = {
   details?: string;
   image?: string;
   images?: string[];
+  is_archived: boolean;
 };
 
 const CataloguePage = () => {
@@ -62,6 +63,26 @@ const CataloguePage = () => {
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+  };
+
+  const handleArchive = async (product: Product) => {
+    const token = sessionStorage.getItem("admin-auth-token");
+    try {
+      const response = await fetch(`/api/admin/catalogue/${product.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ is_archived: !product.is_archived }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update product status');
+
+      fetchProducts();
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   const handleDeleteRequest = (productId: string) => {
@@ -136,7 +157,12 @@ const CataloguePage = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!isLoading && !error && (
-        <ProductTable products={products} onEdit={handleEdit} onDelete={handleDeleteRequest} />
+        <ProductTable
+          products={products}
+          onEdit={handleEdit}
+          onDelete={handleDeleteRequest}
+          onArchive={handleArchive}
+        />
       )}
     </div>
   );

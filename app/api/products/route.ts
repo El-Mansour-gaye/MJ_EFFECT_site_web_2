@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from('produits')
       .select('*')
+      .eq('is_archived', false)
       .order('created_at', { ascending: false });
 
     if (search) {
