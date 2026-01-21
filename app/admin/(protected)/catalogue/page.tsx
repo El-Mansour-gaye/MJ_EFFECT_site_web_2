@@ -18,6 +18,9 @@ export type Product = {
   is_best_seller: boolean;
   is_new_arrival: boolean;
   is_set_or_pack: boolean;
+  description?: string;
+  intensite?: string;
+  famille_olfactive?: string;
   category?: string;
   subcategory?: string;
   tag?: string;

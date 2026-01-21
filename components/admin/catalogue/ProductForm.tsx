@@ -22,6 +22,9 @@ export type Product = {
   is_best_seller: boolean;
   is_new_arrival: boolean;
   is_set_or_pack: boolean;
+  description?: string;
+  intensite?: string;
+  famille_olfactive?: string;
   category?: string;
   subcategory?: string;
   tag?: string;
@@ -47,6 +50,11 @@ const formSchema = z.object({
   tag: z.string().optional().nullable(),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
+  description: z.string().optional(),
+  intensite: z.string().optional(),
+  famille_olfactive: z.string().optional(),
+  category: z.string().optional(),
+  subcategory: z.string().optional(),
   details: z.string().optional().nullable(),
 });
 
@@ -74,6 +82,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       tag: '',
       image: '',
       images: [],
+      description: '',
+      intensite: '',
+      famille_olfactive: '',
+      category: '',
+      subcategory: '',
       details: '',
     },
   });
@@ -99,6 +112,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       tag: '',
       image: '',
       images: [],
+      description: '',
+      intensite: '',
+      famille_olfactive: '',
+      category: '',
+      subcategory: '',
       details: '',
     };
     reset(defaultValues);
@@ -227,6 +245,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
+          <Label htmlFor="category">Catégorie</Label>
+          <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins" />
+          {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="subcategory">Sous-catégorie (Famille)</Label>
+          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Floral, Boisé" />
+          {errors.subcategory && <p className="text-red-500 text-sm">{errors.subcategory.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="intensite">Intensité</Label>
+          <Input id="intensite" {...register('intensite')} placeholder="Ex: Modérée, Forte" />
+          {errors.intensite && <p className="text-red-500 text-sm">{errors.intensite.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="famille_olfactive">Famille Olfactive (Détails)</Label>
+          <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
+          {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
           <Label htmlFor="slug">Slug (URL)</Label>
           <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
         </div>
