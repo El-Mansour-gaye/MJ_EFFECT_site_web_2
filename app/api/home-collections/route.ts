@@ -28,7 +28,7 @@ export async function GET() {
       famille_olfactive,
       is_archived
     `)
-    .eq('is_archived', false)
+    .or('is_archived.eq.false,is_archived.is.null')
     .or('is_best_seller.eq.true,is_new_arrival.eq.true,is_set_or_pack.eq.true')
     .order('nom', { ascending: true });
 

@@ -10,7 +10,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from('produits')
       .select('*')
-      .eq('is_archived', false)
+      .or('is_archived.eq.false,is_archived.is.null')
       .order('nom', { ascending: true });
 
     if (search) {
