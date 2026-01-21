@@ -134,6 +134,27 @@ export async function POST(request: NextRequest) {
 
       if (itemsError) throw new Error(`Failed to insert order items: ${itemsError.message}`);
 
+      // 4. Décrémentation du stock
+      try {
+        for (const item of cart) {
+          const { data: pData, error: pError } = await supabase
+            .from('produits')
+            .select('stock')
+            .eq('id', item.product.id)
+            .single();
+
+          if (!pError && pData) {
+            const nouveauStock = (pData.stock || 0) - item.quantity;
+            await supabase
+              .from('produits')
+              .update({ stock: nouveauStock })
+              .eq('id', item.product.id);
+          }
+        }
+      } catch (stockErr) {
+        console.error("Error updating stocks (manual order):", stockErr);
+      }
+
       return NextResponse.json({ message: 'Order created successfully', orderId }, { status: 201 });
 
     } catch (error: any) {
