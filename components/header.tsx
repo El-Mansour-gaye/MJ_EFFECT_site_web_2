@@ -249,7 +249,7 @@ function HeaderContent() {
                           {link.megaMenu.images?.map((image) => (
                             <div key={image.alt} className="group relative">
                               <Image
-                                src={image.src}
+                                src={encodeImagePath(image.src)}
                                 alt={image.alt}
                                 width={400}
                                 height={400}
