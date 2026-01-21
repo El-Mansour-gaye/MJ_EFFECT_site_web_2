@@ -10,8 +10,8 @@ export async function GET(request: Request) {
     let query = supabase
       .from('produits')
       .select('*')
-      .eq('is_archived', false)
-      .order('created_at', { ascending: false });
+      .or('is_archived.eq.false,is_archived.is.null')
+      .order('nom', { ascending: true });
 
     if (search) {
       query = query.ilike('nom', `%${search}%`);
