@@ -49,7 +49,7 @@ export async function DELETE(request: NextRequest, { params: paramsPromise }: { 
 
     // Check if the product is in any order
     const { data: orderItems, error: orderError } = await supabase
-        .from('articles_commandes')
+        .from('articles_commande')
         .select('produit_id')
         .eq('produit_id', productId);
 
