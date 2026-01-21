@@ -17,6 +17,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'No file provided' }, { status: 400 });
     }
 
+    console.log(`Uploading file: ${file.name}, size: ${file.size} bytes, type: ${file.type}`);
+
     const supabase = createSupabaseAdmin();
 
     // Try to list buckets for diagnostic purposes, but don't block the upload

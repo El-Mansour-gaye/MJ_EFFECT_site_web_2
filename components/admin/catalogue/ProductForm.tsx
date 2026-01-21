@@ -98,9 +98,19 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
                 body: formData,
             });
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                console.error('Échec du téléversement pour:', file.name, errorData);
-                setFormError(`Échec du téléversement pour ${file.name}: ${errorData.details || errorData.error || 'Erreur réseau'}`);
+                let errorMessage = `Erreur ${response.status}`;
+                try {
+                  const errorData = await response.json();
+                  errorMessage = errorData.details || errorData.error || errorMessage;
+                } catch (e) {
+                  const text = await response.text().catch(() => "");
+                  console.error('Erreur non-JSON:', text);
+                  if (response.status === 413) errorMessage = "L'image est trop volumineuse (max 4-5 Mo)";
+                  else if (text.includes("Payload Too Large")) errorMessage = "Image trop lourde";
+                }
+
+                console.error('Échec du téléversement pour:', file.name, errorMessage);
+                setFormError(`Échec du téléversement pour ${file.name}: ${errorMessage}`);
                 return null;
             }
             const data = await response.json();
