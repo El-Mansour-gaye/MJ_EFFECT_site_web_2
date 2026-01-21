@@ -106,6 +106,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
                   const text = await response.text().catch(() => "");
                   console.error('Erreur non-JSON:', text);
                   if (response.status === 413) errorMessage = "L'image est trop volumineuse (max 4-5 Mo)";
+                  else if (response.status === 403) errorMessage = "Accès refusé (403). Vérifiez la clé SUPABASE_SERVICE_ROLE_KEY.";
                   else if (text.includes("Payload Too Large")) errorMessage = "Image trop lourde";
                 }
 
