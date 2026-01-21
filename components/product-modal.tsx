@@ -8,7 +8,7 @@ import { encodeImagePath } from "@/lib/utils"
 import { useCartStore } from "@/lib/store/cart"
 
 interface ProductModalProps {
-  product: Product & { description?: string; conseils_utilisation?: string; composition?: string };
+  product: Product;
   onClose: () => void
 }
 
@@ -30,14 +30,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
       content: product.description || product.details || `Ceci est une description détaillée du produit. Elle met en avant les qualités uniques de ${product.nom}, ses notes olfactives, et les émotions qu'il évoque. Une fragrance conçue pour laisser une impression mémorable.`,
     },
     {
-      id: "conseils",
-      label: "Conseils d'utilisation",
-      content: product.conseils_utilisation || "Appliquez généreusement sur une peau propre et sèche. Massez doucement jusqu'à absorption complète. Idéal pour une utilisation quotidienne matin et soir.",
+      id: "intensite",
+      label: "Intensité",
+      content: product.intensite || "Modérée",
     },
     {
-      id: "composition",
-      label: "Composition",
-      content: product.composition || "Ingrédients : Aqua (Water), Glycerin, Butyrospermum Parkii (Shea) Butter, Parfum (Fragrance), Cetearyl Alcohol, Glyceryl Stearate, PEG-100 Stearate, Dimethicone, Phenoxyethanol, Ethylhexylglycerin.",
+      id: "famille",
+      label: "Famille Olfactive",
+      content: product.famille_olfactive || product.subcategory || "Non spécifiée",
     },
   ]
 

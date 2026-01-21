@@ -22,6 +22,9 @@ export type Product = {
   is_best_seller: boolean;
   is_new_arrival: boolean;
   is_set_or_pack: boolean;
+  description?: string;
+  intensite?: string;
+  famille_olfactive?: string;
 };
 
 // On étend le type pour inclure les champs d'image
@@ -40,6 +43,9 @@ const formSchema = z.object({
   is_set_or_pack: z.boolean().default(false),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
+  description: z.string().optional(),
+  intensite: z.string().optional(),
+  famille_olfactive: z.string().optional(),
 });
 
 interface ProductFormProps {
@@ -61,6 +67,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_set_or_pack: false,
       image: '',
       images: [],
+      description: '',
+      intensite: '',
+      famille_olfactive: '',
     },
   });
 
@@ -81,6 +90,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       is_set_or_pack: false,
       image: '',
       images: [],
+      description: '',
+      intensite: '',
+      famille_olfactive: '',
     };
     reset(defaultValues);
   }, [product, reset]);
@@ -169,6 +181,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         <Label htmlFor="nom">Nom du Produit</Label>
         <Input id="nom" {...register('nom')} />
         {errors.nom && <p className="text-red-500 text-sm">{errors.nom.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="description">Description</Label>
+        <textarea
+          id="description"
+          {...register('description')}
+          className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+        />
+        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="intensite">Intensité</Label>
+          <Input id="intensite" {...register('intensite')} placeholder="Ex: Modérée, Forte" />
+          {errors.intensite && <p className="text-red-500 text-sm">{errors.intensite.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="famille_olfactive">Famille Olfactive</Label>
+          <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
+          {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>

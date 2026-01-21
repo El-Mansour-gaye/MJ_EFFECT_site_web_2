@@ -10,11 +10,14 @@ export interface Product {
   is_new_arrival: boolean;
   is_set_or_pack: boolean;
   category: string | null;
-  subCategory: string | null;
+  subcategory: string | null;
   image: string | null;
   images: string[] | null;
   tag: string | null;
   details: string | null;
+  description: string | null;
+  intensite: string | null;
+  famille_olfactive: string | null;
   video_url?: string;
 }
 
