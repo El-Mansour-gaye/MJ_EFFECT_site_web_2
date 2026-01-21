@@ -32,7 +32,6 @@ const formSchema = z.object({
   intensite: z.string().optional().nullable(),
   famille_olfactive: z.string().optional().nullable(),
   details: z.string().optional().nullable(),
-  video_url: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
@@ -62,7 +61,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     intensite: '',
     famille_olfactive: '',
     details: '',
-    video_url: '',
   };
 
   const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<Product>({
@@ -143,7 +141,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
 
     const nullableFields = [
       'slug', 'category', 'subcategory', 'tag', 'description',
-      'intensite', 'famille_olfactive', 'details', 'video_url', 'image'
+      'intensite', 'famille_olfactive', 'details', 'image'
     ];
 
     const payload = Object.entries(rest).reduce((acc, [key, value]) => {
@@ -247,7 +245,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <Label htmlFor="slug">Slug (URL)</Label>
           <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
@@ -257,11 +255,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
           <Label htmlFor="tag">Tag</Label>
           <Input id="tag" {...register('tag')} placeholder="Ex: Promotion, Nouveau" />
           {errors.tag && <p className="text-red-500 text-sm">{errors.tag.message}</p>}
-        </div>
-        <div>
-          <Label htmlFor="video_url">URL Vidéo</Label>
-          <Input id="video_url" {...register('video_url')} placeholder="https://youtube.com/..." />
-          {errors.video_url && <p className="text-red-500 text-sm">{errors.video_url.message}</p>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">

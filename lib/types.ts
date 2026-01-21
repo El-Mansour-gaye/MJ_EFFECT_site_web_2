@@ -18,7 +18,6 @@ export interface Product {
   description: string | null;
   intensite: string | null;
   famille_olfactive: string | null;
-  video_url?: string;
   is_archived: boolean;
 }
 
