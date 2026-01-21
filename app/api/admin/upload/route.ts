@@ -42,11 +42,11 @@ export async function POST(request: NextRequest) {
     const fileName = `${uuidv4()}.${fileExtension}`;
     const filePath = `products/${fileName}`;
 
-    const buffer = Buffer.from(await file.arrayBuffer());
+    const arrayBuffer = await file.arrayBuffer();
 
     const { error: uploadError } = await supabase.storage
       .from(targetBucket)
-      .upload(filePath, buffer, {
+      .upload(filePath, arrayBuffer, {
         contentType: file.type || 'image/jpeg',
         upsert: false
       });
@@ -55,8 +55,8 @@ export async function POST(request: NextRequest) {
       console.error('Supabase upload error details:', JSON.stringify(uploadError, null, 2));
 
       let hint = "";
-      if (uploadError.message.includes("row-level security")) {
-        hint = " IMPORTANT: This error ('row-level security') almost always means the SUPABASE_SERVICE_ROLE_KEY is invalid or is actually the 'anon' key. Please verify you are using the 'service_role' key from the Supabase dashboard settings.";
+      if (uploadError.message.includes("row-level security") || uploadError.message.includes("Forbidden") || (uploadError as any).status === 403) {
+        hint = " IMPORTANT: This error (403/RLS) almost always means the SUPABASE_SERVICE_ROLE_KEY is invalid or is actually the 'anon' key. Please verify you are using the 'service_role' key from the Supabase dashboard settings. Also check that the bucket is 'Public'.";
       }
 
       return NextResponse.json({
@@ -65,11 +65,11 @@ export async function POST(request: NextRequest) {
       }, { status: 500 });
     }
 
-    const { data } = supabase.storage
-      .from('images')
+    const { data: publicUrlData } = supabase.storage
+      .from(targetBucket)
       .getPublicUrl(filePath);
 
-    return NextResponse.json({ imageUrl: data.publicUrl });
+    return NextResponse.json({ imageUrl: publicUrlData.publicUrl });
   } catch (error) {
     console.error('Upload API error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
