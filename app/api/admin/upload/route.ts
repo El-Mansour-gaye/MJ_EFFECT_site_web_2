@@ -18,6 +18,26 @@ export async function POST(request: NextRequest) {
     }
 
     const supabase = createSupabaseAdmin();
+
+    // Ensure the bucket exists (or at least try to)
+    // We do this because the "new row violates row-level security policy"
+    // can sometimes happen if the bucket isn't properly initialized with policies.
+    const { data: buckets } = await supabase.storage.listBuckets();
+    const imagesBucket = buckets?.find(b => b.name === 'images');
+
+    if (!imagesBucket) {
+      const { error: createBucketError } = await supabase.storage.createBucket('images', {
+        public: true,
+        fileSizeLimit: 10485760, // 10MB
+      });
+      if (createBucketError && createBucketError.message !== 'Bucket already exists') {
+        console.error('Failed to create bucket:', createBucketError);
+      }
+    } else if (!imagesBucket.public) {
+      // Ensure the bucket is public so images can be accessed
+      await supabase.storage.updateBucket('images', { public: true });
+    }
+
     const fileExtension = file.name.split('.').pop();
     const fileName = `${uuidv4()}.${fileExtension}`;
     const filePath = `products/${fileName}`;
@@ -25,7 +45,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const { error: uploadError } = await supabase.storage
-      .from('images') // Assumes a 'images' bucket in Supabase Storage
+      .from('images')
       .upload(filePath, buffer, {
         contentType: file.type || 'image/jpeg',
         upsert: false
@@ -33,9 +53,25 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error('Supabase upload error details:', JSON.stringify(uploadError, null, 2));
+
+      // Try to get bucket info to diagnose
+      const { data: buckets } = await supabase.storage.listBuckets();
+      const imagesBucket = buckets?.find(b => b.name === 'images');
+
+      const isUsingAnonKey = process.env.SUPABASE_SERVICE_ROLE_KEY === process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
       return NextResponse.json({
-        error: 'Failed to upload image',
-        details: uploadError.message
+        error: 'Échec du téléversement vers Supabase Storage',
+        details: uploadError.message,
+        hint: isUsingAnonKey
+          ? "La clé SERVICE_ROLE semble être identique à la clé ANON. Veuillez vérifier vos variables d'environnement."
+          : "Vérifiez que le bucket 'images' existe et que les politiques RLS permettent l'insertion.",
+        diagnostics: {
+          bucketExists: !!imagesBucket,
+          isPublic: imagesBucket?.public,
+          allBuckets: buckets?.map(b => b.name),
+          isUsingAnonKey
+        }
       }, { status: 500 });
     }
 

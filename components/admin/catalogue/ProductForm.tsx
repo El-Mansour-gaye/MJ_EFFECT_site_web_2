@@ -125,7 +125,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
                 console.error('Échec du téléversement pour:', file.name, errorData);
-                setFormError(`Échec du téléversement pour ${file.name}: ${errorData.details || errorData.error || 'Erreur réseau'}`);
+                const errorMessage = errorData.hint
+                  ? `${errorData.error}: ${errorData.hint} (Détails: ${errorData.details})`
+                  : `Échec du téléversement pour ${file.name}: ${errorData.details || errorData.error || 'Erreur réseau'}`;
+                setFormError(errorMessage);
                 return null;
             }
             const data = await response.json();
