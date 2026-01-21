@@ -19,6 +19,7 @@ export interface Product {
   intensite: string | null;
   famille_olfactive: string | null;
   video_url?: string;
+  is_archived: boolean;
 }
 
 // Types based on the database schema
