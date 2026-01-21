@@ -11,7 +11,7 @@ export async function GET(request: Request) {
       .from('produits')
       .select('*')
       .eq('is_archived', false)
-      .order('created_at', { ascending: false });
+      .order('nom', { ascending: true });
 
     if (search) {
       query = query.ilike('nom', `%${search}%`);

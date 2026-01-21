@@ -23,6 +23,9 @@ export async function GET() {
       images,
       tag,
       details,
+      description,
+      intensite,
+      famille_olfactive,
       is_archived
     `)
     .eq('is_archived', false)
