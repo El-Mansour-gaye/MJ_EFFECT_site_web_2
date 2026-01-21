@@ -29,10 +29,13 @@ export async function POST(request: NextRequest) {
     }
 
     const bucketName = 'images';
-    if (!buckets.find(b => b.name === bucketName)) {
+    const foundBucket = buckets.find(b => b.name.toLowerCase() === bucketName.toLowerCase());
+
+    if (!foundBucket) {
+      const availableBuckets = buckets.map(b => b.name).join(', ');
       return NextResponse.json({
         error: 'Bucket not found',
-        details: `The '${bucketName}' bucket does not exist. Please create it in the Supabase dashboard.`
+        details: `The '${bucketName}' bucket does not exist. Available buckets: [${availableBuckets}]. Please create a bucket named 'images' (case-sensitive if possible) in the Supabase dashboard.`
       }, { status: 500 });
     }
 
@@ -43,7 +46,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const { error: uploadError } = await supabase.storage
-      .from('images') // Assumes a 'images' bucket in Supabase Storage
+      .from(foundBucket.name)
       .upload(filePath, buffer, {
         contentType: file.type || 'image/jpeg',
         upsert: false
