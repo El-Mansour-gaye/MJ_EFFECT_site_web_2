@@ -19,24 +19,21 @@ export async function POST(request: NextRequest) {
 
     const supabase = createSupabaseAdmin();
 
-    // Verify bucket exists and is accessible
+    // Try to list buckets for diagnostic purposes, but don't block the upload
     const { data: buckets, error: bucketError } = await supabase.storage.listBuckets();
-    if (bucketError) {
-      return NextResponse.json({
-        error: 'Storage error',
-        details: `Failed to list buckets: ${bucketError.message}`
-      }, { status: 500 });
-    }
-
     const bucketName = 'images';
-    const foundBucket = buckets.find(b => b.name.toLowerCase() === bucketName.toLowerCase());
+    let targetBucket = bucketName;
 
-    if (!foundBucket) {
-      const availableBuckets = buckets.map(b => b.name).join(', ');
-      return NextResponse.json({
-        error: 'Bucket not found',
-        details: `The '${bucketName}' bucket does not exist. Available buckets: [${availableBuckets}]. Please create a bucket named 'images' (case-sensitive if possible) in the Supabase dashboard.`
-      }, { status: 500 });
+    if (bucketError) {
+      console.warn('Supabase storage listBuckets error:', bucketError.message);
+    } else if (buckets) {
+      const foundBucket = buckets.find(b => b.name.toLowerCase() === bucketName.toLowerCase());
+      if (foundBucket) {
+        targetBucket = foundBucket.name;
+      } else {
+        const bucketList = buckets.map(b => b.name).join(', ');
+        console.warn(`Bucket '${bucketName}' not found in available buckets: [${bucketList}]`);
+      }
     }
 
     const fileExtension = file.name.split('.').pop();
@@ -46,7 +43,7 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const { error: uploadError } = await supabase.storage
-      .from(foundBucket.name)
+      .from(targetBucket)
       .upload(filePath, buffer, {
         contentType: file.type || 'image/jpeg',
         upsert: false
@@ -57,7 +54,7 @@ export async function POST(request: NextRequest) {
 
       let hint = "";
       if (uploadError.message.includes("row-level security")) {
-        hint = " Check if SUPABASE_SERVICE_ROLE_KEY is correctly set and that the 'images' bucket exists with proper RLS policies (or RLS disabled).";
+        hint = " IMPORTANT: This error ('row-level security') almost always means the SUPABASE_SERVICE_ROLE_KEY is invalid or is actually the 'anon' key. Please verify you are using the 'service_role' key from the Supabase dashboard settings.";
       }
 
       return NextResponse.json({
