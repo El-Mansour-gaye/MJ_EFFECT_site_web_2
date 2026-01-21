@@ -11,31 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
 import { X, UploadCloud, PlusCircle } from 'lucide-react';
-
-// Le type de base du produit venant de la page catalogue
-export type Product = {
-  id?: string;
-  nom: string;
-  prix_fcfa: number;
-  stock: number;
-  slug?: string;
-  is_best_seller: boolean;
-  is_new_arrival: boolean;
-  is_set_or_pack: boolean;
-  description?: string;
-  intensite?: string;
-  famille_olfactive?: string;
-  category?: string;
-  subcategory?: string;
-  tag?: string;
-  details?: string;
-  image?: string;
-  images?: string[];
-  is_archived: boolean;
-};
-
-// On étend le type pour inclure les champs d'image (compatibilité)
-type ProductWithImages = Product;
+import { Product } from '@/lib/types';
 
 // Schéma de validation avec Zod
 const formSchema = z.object({
@@ -255,12 +231,19 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
           <Label htmlFor="famille_olfactive">Famille Olfactive (Détails)</Label>
           <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
           {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
           <Label htmlFor="slug">Slug (URL)</Label>
           <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
+          {errors.slug && <p className="text-red-500 text-sm">{errors.slug.message}</p>}
         </div>
         <div>
           <Label htmlFor="tag">Tag</Label>
           <Input id="tag" {...register('tag')} placeholder="Ex: Promotion, Nouveau" />
+          {errors.tag && <p className="text-red-500 text-sm">{errors.tag.message}</p>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
