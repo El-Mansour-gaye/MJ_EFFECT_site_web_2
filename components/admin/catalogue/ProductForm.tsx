@@ -28,11 +28,11 @@ const formSchema = z.object({
   tag: z.string().optional().nullable(),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
-  description: z.string().optional(),
-  intensite: z.string().optional(),
-  famille_olfactive: z.string().optional(),
+  description: z.string().optional().nullable(),
+  intensite: z.string().optional().nullable(),
+  famille_olfactive: z.string().optional().nullable(),
   details: z.string().optional().nullable(),
-  slug: z.string().optional().nullable(),
+  video_url: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
@@ -44,28 +44,30 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
+  const emptyProduct = {
+    nom: '',
+    prix_fcfa: 0,
+    stock: 0,
+    slug: '',
+    is_best_seller: false,
+    is_new_arrival: false,
+    is_set_or_pack: false,
+    is_archived: false,
+    category: '',
+    subcategory: '',
+    tag: '',
+    image: '',
+    images: [],
+    description: '',
+    intensite: '',
+    famille_olfactive: '',
+    details: '',
+    video_url: '',
+  };
+
   const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<Product>({
     resolver: zodResolver(formSchema),
-    defaultValues: product || {
-      nom: '',
-      prix_fcfa: 0,
-      stock: 0,
-      slug: '',
-      is_best_seller: false,
-      is_new_arrival: false,
-      is_set_or_pack: false,
-      is_archived: false,
-      category: '',
-      subcategory: '',
-      tag: '',
-      image: '',
-      images: [],
-      description: '',
-      intensite: '',
-      famille_olfactive: '',
-      details: '',
-      slug: '',
-    },
+    defaultValues: product || emptyProduct,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -76,26 +78,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const mainImageUrl = watch('image');
 
   useEffect(() => {
-    const defaultValues = product || {
-      nom: '',
-      prix_fcfa: 0,
-      stock: 0,
-      slug: '',
-      is_best_seller: false,
-      is_new_arrival: false,
-      is_set_or_pack: false,
-      is_archived: false,
-      category: '',
-      subcategory: '',
-      tag: '',
-      image: '',
-      images: [],
-      description: '',
-      intensite: '',
-      famille_olfactive: '',
-      details: '',
-    };
-    reset(defaultValues);
+    reset(product || emptyProduct);
   }, [product, reset]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,13 +138,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     const method = product ? 'PUT' : 'POST';
     const url = product ? `/api/admin/catalogue/${product.id}` : '/api/admin/catalogue';
 
-    // On s'assure que les images sont bien un tableau, même s'il est vide
-    // Et on nettoie l'objet pour ne pas envoyer d'ID lors d'un POST
+    // On nettoie les données : on retire l'ID pour ne pas tenter de modifier la clé primaire
     const { id, ...rest } = data;
-    const payload = {
-      ...(product ? data : rest),
-      images: data.images || [],
-    };
+
+    const nullableFields = [
+      'slug', 'category', 'subcategory', 'tag', 'description',
+      'intensite', 'famille_olfactive', 'details', 'video_url', 'image'
+    ];
+
+    const payload = Object.entries(rest).reduce((acc, [key, value]) => {
+      // Conversion des chaînes vides en null pour les champs optionnels
+      if (nullableFields.includes(key) && typeof value === 'string' && value.trim() === '') {
+        acc[key] = null;
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as any);
+
+    // On s'assure que les images sont bien un tableau
+    payload.images = data.images || [];
+
+    // Pour un PUT, certains backends apprécient d'avoir l'ID dans le body comme rappel
+    if (product) {
+      payload.id = product.id;
+    }
 
     try {
       const response = await fetch(url, {
@@ -199,11 +200,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       </div>
 
       <div>
-        <Label htmlFor="details">Description / Détails</Label>
+        <Label htmlFor="description">Description Principale (affichée en premier)</Label>
+        <textarea
+          id="description"
+          {...register('description')}
+          className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Description riche du produit..."
+        />
+        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="details">Détails Additionnels / Notes</Label>
         <textarea
           id="details"
           {...register('details')}
-          className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Notes olfactives, conseils d'utilisation..."
         />
         {errors.details && <p className="text-red-500 text-sm">{errors.details.message}</p>}
       </div>
@@ -234,7 +247,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         <div>
           <Label htmlFor="slug">Slug (URL)</Label>
           <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
@@ -244,6 +257,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
           <Label htmlFor="tag">Tag</Label>
           <Input id="tag" {...register('tag')} placeholder="Ex: Promotion, Nouveau" />
           {errors.tag && <p className="text-red-500 text-sm">{errors.tag.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="video_url">URL Vidéo</Label>
+          <Input id="video_url" {...register('video_url')} placeholder="https://youtube.com/..." />
+          {errors.video_url && <p className="text-red-500 text-sm">{errors.video_url.message}</p>}
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
