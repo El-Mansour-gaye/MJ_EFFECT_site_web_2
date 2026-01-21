@@ -14,5 +14,11 @@ export function createSupabaseAdmin() {
     }
 
     // This client uses the service role key and should never be exposed to the browser.
-    return createClient(supabaseUrl, supabaseServiceKey);
+    // We disable autoRefreshToken and persistSession because this is a server-side client.
+    return createClient(supabaseUrl, supabaseServiceKey, {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+    });
 }
