@@ -25,6 +25,8 @@ export type Product = {
   description?: string;
   intensite?: string;
   famille_olfactive?: string;
+  category?: string;
+  subcategory?: string;
 };
 
 // On étend le type pour inclure les champs d'image
@@ -46,6 +48,8 @@ const formSchema = z.object({
   description: z.string().optional(),
   intensite: z.string().optional(),
   famille_olfactive: z.string().optional(),
+  category: z.string().optional(),
+  subcategory: z.string().optional(),
 });
 
 interface ProductFormProps {
@@ -70,6 +74,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       description: '',
       intensite: '',
       famille_olfactive: '',
+      category: '',
+      subcategory: '',
     },
   });
 
@@ -93,6 +99,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       description: '',
       intensite: '',
       famille_olfactive: '',
+      category: '',
+      subcategory: '',
     };
     reset(defaultValues);
   }, [product, reset]);
@@ -195,12 +203,25 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
 
       <div className="grid grid-cols-2 gap-4">
         <div>
+          <Label htmlFor="category">Catégorie</Label>
+          <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins" />
+          {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="subcategory">Sous-catégorie (Famille)</Label>
+          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Floral, Boisé" />
+          {errors.subcategory && <p className="text-red-500 text-sm">{errors.subcategory.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
           <Label htmlFor="intensite">Intensité</Label>
           <Input id="intensite" {...register('intensite')} placeholder="Ex: Modérée, Forte" />
           {errors.intensite && <p className="text-red-500 text-sm">{errors.intensite.message}</p>}
         </div>
         <div>
-          <Label htmlFor="famille_olfactive">Famille Olfactive</Label>
+          <Label htmlFor="famille_olfactive">Famille Olfactive (Détails)</Label>
           <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
           {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
         </div>

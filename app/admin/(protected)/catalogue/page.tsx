@@ -21,6 +21,8 @@ export type Product = {
   description?: string;
   intensite?: string;
   famille_olfactive?: string;
+  category?: string;
+  subcategory?: string;
 };
 
 const CataloguePage = () => {
