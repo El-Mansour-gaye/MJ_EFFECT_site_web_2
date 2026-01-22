@@ -282,28 +282,47 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       </div>
 
       {/* Champ pour l'image principale */}
-      <div>
-        <Label htmlFor="image">URL de l'Image Principale</Label>
-        <Input id="image" {...register('image')} placeholder="https://... ou /image.png" />
+      <div className="space-y-2">
+        <Label htmlFor="image">Image Principale</Label>
+        <div className="flex gap-2">
+          <Input id="image" {...register('image')} placeholder="https://... ou /image.png" className="flex-1" />
+          {mainImageUrl && (
+            <Button type="button" variant="destructive" size="icon" onClick={() => setValue('image', '')} title="Supprimer l'image principale">
+              <X size={16} />
+            </Button>
+          )}
+        </div>
         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
         {mainImageUrl && (
-          <div className="mt-2 relative w-32 h-32">
-            <Image src={mainImageUrl} alt="Aperçu principal" layout="fill" className="object-cover rounded-md" />
+          <div className="mt-2 relative w-32 h-32 border rounded-md overflow-hidden">
+            <img src={mainImageUrl} alt="Aperçu principal" className="w-full h-full object-cover" />
           </div>
         )}
       </div>
 
       {/* Champs pour la galerie d'images */}
       <div className="space-y-3">
-        <Label>URLs des Images de la Galerie</Label>
-        {fields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input {...register(`images.${index}`)} placeholder="https://... ou /image.png" />
-            <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)}>
-              <X size={16} />
-            </Button>
-          </div>
-        ))}
+        <Label>Galerie d'Images</Label>
+        <div className="grid grid-cols-1 gap-4">
+          {fields.map((field, index) => {
+            const url = watch(`images.${index}`);
+            return (
+              <div key={field.id} className="space-y-2 border p-3 rounded-md bg-muted/30">
+                <div className="flex items-center gap-2">
+                  <Input {...register(`images.${index}`)} placeholder="https://... ou /image.png" className="flex-1" />
+                  <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)} title="Supprimer de la galerie">
+                    <X size={16} />
+                  </Button>
+                </div>
+                {url && (
+                  <div className="relative w-24 h-24 border rounded-md overflow-hidden bg-white">
+                    <img src={url} alt={`Galerie ${index}`} className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
         {errors.images && <p className="text-red-500 text-sm">Une ou plusieurs URLs de la galerie sont invalides.</p>}
         <Button type="button" variant="outline" size="sm" onClick={() => append('')}>
             <PlusCircle size={16} className="mr-2" />
