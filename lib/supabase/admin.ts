@@ -13,6 +13,9 @@ export function createSupabaseAdmin() {
       throw new Error("Missing env.SUPABASE_SERVICE_ROLE_KEY");
     }
 
+    // Diagnostic: Log key information (masked) to help user identify the key type
+    console.log(`[Supabase Admin] Initializing with key: ${supabaseServiceKey.substring(0, 10)}... (length: ${supabaseServiceKey.length})`);
+
     // This client uses the service role key and should never be exposed to the browser.
     // We disable autoRefreshToken and persistSession because this is a server-side client.
     return createClient(supabaseUrl, supabaseServiceKey, {
