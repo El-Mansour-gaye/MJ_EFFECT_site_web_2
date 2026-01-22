@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
 
       let hint = "";
       if (uploadError.message.includes("row-level security") || uploadError.message.includes("Forbidden") || (uploadError as any).status === 403) {
-        hint = " IMPORTANT: This error (403/RLS) almost always means the SUPABASE_SERVICE_ROLE_KEY is invalid or is actually the 'anon' key. Please verify you are using the 'service_role' key from the Supabase dashboard settings. Also check that the bucket is 'Public'.";
+        hint = " IMPORTANT: This error (403/RLS) means the 'service_role' key is not bypassing security. 1) Check that SUPABASE_SERVICE_ROLE_KEY is the correct 'service_role' key (Dashboard -> Settings -> API). 2) Ensure the 'images' bucket is set to 'Public' and RLS is either disabled for it or has a policy for 'service_role'. 3) If nothing works, try running this SQL in Supabase: CREATE POLICY \"Allow All\" ON storage.objects FOR ALL TO public USING (bucket_id = 'images') WITH CHECK (bucket_id = 'images');";
       }
 
       return NextResponse.json({
