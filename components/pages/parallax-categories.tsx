@@ -23,7 +23,7 @@ const categories = [
   {
     name: "Coffrets & Ensembles",
     href: "/collection?category=Coffrets",
-    imageUrl: "/set-6-warm-vanilla-sugar-3.PNG",
+    imageUrl: "/images-pack-produit/set6-pack-de-3.png",
   },
   {
     name: "Best Sellers",

@@ -101,11 +101,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
               items: [{ name: "Tous les coffrets", href: "/collection?category=Coffrets" }],
             },
           ],
-          images: [
-            { src: "/set-1-champagne-toast-1.png", alt: "Coffret" },
-            { src: "/set-1-champagne-toast-2.PNG", alt: "Coffret" },
-            { src: "/set-1-champagne-toast-3.PNG", alt: "Coffret" },
-          ],
+          images: [{ src: "/images-pack-produit/set1-pack-de-3.png", alt: "Coffret" }],
         },
       ],
     },
