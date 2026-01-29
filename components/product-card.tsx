@@ -15,7 +15,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const isOutOfStock = product.stock_disponible <= 0;
+  const isOutOfStock = product.stock <= 0;
   const addToCart = useCartStore((state) => state.addToCart)
   const cartIconRef = useCartStore((state) => state.cartIconRef)
   const { favoriteIds, toggleFavorite } = useFavoritesStore()
@@ -96,21 +96,9 @@ export function ProductCard({ product }: ProductCardProps) {
         />
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {isOutOfStock ? (
+        {isOutOfStock && (
           <span className="absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest bg-red-500 text-white">
             En rupture
-          </span>
-        ) : product.tag && (
-          <span
-            className={`absolute top-4 left-4 px-3 py-1 text-xs uppercase tracking-widest ${
-              product.tag === "Promo"
-                ? "bg-accent text-accent-foreground"
-                : product.tag === "New"
-                  ? "bg-black text-white"
-                  : "bg-white text-black"
-            }`}
-          >
-            {product.tag}
           </span>
         )}
 

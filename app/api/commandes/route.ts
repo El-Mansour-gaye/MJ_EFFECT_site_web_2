@@ -74,6 +74,29 @@ export async function POST(request: Request) {
     if (articlesError) throw articlesError;
     console.log("Order items created.");
 
+    // 4. Décrémentation du stock
+    try {
+      console.log("Updating stocks...");
+      for (const item of cart_content) {
+        const { data: pData, error: pError } = await supabaseAdmin
+          .from('produits')
+          .select('stock')
+          .eq('id', item.produit_id)
+          .single();
+
+        if (!pError && pData) {
+          const nouveauStock = (pData.stock || 0) - item.quantite;
+          await supabaseAdmin
+            .from('produits')
+            .update({ stock: nouveauStock })
+            .eq('id', item.produit_id);
+        }
+      }
+    } catch (stockErr) {
+      console.error("Error updating stocks:", stockErr);
+      // We don't fail the whole order if stock update fails, but we log it
+    }
+
     // Optional: Create or update client in 'clients' table
     if(client_info.telephone){
         console.log("Upserting client...");

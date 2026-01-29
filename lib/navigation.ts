@@ -60,7 +60,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
               ],
             },
           ],
-          images: [{ src: "/champagne toast.PNG", alt: "Parfums" }],
+          images: [{ src: "/1-champagne toast.PNG", alt: "Parfums" }],
         },
         {
           label: "Soins Corporels",
@@ -72,11 +72,11 @@ export const NAVIGATION_LINKS: NavLink[] = [
                 { name: "Crèmes", href: "/collection?category=Soins%20Corporels&subCategory=Crème" },
                 { name: "Laits", href: "/collection?category=Soins%20Corporels&subCategory=Lait" },
                 { name: "Gels Douche", href: "/collection?category=Soins%20Corporels&subCategory=Gel%20Douche" },
-                { name: "Soins du Visage", href: "/collection?category=Soins%2C3%A2%C2%A0Corporels&subCategory=Visage" },
+                { name: "Soins du Visage", href: "/collection?category=Soins%20Corporels&subCategory=Visage" },
               ],
             },
           ],
-          images: [{ src: "/Body wash Dr teals - 11000.PNG", alt: "Soins Corporels" }],
+          images: [{ src: "/body-wash-dr-teals-11000.png", alt: "Soins Corporels" }],
         },
         {
           label: "Gommages & Gels Douche",
@@ -102,7 +102,7 @@ export const NAVIGATION_LINKS: NavLink[] = [
             },
           ],
           images: [
-            { src: "/set-1-champagne-toast-1.PNG", alt: "Coffret" },
+            { src: "/set-1-champagne-toast-1.png", alt: "Coffret" },
             { src: "/set-1-champagne-toast-2.PNG", alt: "Coffret" },
             { src: "/set-1-champagne-toast-3.PNG", alt: "Coffret" },
           ],

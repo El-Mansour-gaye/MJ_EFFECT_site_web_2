@@ -203,7 +203,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "23 Novembre 2025",
     readTime: "4 min",
     category: "Guide d'Achat",
-    image: "/set-6-warm-vanilla-sugar-2.png",
+    image: "/set-6-warm-vanilla-sugar-2.PNG",
     content: `
       <p><strong>(Mots-clés SEO : parfum pas cher Dakar, boutique parfum fiable Sénégal, prix brumes FCFA, meilleur magasin parfum Dakar)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>
@@ -282,7 +282,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "28 Mai 2024",
     readTime: "6 min",
     category: "Routine de Soin",
-    image: "/tree-hut-tropic-glow_1.png",
+    image: "/glowing-skin-scrub-senegal.jfif",
     content: `
       <p><strong>(Mots-clés SEO : routine soin corporel Sénégal, comment avoir une belle peau Dakar, gommage avant hydratation, layering parfum, guide beauté complet)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction : Le Secret n'est pas un Produit, c'est une Routine</h2>

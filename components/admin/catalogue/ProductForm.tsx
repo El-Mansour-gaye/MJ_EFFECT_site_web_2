@@ -11,57 +11,61 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import Image from 'next/image';
 import { X, UploadCloud, PlusCircle } from 'lucide-react';
-
-// Le type de base du produit venant de la page catalogue
-export type Product = {
-  id?: string;
-  nom: string;
-  prix_fcfa: number;
-  stock: number;
-  slug?: string;
-  is_best_seller: boolean;
-  is_new_arrival: boolean;
-  is_set_or_pack: boolean;
-};
-
-// On étend le type pour inclure les champs d'image
-type ProductWithImages = Product & {
-  image?: string | null;
-  images?: string[] | null;
-};
+import { Product } from '@/lib/types';
 
 // Schéma de validation avec Zod
 const formSchema = z.object({
   nom: z.string().min(1, 'Le nom est requis'),
   prix_fcfa: z.coerce.number().min(0, 'Le prix doit être positif'),
   stock: z.coerce.number().int('Le stock doit être un entier'),
+  slug: z.string().optional().nullable(),
   is_best_seller: z.boolean().default(false),
   is_new_arrival: z.boolean().default(false),
   is_set_or_pack: z.boolean().default(false),
+  is_archived: z.boolean().default(false),
+  category: z.string().optional().nullable(),
+  subcategory: z.string().optional().nullable(),
+  tag: z.string().optional().nullable(),
   image: z.string().nullable().optional(),
   images: z.array(z.string()).nullable().optional(),
+  description: z.string().optional().nullable(),
+  intensite: z.string().optional().nullable(),
+  famille_olfactive: z.string().optional().nullable(),
+  details: z.string().optional().nullable(),
 });
 
 interface ProductFormProps {
-  product: ProductWithImages | null;
+  product: Product | null;
   onSubmit: () => void;
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const [isUploading, setIsUploading] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
-  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<ProductWithImages>({
+  const emptyProduct = {
+    nom: '',
+    prix_fcfa: 0,
+    stock: 0,
+    slug: '',
+    is_best_seller: false,
+    is_new_arrival: false,
+    is_set_or_pack: false,
+    is_archived: false,
+    category: '',
+    subcategory: '',
+    tag: '',
+    image: '',
+    images: [],
+    description: '',
+    intensite: '',
+    famille_olfactive: '',
+    details: '',
+  };
+
+  const { register, handleSubmit, reset, control, watch, setValue, formState: { errors } } = useForm<Product>({
     resolver: zodResolver(formSchema),
-    defaultValues: product || {
-      nom: '',
-      prix_fcfa: 0,
-      stock: 0,
-      is_best_seller: false,
-      is_new_arrival: false,
-      is_set_or_pack: false,
-      image: '',
-      images: [],
-    },
+    defaultValues: product || emptyProduct,
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -72,17 +76,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
   const mainImageUrl = watch('image');
 
   useEffect(() => {
-    const defaultValues = product || {
-      nom: '',
-      prix_fcfa: 0,
-      stock: 0,
-      is_best_seller: false,
-      is_new_arrival: false,
-      is_set_or_pack: false,
-      image: '',
-      images: [],
-    };
-    reset(defaultValues);
+    reset(product || emptyProduct);
   }, [product, reset]);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,13 +98,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
                 body: formData,
             });
             if (!response.ok) {
-                console.error('Échec du téléversement pour:', file.name);
+                let errorMessage = `Erreur ${response.status}`;
+                try {
+                  const errorData = await response.json();
+                  errorMessage = errorData.details || errorData.error || errorMessage;
+                } catch (e) {
+                  const text = await response.text().catch(() => "");
+                  console.error('Erreur non-JSON:', text);
+                  if (response.status === 413) errorMessage = "L'image est trop volumineuse (max 4-5 Mo)";
+                  else if (response.status === 403) errorMessage = "Accès refusé (403). Vérifiez la clé SUPABASE_SERVICE_ROLE_KEY.";
+                  else if (text.includes("Payload Too Large")) errorMessage = "Image trop lourde";
+                }
+
+                console.error('Échec du téléversement pour:', file.name, errorMessage);
+                setFormError(`Échec du téléversement pour ${file.name}: ${errorMessage}`);
                 return null;
             }
             const data = await response.json();
             return data.imageUrl;
         } catch (error) {
             console.error('Erreur lors du téléversement:', error);
+            setFormError(`Erreur lors du téléversement: ${(error as Error).message}`);
             return null;
         }
       })
@@ -133,16 +141,37 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
     setIsUploading(false);
   };
 
-  const handleFormSubmit = async (data: ProductWithImages) => {
+  const handleFormSubmit = async (data: Product) => {
+    setFormError(null);
     const token = sessionStorage.getItem("admin-auth-token");
     const method = product ? 'PUT' : 'POST';
     const url = product ? `/api/admin/catalogue/${product.id}` : '/api/admin/catalogue';
 
-    // On s'assure que les images sont bien un tableau, même s'il est vide
-    const payload = {
-      ...data,
-      images: data.images || [],
-    };
+    // On nettoie les données : on retire l'ID pour ne pas tenter de modifier la clé primaire
+    const { id, ...rest } = data;
+
+    const nullableFields = [
+      'slug', 'category', 'subcategory', 'tag', 'description',
+      'intensite', 'famille_olfactive', 'details', 'image'
+    ];
+
+    const payload = Object.entries(rest).reduce((acc, [key, value]) => {
+      // Conversion des chaînes vides en null pour les champs optionnels
+      if (nullableFields.includes(key) && typeof value === 'string' && value.trim() === '') {
+        acc[key] = null;
+      } else {
+        acc[key] = value;
+      }
+      return acc;
+    }, {} as any);
+
+    // On s'assure que les images sont bien un tableau
+    payload.images = data.images || [];
+
+    // Pour un PUT, certains backends apprécient d'avoir l'ID dans le body comme rappel
+    if (product) {
+      payload.id = product.id;
+    }
 
     try {
       const response = await fetch(url, {
@@ -155,20 +184,89 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       });
 
       if (!response.ok) {
-        throw new Error(product ? 'Échec de la mise à jour' : 'Échec de la création');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || (product ? 'Échec de la mise à jour' : 'Échec de la création'));
       }
       onSubmit();
     } catch (error) {
       console.error(error);
+      setFormError((error as Error).message);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-6 max-h-[80vh] overflow-y-auto pr-4">
+      {formError && (
+        <div className="bg-destructive/15 text-destructive p-3 rounded-md text-sm">
+          {formError}
+        </div>
+      )}
+
       <div>
         <Label htmlFor="nom">Nom du Produit</Label>
         <Input id="nom" {...register('nom')} />
         {errors.nom && <p className="text-red-500 text-sm">{errors.nom.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="description">Description Principale (affichée en premier)</Label>
+        <textarea
+          id="description"
+          {...register('description')}
+          className="flex min-h-[100px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Description riche du produit..."
+        />
+        {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+      </div>
+
+      <div>
+        <Label htmlFor="details">Détails Additionnels / Notes</Label>
+        <textarea
+          id="details"
+          {...register('details')}
+          className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          placeholder="Notes olfactives, conseils d'utilisation..."
+        />
+        {errors.details && <p className="text-red-500 text-sm">{errors.details.message}</p>}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="category">Catégorie</Label>
+          <Input id="category" {...register('category')} placeholder="Ex: Parfums, Soins Corporels" />
+          {errors.category && <p className="text-red-500 text-sm">{errors.category.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="subcategory">Sous-catégorie / Famille Olfactive</Label>
+          <Input id="subcategory" {...register('subcategory')} placeholder="Ex: Brumes, Floral, Boisé" />
+          {errors.subcategory && <p className="text-red-500 text-sm">{errors.subcategory.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="intensite">Intensité</Label>
+          <Input id="intensite" {...register('intensite')} placeholder="Ex: Modérée, Forte" />
+          {errors.intensite && <p className="text-red-500 text-sm">{errors.intensite.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="famille_olfactive">Famille Olfactive (Détails)</Label>
+          <Input id="famille_olfactive" {...register('famille_olfactive')} placeholder="Ex: Floral, Boisé" />
+          {errors.famille_olfactive && <p className="text-red-500 text-sm">{errors.famille_olfactive.message}</p>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="slug">Slug (URL)</Label>
+          <Input id="slug" {...register('slug')} placeholder="nom-du-produit" />
+          {errors.slug && <p className="text-red-500 text-sm">{errors.slug.message}</p>}
+        </div>
+        <div>
+          <Label htmlFor="tag">Tag</Label>
+          <Input id="tag" {...register('tag')} placeholder="Ex: Promotion, Nouveau" />
+          {errors.tag && <p className="text-red-500 text-sm">{errors.tag.message}</p>}
+        </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
@@ -184,28 +282,47 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
       </div>
 
       {/* Champ pour l'image principale */}
-      <div>
-        <Label htmlFor="image">URL de l'Image Principale</Label>
-        <Input id="image" {...register('image')} placeholder="https://... ou /image.png" />
+      <div className="space-y-2">
+        <Label htmlFor="image">Image Principale</Label>
+        <div className="flex gap-2">
+          <Input id="image" {...register('image')} placeholder="https://... ou /image.png" className="flex-1" />
+          {mainImageUrl && (
+            <Button type="button" variant="destructive" size="icon" onClick={() => setValue('image', '')} title="Supprimer l'image principale">
+              <X size={16} />
+            </Button>
+          )}
+        </div>
         {errors.image && <p className="text-red-500 text-sm">{errors.image.message}</p>}
         {mainImageUrl && (
-          <div className="mt-2 relative w-32 h-32">
-            <Image src={mainImageUrl} alt="Aperçu principal" layout="fill" className="object-cover rounded-md" />
+          <div className="mt-2 relative w-32 h-32 border rounded-md overflow-hidden">
+            <img src={mainImageUrl} alt="Aperçu principal" className="w-full h-full object-cover" />
           </div>
         )}
       </div>
 
       {/* Champs pour la galerie d'images */}
       <div className="space-y-3">
-        <Label>URLs des Images de la Galerie</Label>
-        {fields.map((field, index) => (
-          <div key={field.id} className="flex items-center gap-2">
-            <Input {...register(`images.${index}`)} placeholder="https://... ou /image.png" />
-            <Button type="button" variant="destructive" size="sm" onClick={() => remove(index)}>
-              <X size={16} />
-            </Button>
-          </div>
-        ))}
+        <Label>Galerie d'Images</Label>
+        <div className="grid grid-cols-1 gap-4">
+          {fields.map((field, index) => {
+            const url = watch(`images.${index}`);
+            return (
+              <div key={field.id} className="space-y-2 border p-3 rounded-md bg-muted/30">
+                <div className="flex items-center gap-2">
+                  <Input {...register(`images.${index}`)} placeholder="https://... ou /image.png" className="flex-1" />
+                  <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)} title="Supprimer de la galerie">
+                    <X size={16} />
+                  </Button>
+                </div>
+                {url && (
+                  <div className="relative w-24 h-24 border rounded-md overflow-hidden bg-white">
+                    <img src={url} alt={`Galerie ${index}`} className="w-full h-full object-cover" />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
         {errors.images && <p className="text-red-500 text-sm">Une ou plusieurs URLs de la galerie sont invalides.</p>}
         <Button type="button" variant="outline" size="sm" onClick={() => append('')}>
             <PlusCircle size={16} className="mr-2" />
@@ -260,6 +377,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ product, onSubmit }) => {
             <div className="flex items-center space-x-2">
               <Checkbox id="is_set_or_pack" checked={field.value} onCheckedChange={field.onChange} />
               <Label htmlFor="is_set_or_pack">Marquer comme "Coffret / Pack"</Label>
+            </div>
+          )}
+        />
+        <Controller
+          name="is_archived"
+          control={control}
+          render={({ field }) => (
+            <div className="flex items-center space-x-2 border-t pt-2 mt-2">
+              <Checkbox id="is_archived" checked={field.value} onCheckedChange={field.onChange} />
+              <Label htmlFor="is_archived" className="text-orange-600 font-bold">Archiver ce produit (ne s'affichera plus sur le site)</Label>
             </div>
           )}
         />

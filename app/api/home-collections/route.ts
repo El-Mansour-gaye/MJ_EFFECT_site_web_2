@@ -22,8 +22,13 @@ export async function GET() {
       image,
       images,
       tag,
-      details
+      details,
+      description,
+      intensite,
+      famille_olfactive,
+      is_archived
     `)
+    .or('is_archived.eq.false,is_archived.is.null')
     .or('is_best_seller.eq.true,is_new_arrival.eq.true,is_set_or_pack.eq.true')
     .order('nom', { ascending: true });
 

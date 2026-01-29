@@ -8,11 +8,12 @@ import { encodeImagePath } from "@/lib/utils"
 import { useCartStore } from "@/lib/store/cart"
 
 interface ProductModalProps {
-  product: Product & { description?: string; conseils_utilisation?: string; composition?: string };
+  product: Product;
   onClose: () => void
 }
 
 export function ProductModal({ product, onClose }: ProductModalProps) {
+  const isOutOfStock = product.stock <= 0;
   const addToCart = useCartStore((state) => state.addToCart)
   const [emblaRef, emblaApi] = useEmblaCarousel()
   const [canScrollPrev, setCanScrollPrev] = useState(false)
@@ -29,14 +30,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
       content: product.description || product.details || `Ceci est une description détaillée du produit. Elle met en avant les qualités uniques de ${product.nom}, ses notes olfactives, et les émotions qu'il évoque. Une fragrance conçue pour laisser une impression mémorable.`,
     },
     {
-      id: "conseils",
-      label: "Conseils d'utilisation",
-      content: product.conseils_utilisation || "Appliquez généreusement sur une peau propre et sèche. Massez doucement jusqu'à absorption complète. Idéal pour une utilisation quotidienne matin et soir.",
+      id: "intensite",
+      label: "Intensité",
+      content: product.intensite || "Modérée",
     },
     {
-      id: "composition",
-      label: "Composition",
-      content: product.composition || "Ingrédients : Aqua (Water), Glycerin, Butyrospermum Parkii (Shea) Butter, Parfum (Fragrance), Cetearyl Alcohol, Glyceryl Stearate, PEG-100 Stearate, Dimethicone, Phenoxyethanol, Ethylhexylglycerin.",
+      id: "famille",
+      label: "Famille Olfactive",
+      content: product.famille_olfactive || product.subcategory || "Non spécifiée",
     },
   ]
 
@@ -113,8 +114,18 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
           </button>
 
           <p className="text-sm uppercase tracking-widest text-gray-500">{product.category}</p>
-          <h2 id="product-modal-title" className="text-3xl lg:text-4xl font-serif font-bold my-4">{product.nom}</h2>
-          <p className="text-2xl text-[#C9A050] mb-6">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
+          <div className="flex items-center justify-between my-4">
+            <h2 id="product-modal-title" className="text-3xl lg:text-4xl font-serif font-bold">{product.nom}</h2>
+            {isOutOfStock && (
+              <span className="px-3 py-1 text-xs uppercase tracking-widest bg-red-500 text-white">
+                En rupture
+              </span>
+            )}
+          </div>
+          <p className="text-2xl text-[#C9A050] mb-2">{Number(product.prix_fcfa).toLocaleString()} FCFA</p>
+          {isOutOfStock && (
+            <p className="text-sm text-red-500 mb-6">Sera expédié dans 10-20 jours</p>
+          )}
 
           <div className="flex-grow">
             <div className="border-b border-gray-200">
@@ -170,7 +181,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               }}
               className="w-full bg-black text-white py-3 text-sm uppercase tracking-widest hover:bg-gray-800 transition-colors"
             >
-              Ajouter au Panier
+              {isOutOfStock ? "Précommander" : "Ajouter au Panier"}
             </button>
           </div>
         </div>

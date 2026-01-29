@@ -8,17 +8,7 @@ import ProductTable from '@/components/admin/catalogue/ProductTable';
 import ProductForm from '@/components/admin/catalogue/ProductForm';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import ConfirmationDialog from '@/components/admin/ConfirmationDialog';
-
-export type Product = {
-  id?: string;
-  nom: string;
-  prix_fcfa: number;
-  stock: number;
-  slug?: string;
-  is_best_seller: boolean;
-  is_new_arrival: boolean;
-  is_set_or_pack: boolean;
-};
+import { Product } from '@/lib/types';
 
 const CataloguePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -53,6 +43,26 @@ const CataloguePage = () => {
   const handleEdit = (product: Product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+  };
+
+  const handleArchive = async (product: Product) => {
+    const token = sessionStorage.getItem("admin-auth-token");
+    try {
+      const response = await fetch(`/api/admin/catalogue/${product.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ is_archived: !product.is_archived }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update product status');
+
+      fetchProducts();
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   const handleDeleteRequest = (productId: string) => {
@@ -127,7 +137,12 @@ const CataloguePage = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
       {!isLoading && !error && (
-        <ProductTable products={products} onEdit={handleEdit} onDelete={handleDeleteRequest} />
+        <ProductTable
+          products={products}
+          onEdit={handleEdit}
+          onDelete={handleDeleteRequest}
+          onArchive={handleArchive}
+        />
       )}
     </div>
   );
