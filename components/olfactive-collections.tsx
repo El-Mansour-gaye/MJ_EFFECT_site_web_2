@@ -16,13 +16,13 @@ const collections = [
     title: "Into The Night",
     description: "Pour une élégance sombre et mystérieuse.",
     route: "/collection",
-    imageUrl: "/set-2-into-the-night-2.png",
+    imageUrl: "/images-pack-produit/set2-pack-de-3.png",
   },
   {
     title: "Warm Vanilla Sugar",
     description: "Douceur réconfortante et notes délicieuses.",
     route: "/collection",
-    imageUrl: "/set-6-warm-vanilla-sugar-3.PNG",
+    imageUrl: "/images-pack-produit/set6-pack-de-3.png",
   },
   {
     title: "Champagne Toast",
