@@ -203,7 +203,7 @@ export const BLOG_ARTICLES: BlogArticle[] = [
     date: "23 Novembre 2025",
     readTime: "4 min",
     category: "Guide d'Achat",
-    image: "/set-6-warm-vanilla-sugar-2.png",
+    image: "/images-pack-produit/set6-pack-de-3.png",
     content: `
       <p><strong>(Mots-clés SEO : parfum pas cher Dakar, boutique parfum fiable Sénégal, prix brumes FCFA, meilleur magasin parfum Dakar)</strong></p>
       <h2 class="text-2xl font-bold my-4">Introduction (Accroche)</h2>

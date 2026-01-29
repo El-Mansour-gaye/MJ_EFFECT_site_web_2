@@ -61,7 +61,7 @@ export const quizResults: QuizResult[] = [
     products: [
       { name: "Into The Night", image: "/into-the-night.png", category: "Brume & Soins Corporels" },
       { name: "Dark Kiss", image: "/dark-kiss.png", category: "Brume & Soins Corporels" },
-      { name: "SET #2 Into The Night", image: "/set-2-into-the-night-1.png", category: "Coffret Cadeau" },
+      { name: "SET #2 Into The Night", image: "/images-pack-produit/set2-pack-de-3.png", category: "Coffret Cadeau" },
     ],
   },
   {
@@ -71,7 +71,7 @@ export const quizResults: QuizResult[] = [
     products: [
       { name: "Champagne Toast", image: "/champagne-toast.png", category: "Brume & Soins Corporels" },
       { name: "A Thousand Wishes", image: "/a-thousand-wishes.png", category: "Brume & Soins Corporels" },
-      { name: "SET #1 Champagne Toast", image: "/set-1-champagne-toast-1.png", category: "Coffret Cadeau" },
+      { name: "SET #1 Champagne Toast", image: "/images-pack-produit/set1-pack-de-3.png", category: "Coffret Cadeau" },
     ],
   },
   {
@@ -81,7 +81,7 @@ export const quizResults: QuizResult[] = [
     products: [
       { name: "Warm Vanilla Sugar", image: "/placeholder.jpg", category: "Brume & Soins Corporels" },
       { name: "Glowtion Body Butter", image: "/glowtion-body-butter.png", category: "Soin Corporel" },
-      { name: "SET #6 Warm Vanilla Sugar", image: "/set-6-warm-vanilla-sugar-1.png", category: "Coffret Cadeau" },
+      { name: "SET #6 Warm Vanilla Sugar", image: "/images-pack-produit/set6-pack-de-3.png", category: "Coffret Cadeau" },
     ],
   },
 ];
