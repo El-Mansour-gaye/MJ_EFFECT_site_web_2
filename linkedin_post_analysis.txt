@@ -1,0 +1,27 @@
+### 1. Le Secteur & l'Objectif
+*   **Business :** Parfumerie et cosmétique de luxe (MG Effect). Le catalogue se concentre sur des fragrances premium (brumes, coffrets, soins) accessibles localement à Dakar.
+*   **Objectif principal :** **Conversion E-commerce.** Le site n'est pas qu'une simple vitrine ; il intègre une gestion de panier (Zustand), une gestion fine des stocks (bascule automatique en "Précommande" pour les articles en rupture) et une incitation directe à l'achat.
+
+### 2. Analyse du "Pourquoi" (Benchmarking)
+Ce qui le différencie d'un template Shopify/WooCommerce standard :
+*   **L'expérience immersive :** L'intégration d'un **Quiz interactif de signature olfactive**. Au lieu de simplement lister des produits, le site conseille le client, augmentant la valeur perçue et le taux de conversion.
+*   **Navigation par "Collections Olfactives" :** Un layout asymétrique sur-mesure qui classe les produits par univers sensoriel (ex: "Into The Night", "Warm Vanilla Sugar") plutôt que par simples catégories techniques.
+
+### 3. Le Message & l'Identité (Le Design)
+*   **Couleurs (Luxe & Raffinement) :**
+    *   **Dominantes :** Noir profond (#000000) et Or/Bronze (#C9A050).
+    *   **Bénéfice Business :** Le noir évoque l'intemporalité et l'exclusivité, tandis que l'or souligne le côté "Premium". Ce duo de couleurs rassure sur la qualité des produits à 150k+.
+*   **Fonts (Équilibre Tradition/Modernité) :**
+    *   **Playfair Display (Serif) :** Utilisée pour les titres. Elle rappelle les codes de la presse de mode et du luxe.
+    *   **Inter (Sans-serif) :** Utilisée pour les descriptions. Elle garantit une lisibilité parfaite, cruciale pour la confiance sur mobile.
+*   **Layout & UX :**
+    *   Gestion aérée de l'espace (Paddings py-16 à py-24) pour laisser le produit "respirer".
+    *   **Mobile-first :** Carrousels fluides (Embla Carousel) pour une navigation au pouce naturelle.
+*   **Technique & Fluidité :**
+    *   **Bibliothèques :** Framer Motion pour des entrées en scène progressives (AnimatedSection).
+    *   **Effets visuels :** Effet Ken Burns (zoom lent) sur les bannières, parallaxe sur les fonds de section, et backdrop-blur (flou de verre) sur les menus pour un aspect ultra-moderne.
+
+### 4. Le "Mauvais Scénario" (L'erreur du débutant)
+*   **L'erreur :** Créer un site "catalogue de pharmacie" trop rigide avec une grille de produits statique.
+*   **Conséquence business :** Pour du parfum, le visuel doit compenser l'absence d'odorat. Un site trop technique ou froid casse le rêve.
+*   **Ta solution :** Tu as misé sur du "Full Screen", des animations fluides et un quiz interactif. Le client n'achète pas juste un flacon, il achète une "vibe" et une identité.
