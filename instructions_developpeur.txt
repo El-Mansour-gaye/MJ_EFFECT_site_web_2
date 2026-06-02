@@ -1,0 +1,30 @@
+MISSION : ADAPTATION FRONT-END - SITE E-COMMERCE PARFUMERIE DE LUXE
+
+1. OBJECTIF GÉNÉRAL
+Transformer le prototype actuel (Next.js/Tailwind) en une boutique en ligne professionnelle pour une nouvelle marque de parfums. Le design doit communiquer le luxe, la simplicité et l'élégance.
+
+2. INSPIRATION ET DESIGN
+- Direction artistique : Épure, minimalisme, typographies soignées.
+- Référence : Allez voir les sites de grandes maisons de parfumerie pour vous inspirer du niveau de détail (espacements, animations fluides, présentation des flacons).
+- Vous avez une totale liberté sur les éléments de design pour atteindre ce rendu "haut de gamme".
+
+3. TÂCHES FRONT-END
+- Adaptation de la vitrine (Storefront) : Accueil, pages collections, fiches produits, panier, checkout.
+- Adaptation de l'interface Admin : Moderniser l'interface de gestion du catalogue pour qu'elle soit aussi élégante que la partie publique.
+- Responsive Design : Le rendu doit être parfait sur mobile, tablette et desktop.
+
+4. TRAITEMENT DES ASSETS (LOGOS ET IMAGES)
+- Logos : Suppression du fond (détourage) pour une intégration parfaite.
+- Images Produits : Normalisation si nécessaire (ex: même ratio pour tous les flacons) et réduction de la taille des fichiers pour optimiser les performances (format WebP recommandé).
+- Iconographie : Choisir ou créer des icônes fines et élégantes.
+
+5. PÉRIMÈTRE TECHNIQUE ET LIMITES
+- Travail exclusivement Front-End : Vous n'avez PAS à gérer le système de connexion (auth), les formulaires de contact côté serveur, ou la structure de la base de données. Ces éléments seront connectés ultérieurement.
+- Technologies : Next.js (App Router), Tailwind CSS, TypeScript, Zustand (pour le state).
+- Données : Utilisez des données "mock" ou adaptez les interfaces TypeScript existantes (lib/types.ts) pour vos tests.
+
+6. LIVRABLES
+- Une copie du projet modifiée et fonctionnelle.
+- Les fichiers sources optimisés.
+
+L'objectif est d'avoir un site visuellement fini, fluide et prêt pour une mise en production rapide après l'intégration finale des données.

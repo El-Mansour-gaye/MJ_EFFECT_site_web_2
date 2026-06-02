@@ -1,0 +1,36 @@
+FONCTIONNEMENT TECHNIQUE DU SITE
+
+1. ARCHITECTURE GÉNÉRALE
+Le site est construit avec Next.js (App Router), utilisant Tailwind CSS pour le stylage et TypeScript pour la sécurité du code. Les composants d'interface (UI) sont basés sur Shadcn/UI.
+
+2. GESTION DES PRODUITS (Base de données)
+Les produits sont stockés dans une base de données PostgreSQL gérée par Supabase.
+- Table principale : 'produits'
+- Colonnes clés : id, nom, prix_fcfa, stock, slug, category, subcategory, image (URL principale), images (Array d'URLs pour la galerie), description, intensite, famille_olfactive.
+- Statut : Une colonne 'is_archived' permet de masquer un produit sans le supprimer. Un produit avec un 'stock' <= 0 est automatiquement considéré comme étant en "Précommande".
+
+3. STOCKAGE DES IMAGES
+Les images sont gérées de deux manières :
+- Supabase Storage : Les images des produits téléchargées via l'interface admin sont stockées dans un "bucket" nommé 'images'. Les URLs stockées en base de données pointent vers ce stockage cloud.
+- Dossier Public (/public) : Les images statiques du site (icônes, bannières, images du méga-menu) sont stockées localement dans le projet.
+
+4. COMMUNICATION AVEC SUPABASE
+La communication se fait via le SDK Supabase (@supabase/supabase-js) :
+- Client-side (lib/supabase/client.ts) : Utilisé pour les requêtes publiques simples (récupération des produits). Utilise une clé "anon" publique.
+- Server-side (lib/supabase/admin.ts) : Utilisé dans les routes API (/app/api/...) pour les opérations sensibles (upload, modifications, gestion des commandes). Utilise une clé "service_role" qui outrepasse les règles de sécurité (RLS).
+
+5. ROUTES API
+Le front-end communique avec la base de données principalement via des points de terminaison Next.js :
+- /api/products : Récupération de la liste des produits (filtre les archivés).
+- /api/admin/upload : Gère l'envoi de fichiers vers Supabase Storage.
+- /api/commandes : Enregistrement des nouvelles commandes.
+
+6. ÉTAT DE L'APPLICATION (Frontend)
+Le site utilise Zustand pour gérer l'état global sans recharger la page :
+- Panier (Cart) : lib/store/cart.ts (persiste dans le localStorage).
+- Favoris : lib/store/favorites.ts (persiste dans le localStorage).
+
+7. ADMINISTRATION ET SÉCURITÉ
+L'accès à l'administration (/admin) est protégé par un système simple :
+- Le mot de passe est configuré via une variable d'environnement (ADMIN_PASSWORD).
+- Une fois connecté, un token (hash SHA-256) est stocké dans le 'sessionStorage' du navigateur pour maintenir la session.
