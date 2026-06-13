@@ -1,0 +1,234 @@
+# Guide de Migration Supabase - Adaptation Site E-commerce
+
+Ce guide contient toutes les informations nécessaires pour configurer votre nouvelle base de données Supabase et adapter le site pour votre nouvelle entreprise.
+
+---
+
+## 1. Structure de la Base de Données (SQL)
+
+Exécutez ce script dans l'éditeur SQL de votre tableau de bord Supabase pour créer toutes les tables et fonctions nécessaires.
+
+```sql
+-- Extension pour générer des UUID si nécessaire
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+---------------------------------------------------
+-- 1. TABLES
+---------------------------------------------------
+
+-- Table des produits
+CREATE TABLE IF NOT EXISTS produits (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nom TEXT NOT NULL,
+    prix_fcfa NUMERIC NOT NULL,
+    stock INTEGER DEFAULT 0,
+    slug TEXT UNIQUE,
+    is_best_seller BOOLEAN DEFAULT false,
+    is_new_arrival BOOLEAN DEFAULT false,
+    is_set_or_pack BOOLEAN DEFAULT false,
+    category TEXT,
+    subcategory TEXT,
+    image TEXT, -- URL de l'image principale
+    images TEXT[], -- Tableau d'URLs pour la galerie
+    tag TEXT,
+    details TEXT,
+    description TEXT,
+    intensite TEXT,
+    famille_olfactive TEXT,
+    is_archived BOOLEAN DEFAULT false
+);
+
+-- Table des clients
+CREATE TABLE IF NOT EXISTS clients (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nom TEXT NOT NULL,
+    telephone TEXT UNIQUE,
+    email TEXT UNIQUE,
+    adresse TEXT,
+    date_inscription TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Table des commandes
+CREATE TABLE IF NOT EXISTS commandes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    client_id UUID REFERENCES clients(id),
+    client_nom TEXT NOT NULL,
+    client_telephone TEXT NOT NULL,
+    client_email TEXT,
+    client_adresse TEXT NOT NULL,
+    montant_total NUMERIC NOT NULL,
+    statut_paiement TEXT NOT NULL DEFAULT 'EN_ATTENTE',
+    methode_paiement TEXT NOT NULL,
+    date_creation TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    reference_paytech TEXT,
+    code_commande TEXT UNIQUE,
+    date_livraison DATE,
+    statut_livraison TEXT NOT NULL DEFAULT 'EN_ATTENTE',
+    strategie_expedition TEXT
+);
+
+-- Table des articles de commande (Lignes de commande)
+CREATE TABLE IF NOT EXISTS articles_commande (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    commande_id UUID REFERENCES commandes(id) ON DELETE CASCADE,
+    produit_id UUID REFERENCES produits(id),
+    quantite INTEGER NOT NULL,
+    prix_unitaire_cmd NUMERIC NOT NULL,
+    est_precommande BOOLEAN DEFAULT false
+);
+
+-- Table des dépenses
+CREATE TABLE IF NOT EXISTS depenses (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nom_depense TEXT NOT NULL,
+    montant NUMERIC NOT NULL,
+    categorie TEXT,
+    date_depense DATE DEFAULT CURRENT_DATE
+);
+
+-- Table des abonnements (Newsletter)
+CREATE TABLE IF NOT EXISTS abonnements (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email TEXT UNIQUE NOT NULL,
+    date_abonnement TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Table des arrivages (Gestion des stocks/imports)
+CREATE TABLE IF NOT EXISTS arrivages (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    nom TEXT NOT NULL,
+    date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    taux_change_usd_to_fcfa NUMERIC NOT NULL,
+    transport_global_fcfa NUMERIC DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Détails des arrivages
+CREATE TABLE IF NOT EXISTS details_arrivage (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    arrivage_id UUID NOT NULL REFERENCES arrivages(id) ON DELETE CASCADE,
+    produit_id UUID NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+    quantite INTEGER NOT NULL CHECK (quantite > 0),
+    prix_achat_usd_unitaire NUMERIC NOT NULL,
+    marge_fcfa NUMERIC NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+---------------------------------------------------
+-- 2. FONCTIONS POUR LE DASHBOARD ADMIN
+---------------------------------------------------
+
+-- Ventes par mois
+CREATE OR REPLACE FUNCTION get_sales_by_month()
+RETURNS TABLE(month TEXT, total_sales NUMERIC) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        to_char(date_trunc('month', date_creation), 'YYYY-MM') AS month,
+        SUM(montant_total) AS total_sales
+    FROM commandes
+    WHERE statut_paiement IN ('PAYE_EN_LIGNE', 'PAYE_PRESENTIEL')
+    GROUP BY date_trunc('month', date_creation)
+    ORDER BY date_trunc('month', date_creation);
+END;
+$$ LANGUAGE plpgsql;
+
+-- Distribution des méthodes de paiement
+CREATE OR REPLACE FUNCTION get_payment_method_distribution()
+RETURNS TABLE(methode_paiement TEXT, count BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        commandes.methode_paiement,
+        COUNT(*) AS count
+    FROM commandes
+    GROUP BY commandes.methode_paiement;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Distribution des statuts de commande
+CREATE OR REPLACE FUNCTION get_order_status_distribution()
+RETURNS TABLE(statut_paiement TEXT, count BIGINT) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        statut_paiement,
+        COUNT(*) AS count
+    FROM commandes
+    GROUP BY statut_paiement;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+---
+
+## 2. Configuration du Stockage (Images)
+
+Le site gère les images de manière dynamique via **Supabase Storage**.
+
+1.  **Créer un Bucket :**
+    - Allez dans "Storage" dans votre tableau de bord Supabase.
+    - Créez un nouveau bucket nommé `images`.
+    - Rendez ce bucket **Public**.
+
+2.  **Politiques de Sécurité (RLS) :**
+    Pour permettre l'upload d'images depuis le panneau d'administration (qui utilise la clé `service_role` côté serveur), exécutez ce SQL :
+
+```sql
+-- Autoriser tout le monde (ou spécifiquement l'admin via service_role) à lire les objets
+CREATE POLICY "Allow Public Access" ON storage.objects FOR SELECT TO public USING (bucket_id = 'images');
+
+-- Autoriser l'insertion (Upload) pour le rôle service_role
+CREATE POLICY "Allow Service Role Upload" ON storage.objects FOR INSERT TO service_role WITH CHECK (bucket_id = 'images');
+
+-- Autoriser la suppression pour le rôle service_role
+CREATE POLICY "Allow Service Role Delete" ON storage.objects FOR DELETE TO service_role USING (bucket_id = 'images');
+```
+
+---
+
+## 3. Gestion des Images
+
+- **Fonctionnement :** Lorsqu'un produit est créé ou modifié dans l'admin, l'image est envoyée via l'API `/api/admin/upload`. L'image est stockée dans le bucket `images/products/` et son **URL publique** est enregistrée dans la colonne `image` (ou `images` pour la galerie) de la table `produits`.
+- **Côté Client :** Le site affiche les images directement en utilisant ces URLs stockées en base de données.
+
+---
+
+## 4. Variables d'Environnement (.env)
+
+Mettez à jour votre fichier `.env.local` avec les informations de votre nouveau projet Supabase :
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=votre_url_supabase
+NEXT_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon
+SUPABASE_SERVICE_ROLE_KEY=votre_cle_service_role (A GARDER SECRET)
+
+# Mot de passe admin pour l'accès au tableau de bord
+ADMIN_PASSWORD=votre_mot_de_passe_choisi
+```
+
+---
+
+## 5. Assets et Contenus à Supprimer/Remplacer (Branding MG Effect)
+
+Voici la liste des fichiers et textes liés à l'ancienne entreprise à modifier :
+
+### Images & Vidéos (dans `/public`)
+- `logo-mg-effect.png` : À remplacer par votre logo.
+- `public/videos/` : Contient des vidéos de démonstration de produits Bath & Body Works / Tree Hut. À vider ou remplacer.
+- `image-banniere.png` / `image-banniere.jpg` : Images promotionnelles avec le style MG Effect.
+- `set*-pack-de-*.png` dans `public/images-pack-produit/` : Images de coffrets spécifiques.
+
+### Fichiers de Code (Contenu Textuel)
+- `lib/data.ts` et `lib/data-updated.ts` : Contiennent tous les articles de blog et quiz qui mentionnent "MG Effect", "Into The Night", etc. Vous devrez réécrire ces articles pour votre marque.
+- `lib/navigation.ts` : Contient les liens du menu et les catégories.
+- `lib/email.ts` : Modifiez les textes des emails de confirmation (nom de l'entreprise, signature).
+- **Métadonnées SEO :** Cherchez "MJ Effect" ou "MG Effect" dans les fichiers `page.tsx` (notamment dans `app/layout.tsx`, `app/blog/page.tsx`, `app/collection/page.tsx`) pour mettre à jour les titres et descriptions Google.
+
+---
+
+## 6. Étapes Finales d'Adaptation
+
+1.  **Changer le nom :** Faites un "Rechercher et Remplacer" global dans votre éditeur de code pour remplacer "MG Effect" et "MJ Effect" par votre nom d'entreprise.
+2.  **Vider la base :** Une fois les tables créées, elles seront vides. Utilisez le panneau admin (`/admin`) pour commencer à ajouter vos propres catégories et produits.
+3.  **Couleurs & Thème :** Si vous souhaitez changer les couleurs, cela se passe principalement dans `tailwind.config.js` et `styles/globals.css`.
