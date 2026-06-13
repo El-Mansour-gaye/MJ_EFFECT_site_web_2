@@ -1,0 +1,104 @@
+# Plan de Structuration de Base de Données : TSM
+
+Ce document adapte la structure de données de l'ancien site (MG Effect) aux réalités spécifiques de **TSM**, en se basant sur votre catalogue actuel.
+
+---
+
+## 1. Adaptation des Colonnes (Mapping)
+
+Voici comment organiser les informations de TSM dans les colonnes existantes de la table `produits` :
+
+| Colonne | Utilisation pour TSM | Exemple |
+| :--- | :--- | :--- |
+| **nom** | Marque + Numéro + Nom/Couleur | `TSM - # 92 # - Diamant Vert` |
+| **prix_fcfa** | Prix fixe par gamme | `8000` ou `14000` |
+| **category** | Gamme de produit | `Body Spray` ou `Parfum de Niche` |
+| **subcategory**| Genre / Cible | `Femme` ou `Homme` |
+| **intensite** | Accords principaux | `Fruité ; Caramel ; Vanille ; Boisé` |
+| **famille_olfactive** | Notes Olfactives (Tête, Cœur, Fond) | `Tête: Poire... / Cœur: Rose... / Fond: Praliné...` |
+| **details** | Contenance / Format | `30ml – 1.69FLOZ` ou `250ml` |
+| **slug** | Identifiant URL unique | `tsm-niche-femme-92` |
+
+---
+
+## 2. Stratégie de Catégorisation
+
+Contrairement à MG Effect qui vendait des marques variées, TSM se concentre sur sa propre ligne numérotée. Je recommande de structurer vos catégories ainsi dans l'admin :
+
+- **Catégories principales :**
+    - `Body Spray`
+    - `Parfum de Niche`
+- **Sous-catégories :**
+    - `Femme`
+    - `Homme`
+    - `Unisexe` (si applicable)
+
+---
+
+## 3. Exemples d'Insertion SQL pour TSM
+
+Voici un script pour importer vos premiers produits directement :
+
+```sql
+-- Exemple : TSM Body Spray Femme #92
+INSERT INTO produits (nom, prix_fcfa, stock, category, subcategory, intensite, famille_olfactive, details, slug, image)
+VALUES (
+    'TSM - # 92 # - Diamant Vert',
+    8000,
+    50,
+    'Body Spray',
+    'Femme',
+    'Frais, Floral',
+    'Couleur Verte : Diamant Vert',
+    '250ml',
+    'tsm-body-spray-92-vert',
+    'url_vers_image_spray_92.jpg'
+);
+
+-- Exemple : TSM Parfum de Niche Femme #92
+INSERT INTO produits (nom, prix_fcfa, stock, category, subcategory, intensite, famille_olfactive, details, slug, image)
+VALUES (
+    'TSM Niche Femme - # 92 #',
+    14000,
+    30,
+    'Parfum de Niche',
+    'Femme',
+    'Fruité ; Caramel ; Vanille ; Balsamique ; Boisé ; Tropical',
+    'Tête : Poire, bergamote / Cœur : Rose noire, fruit de la passion / Fond : Praliné, litchi, caramel',
+    '30ml – 1.69FLOZ',
+    'tsm-niche-femme-92',
+    'url_vers_image_niche_92.jpg'
+);
+
+-- Exemple : TSM Parfum de Niche Homme #93
+INSERT INTO produits (nom, prix_fcfa, stock, category, subcategory, intensite, famille_olfactive, details, slug, image)
+VALUES (
+    'TSM Niche Homme - # 93 #',
+    14000,
+    25,
+    'Parfum de Niche',
+    'Homme',
+    'Boisé (Cèdre) ; Agrumes ; Minéral ; Épicé-frais',
+    'Tête : Pamplemousse, orange / Cœur : Silex, poivre noir / Fond : Vétiver, cèdre',
+    '30ml – 1.69FLOZ',
+    'tsm-niche-homme-93',
+    'url_vers_image_niche_homme_93.jpg'
+);
+```
+
+---
+
+## 4. Conseils Spécifiques pour TSM
+
+1.  **Uniformité des Noms :** Utilisez toujours le même format (ex: `TSM - # NUMERO #`) pour que la recherche sur le site soit efficace quand un client tape juste un chiffre.
+2.  **Gestion des "Accords" :** Dans l'interface client, la colonne `intensite` (renommée "Accords" dans le code si besoin) est cruciale pour les parfums de niche.
+3.  **Images :** Comme vos produits sont numérotés, nommez vos fichiers images de façon organisée dans le bucket Supabase : `niche-femme-92.jpg`, `spray-vert-92.jpg`, etc.
+4.  **Champs vides :** Pour les Body Sprays, vous n'avez pas forcément le détail Tête/Cœur/Fond. Vous pouvez simplement mettre la couleur ou une description courte dans `famille_olfactive`.
+
+---
+
+## 5. Modifications Code recommandées
+
+Dans le fichier `lib/types.ts` ou dans vos composants d'affichage, vous pourriez vouloir changer les labels :
+- Changer "Intensité" par "**Accords Principaux**"
+- Changer "Famille Olfactive" par "**Notes Olfactives**"
